@@ -73,7 +73,7 @@ async def delete_scrap(userId: int, postid: int):
 
 
 @router.get(
-    "/posts/scrap",
+    "/posts/scrap/my",
     response_model=List[GetScrapPostResponse],
     responses={
         status.HTTP_401_UNAUTHORIZED: {
@@ -91,8 +91,7 @@ async def get_scrap_post(userid: int, page: int = 1):
     offset = (page - 1) * 10
     posts = sessionmaker.query(Post) \
         .join(Scrap, Scrap.post_id == Post.post_id).order_by(Scrap.created_at) \
-        .filter(Scrap.user_id == userid) \
-        .all()
+        .filter(Scrap.user_id == userid).offset(offset).limit(10).all()
     result = []
 
     for post in posts:
