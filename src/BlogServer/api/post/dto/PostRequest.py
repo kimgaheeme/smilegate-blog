@@ -12,3 +12,9 @@ class CreatePostRequest(BaseModel):
     content: str
     postImage: str = ""
     type: PostType = PostType.plain
+
+
+class UpdatePostRequest(BaseModel):
+    title: str
+    content: str
+    postImage: str

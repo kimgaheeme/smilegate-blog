@@ -44,3 +44,30 @@ async def create_post(userRequest: CreatePostRequest, userId: int):
     sessionmaker.commit()
 
     return CreatePostResponse(postId=add_post.post_id)
+
+
+@router.put(
+    "/posts/{postid}",
+    response_model=UpdatePostResponse,
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "10001.",
+        },
+        status.HTTP_403_FORBIDDEN: {
+            "description": "10002.",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "10003.",
+        },
+    }
+)
+async def update_post(postid: int, userRequest: UpdatePostRequest):
+    sessionmaker.query(Post).filter(Post.post_id == postid) \
+        .update({Post.title: userRequest.title,
+                 Post.content: userRequest.content,
+                 Post.post_image_id: userRequest.postImage}, synchronize_session=False)
+
+    sessionmaker.flush()
+    sessionmaker.commit()
+
+    return UpdatePostResponse(postId=postid)
