@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from _datetime import datetime
 
 
 class CreateCommentResponse(BaseModel):
@@ -7,3 +8,11 @@ class CreateCommentResponse(BaseModel):
 
 class UpdateCommentResponse(BaseModel):
     commentId: int
+
+
+class GetCommentResponse(BaseModel):
+    nickname: str
+    commentId: int
+    content: str
+    update_at: datetime
+

@@ -13,6 +13,7 @@ from api.comment.dto.CommentResponse import *
 router = APIRouter()
 now = datetime.now()
 
+
 @router.post(
     "/posts/{postid}/comments",
     response_model=CreateCommentResponse,
@@ -58,7 +59,7 @@ async def create_comment(userId: int, postid: int, userRequest: CreateCommentReq
         },
     }
 )
-async def update_post(commentid: int, userRequest: UpdateCommentRequest):
+async def update_comment(commentid: int, userRequest: UpdateCommentRequest):
     sessionmaker.query(Comment).filter(Comment.comment_id == commentid) \
         .update({Post.content: userRequest.content,
                  Post.update_at: now.date()}, synchronize_session=False)
@@ -67,3 +68,62 @@ async def update_post(commentid: int, userRequest: UpdateCommentRequest):
     sessionmaker.commit()
 
     return UpdateCommentResponse(commentId=commentid)
+
+
+@router.delete(
+    "/posts/commments/{commentid}",
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "10001.",
+        },
+        status.HTTP_403_FORBIDDEN: {
+            "description": "10002.",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "10003.",
+        },
+    }
+)
+async def delete_comment(commentid: int):
+    if sessionmaker.query(Comment).filter(Comment.comment_id == commentid) \
+            .count() == 0:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+    else:
+        sessionmaker.query(Comment).filter(Comment.comment_id == commentid).delete()
+        sessionmaker.commit()
+
+        return None
+
+
+@router.get(
+    "/posts/{postid}/comments",
+    response_model=List[GetCommentResponse],
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "10001.",
+        },
+        status.HTTP_403_FORBIDDEN: {
+            "description": "10002.",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "10003.",
+        },
+    }
+)
+async def get_comment(postid: int, page: int = 1):
+    offset = (page - 1) * 10
+    comments = sessionmaker.query(Comment) \
+        .join(User, Comment.user_id == User.user_id).order_by(Comment.created_at) \
+        .filter(Comment.post_id == postid) \
+        .offset(offset).limit(10).all()
+    result = []
+
+    for comment in comments:
+        result.append(GetCommentResponse(
+            nickname=comment.user.nickname,
+            commentId=comment.comment_id,
+            content=comment.content,
+            update_at=comment.update_at
+        ))
+
+    return result
