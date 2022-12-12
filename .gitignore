@@ -242,7 +242,8 @@ docs_build
 venv
 docs.zip
 archive.zip
-
+.DS_Store
+.DS_Store?
 # vim temporary files
 *~
 .*.sw?
