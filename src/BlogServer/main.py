@@ -1,15 +1,16 @@
 from fastapi import FastAPI
-from db_conn import database, engine, metadata
+from api.user import user
 
 app = FastAPI()
 
-metadata.create_all(engine)
 
-@app.on_event("startup")
-async def startup():
-    await database.connect()
+def include_router(app):
+    app.include_router(user.router)
 
 
-@app.on_event("shutdown")
-async def shutdown():
-    await database.disconnect()
+def start_application():
+    app = FastAPI()
+    include_router(app)
+    return app
+
+app = start_application()

@@ -14,6 +14,7 @@ app = {
 
 conn_string = f'{app["name"]}://{app["user"]}:{app["password"]}@{app["host"]}:{app["port"]}/{app["dbconn"]}'
 
+
 class engineconn:
 
     def __init__(self):
@@ -29,10 +30,5 @@ class engineconn:
         return conn
 
 
-metadata = MetaData()
-engine = engineconn().engine
-database = Database(conn_string)
-
-
-
-
+engine = engineconn()
+sessionmaker = engine.sessionmaker()
