@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter, HTTPException, status
 
 from api.model import Post
@@ -71,3 +73,55 @@ async def update_post(postid: int, userRequest: UpdatePostRequest):
     sessionmaker.commit()
 
     return UpdatePostResponse(postId=postid)
+
+
+@router.delete(
+    "/posts/{postid}",
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "10001.",
+        },
+        status.HTTP_403_FORBIDDEN: {
+            "description": "10002.",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "10003.",
+        },
+    }
+)
+async def delete_post(postid: int):
+    sessionmaker.query(Post).filter(Post.post_id == postid).delete()
+    sessionmaker.commit()
+
+    return None
+
+
+@router.get(
+    "/posts/recent",
+    response_model=List[GetRecentPostResponse],
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "10001.",
+        },
+        status.HTTP_403_FORBIDDEN: {
+            "description": "10002.",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "10003.",
+        },
+    }
+)
+async def get_recent_post(page: int = 1):
+    offset = (page - 1) * 10
+    posts = sessionmaker.query(Post).order_by(Post.created_at).offset(offset).limit(10).all()
+    result = []
+
+    for post in posts:
+        result.append(GetRecentPostResponse(
+            title=post.title,
+            content=post.content,
+            postImageId=post.post_image_id,
+            created_at=post.created_at)
+        )
+
+    return result
