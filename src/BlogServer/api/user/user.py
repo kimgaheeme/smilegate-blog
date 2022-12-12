@@ -1,21 +1,18 @@
 from fastapi import APIRouter, HTTPException, status
 
-from pydantic import BaseModel
-from api.user.model.UserModel import User
+from api.model import User
 from db_conn import sessionmaker
 from _datetime import datetime
+from api.user.dto.UserRequest import *
+from api.user.dto.UserResponse import *
 
 router = APIRouter()
 now = datetime.now()
 
 
-class CreateUserRequest(BaseModel):
-    nickname: str
-    email: str
-
-
 @router.post(
     "/users",
+    response_model=CreateUserResponse,
     responses={
         status.HTTP_401_UNAUTHORIZED: {
             "description": "10001.",
@@ -39,11 +36,12 @@ async def create_user(userRequest: CreateUserRequest):
             .filter(User.email == userRequest.email) \
             .filter(User.nickname == userRequest.nickname).first()
 
-        return user_object
+        return CreateUserResponse(userId=user_object.user_id, email=user_object.email, nickname=user_object.nickname)
 
 
 @router.post(
     "/users/myinfo",
+    response_model=GetUserInfoResponse,
     responses={
         status.HTTP_401_UNAUTHORIZED: {
             "description": "10001.",
@@ -61,4 +59,5 @@ async def get_user_info(userId: int):
         .filter(User.user_id == userId) \
         .first()
 
-    return user_object
+    return_object = GetUserInfoResponse(email=user_object.email, nickname=user_object.nickname)
+    return return_object
