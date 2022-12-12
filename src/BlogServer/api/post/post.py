@@ -3,6 +3,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status
 
 from api.model import Post
+from api.model import User
 from db_conn import sessionmaker
 from _datetime import datetime
 from api.post.dto.PostRequest import *
@@ -122,6 +123,36 @@ async def get_recent_post(page: int = 1):
             content=post.content,
             postImageId=post.post_image_id,
             created_at=post.created_at)
+        )
+
+    return result
+
+
+@router.get(
+    "/posts/most-viewed",
+    response_model=List[GetMostViewedPostResponse],
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "10001.",
+        },
+        status.HTTP_403_FORBIDDEN: {
+            "description": "10002.",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "10003.",
+        },
+    }
+)
+async def get_most_viewed_post():
+    posts = sessionmaker.query(Post).outerjoin(User, Post.user_id == User.user_id).order_by(Post.view_cnt).limit(5)
+    result = []
+
+    for post in posts:
+        result.append(GetMostViewedPostResponse(
+            title=post.title,
+            content=post.content,
+            postImageId=post.post_image_id,
+            nickname=post.user.nickname)
         )
 
     return result
