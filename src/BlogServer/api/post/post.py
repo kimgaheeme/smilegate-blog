@@ -156,3 +156,34 @@ async def get_most_viewed_post():
         )
 
     return result
+
+
+@router.get(
+    "/posts/myself",
+    response_model=List[GetMyPostResponse],
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "10001.",
+        },
+        status.HTTP_403_FORBIDDEN: {
+            "description": "10002.",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "10003.",
+        },
+    }
+)
+async def get_my_post(userId: int, page: int = 1):
+    offset = (page - 1) * 10
+    posts = sessionmaker.query(Post).filter(Post.user_id == userId) \
+        .order_by(Post.view_cnt).offset(offset).limit(10).all()
+    result = []
+
+    for post in posts:
+        result.append(GetMyPostResponse(
+            title=post.title,
+            content=post.content,
+            postImageId=post.post_image_id
+        ))
+
+    return result

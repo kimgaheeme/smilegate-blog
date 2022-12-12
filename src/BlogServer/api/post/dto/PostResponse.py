@@ -22,3 +22,9 @@ class GetMostViewedPostResponse(BaseModel):
     content: str
     postImageId: str
     nickname: str
+
+
+class GetMyPostResponse(BaseModel):
+    title: str
+    content: str
+    postImageId: str
