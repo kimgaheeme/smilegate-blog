@@ -73,7 +73,7 @@ async def delete_scrap(userId: int, postid: int):
 
 
 @router.get(
-    "/posts/scrap/",
+    "/posts/scrap",
     response_model=List[GetScrapPostResponse],
     responses={
         status.HTTP_401_UNAUTHORIZED: {

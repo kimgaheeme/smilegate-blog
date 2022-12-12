@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from _datetime import datetime
+from api.post.dto.PostRequest import PostType
 
 
 class CreatePostResponse(BaseModel):
@@ -28,3 +29,14 @@ class GetMyPostResponse(BaseModel):
     title: str
     content: str
     postImageId: str
+
+
+class GetPostDetailResponse(BaseModel):
+    nickname: str
+    title: str
+    content: str
+    postImageId: str
+    type: PostType
+    view_cnt: int
+    update_at: datetime
+    isScrap: bool

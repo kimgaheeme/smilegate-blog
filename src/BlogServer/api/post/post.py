@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from api.model import Post
 from api.model import User
+from api.model import Scrap
 from db_conn import sessionmaker
 from _datetime import datetime
 from api.post.dto.PostRequest import *
@@ -187,3 +188,41 @@ async def get_my_post(userId: int, page: int = 1):
         ))
 
     return result
+
+
+@router.get(
+    "/posts/{postid}",
+    response_model=GetPostDetailResponse,
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "10001.",
+        },
+        status.HTTP_403_FORBIDDEN: {
+            "description": "10002.",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "10003.",
+        },
+    }
+)
+async def get_scrap_post(userid: int, postid: int):
+    post = sessionmaker.query(Post).join(User, User.user_id == Post.user_id) \
+        .filter(Post.post_id == postid) \
+        .first()
+
+    if (sessionmaker.query(Scrap) \
+            .filter(Scrap.post_id == postid).filter(Scrap.user_id == userid).count() == 0):
+        isScrap = False
+    else:
+        isScrap = True
+
+    return GetPostDetailResponse(
+        nickname=post.user.nickname,
+        title=post.title,
+        content=post.content,
+        postImageId=post.post_image_id,
+        type=post.type,
+        view_cnt=post.view_cnt,
+        update_at=post.update_at,
+        isScrap=isScrap
+    )
