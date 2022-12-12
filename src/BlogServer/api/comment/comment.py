@@ -43,3 +43,27 @@ async def create_comment(userId: int, postid: int, userRequest: CreateCommentReq
     return CreateCommentResponse(commentId=add_comment.comment_id)
 
 
+@router.put(
+    "/posts/comments/{commentid}",
+    response_model=UpdateCommentResponse,
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "10001.",
+        },
+        status.HTTP_403_FORBIDDEN: {
+            "description": "10002.",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "10003.",
+        },
+    }
+)
+async def update_post(commentid: int, userRequest: UpdateCommentRequest):
+    sessionmaker.query(Comment).filter(Comment.comment_id == commentid) \
+        .update({Post.content: userRequest.content,
+                 Post.update_at: now.date()}, synchronize_session=False)
+
+    sessionmaker.flush()
+    sessionmaker.commit()
+
+    return UpdateCommentResponse(commentId=commentid)
