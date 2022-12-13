@@ -1,4 +1,4 @@
-package com.smilegateblog.smliegateblog.ui.dashboard
+package com.smilegateblog.smliegateblog.presentation.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

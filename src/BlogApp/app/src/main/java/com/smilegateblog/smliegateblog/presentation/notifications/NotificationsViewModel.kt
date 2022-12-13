@@ -1,4 +1,4 @@
-package com.smilegateblog.smliegateblog.ui.notifications
+package com.smilegateblog.smliegateblog.presentation.notifications
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
