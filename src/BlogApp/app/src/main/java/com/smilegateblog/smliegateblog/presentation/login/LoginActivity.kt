@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         login()
-        //goToMainActivity()
+        observe()
     }
 
     private fun login(){
@@ -68,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun handleSuccessLogin(user: User){
-        //datastore에 저장할 것 수정필요
+        goToMainActivity()
     }
 
     private fun handleErrorLogin(rawResponse: String){

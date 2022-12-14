@@ -17,7 +17,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val _state = MutableStateFlow<LoginActivityState>(LoginActivityState.Init)
-    val state : StateFlow<LoginActivityState> get() = state
+    val state : StateFlow<LoginActivityState> get() = _state
 
     private fun setLoading(){
         _state.value = LoginActivityState.Loading(true)
