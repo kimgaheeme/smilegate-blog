@@ -7,7 +7,7 @@ app = {
     'name': 'mysql+pymysql',
     'user': 'root',
     'password': 'dudwls0047',
-    'host': 'localhost',
+    'host': 'database-smilgate.cxqbpxs0bw3p.ap-northeast-2.rds.amazonaws.com',
     'dbconn': 'blog',
     'port': '3306'
 }
