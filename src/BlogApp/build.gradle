@@ -17,6 +17,10 @@ buildscript {
         //activity ktx
         activity_ktx_version = "1.2.3"
         lifecycle_version = "2.4.0-alpha01"
+
+        //Paging
+        paging_version = "3.0.0-alpha07"
+
     }
     repositories {
         google()  // Google's Maven repository
