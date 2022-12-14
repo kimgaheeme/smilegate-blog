@@ -32,6 +32,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        login()
+        //goToMainActivity()
     }
 
     private fun login(){
@@ -94,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
     private fun validate(email: String, nickname: String) : Boolean{
         resetAllError()
 
-        if(email.isEmail()){
+        if(!email.isEmail()){
             setEmailError(getString(R.string.error_email_not_valid))
             return false
         }

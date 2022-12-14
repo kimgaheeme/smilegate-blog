@@ -1,5 +1,6 @@
 package com.smilegateblog.smliegateblog.presentation.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smilegateblog.smliegateblog.data.dto.login.LoginRequest
@@ -39,6 +40,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     }
 
     fun login(loginRequest: LoginRequest) {
+        Log.d("Login", "login function exec")
         viewModelScope.launch {
             loginUseCase.invoke(loginRequest)
                 .onStart {
