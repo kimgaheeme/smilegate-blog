@@ -3,6 +3,7 @@ package com.smilegateblog.smliegateblog.data.repository
 import android.util.Log
 import com.smilegateblog.smliegateblog.data.api.LoginApi
 import com.smilegateblog.smliegateblog.data.dto.login.LoginRequest
+import com.smilegateblog.smliegateblog.data.dto.login.MyInfoResponse
 import com.smilegateblog.smliegateblog.domain.model.User
 import com.smilegateblog.smliegateblog.domain.model.toDomain
 import com.smilegateblog.smliegateblog.domain.repository.LoginRepository
@@ -15,6 +16,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(private val loginApi: LoginApi) : LoginRepository {
+
     override suspend fun login(loginRequest: LoginRequest): Flow<Resource<User>> {
         return flow {
             try{
@@ -31,6 +33,27 @@ class LoginRepositoryImpl @Inject constructor(private val loginApi: LoginApi) : 
                 emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
             } catch(e: IOException) {
                 Log.d("Login", e.stackTraceToString())
+                emit(Resource.Error("Couldn't reach server. Check your internet connection."))
+            }
+        }
+    }
+
+    override suspend fun getMyInfo(userId: Int): Flow<Resource<User>> {
+        return flow {
+            try{
+                val response = loginApi.getMyInfo(userId)
+                Log.d("GetMyInfo", "repo exec")
+                if(response.isSuccessful){
+                    val user = response.body()!!.toDomain()
+                    emit(Resource.Success(user))
+                }else{
+                    emit(Resource.Error(response.errorBody().toString()))
+                }
+            } catch (e: HttpException) {
+                Log.d("GetMyInfo", "HttpException")
+                emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
+            } catch(e: IOException) {
+                Log.d("GetMyInfo", e.stackTraceToString())
                 emit(Resource.Error("Couldn't reach server. Check your internet connection."))
             }
         }

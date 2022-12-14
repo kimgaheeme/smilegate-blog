@@ -1,5 +1,6 @@
 package com.smilegateblog.smliegateblog.domain.repository
 
+import androidx.paging.PagingData
 import com.smilegateblog.smliegateblog.data.dto.login.LoginRequest
 import com.smilegateblog.smliegateblog.data.dto.post.*
 import com.smilegateblog.smliegateblog.domain.model.User
@@ -11,7 +12,7 @@ interface PostRepository {
     suspend fun getPost(postid: Int, userid: Int) : Flow<Resource<GetPostResponse>>
     suspend fun putPost(postPostRequest: PutPostRequest, postid: Int) : Flow<Resource<PutPostResponse>>
     suspend fun delPost(postid: Int) : Flow<Resource<Void>>
-    suspend fun getRecentPost() : Flow<Resource<GetRecentPostResponse>>
+    suspend fun getRecentPost() : Flow<PagingData<GetRecentPostResponseItem>>
     suspend fun getMostViewedPost() : Flow<Resource<GetMostViewedResponse>>
-    suspend fun getMyPost(userId: Int) : Flow<Resource<GetMyPostResponse>>
+    suspend fun getMyPost(userId: Int) : Flow<PagingData<GetMyPostResponseItem>>
 }

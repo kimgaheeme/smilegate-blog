@@ -10,5 +10,5 @@ import retrofit2.Response
 
 interface LoginRepository {
     suspend fun login(loginRequest: LoginRequest) : Flow<Resource<User>>
-    suspend fun getMyInfo(userId: Int) : Flow<Resource<MyInfoResponse>>
+    suspend fun getMyInfo(userId: Int) : Flow<Resource<User>>
 }
