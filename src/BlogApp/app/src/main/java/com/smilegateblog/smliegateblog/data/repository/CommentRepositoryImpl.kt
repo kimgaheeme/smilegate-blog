@@ -19,6 +19,7 @@ import com.smilegateblog.smliegateblog.domain.repository.CommentRepository
 import com.smilegateblog.smliegateblog.domain.repository.LoginRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response
@@ -39,19 +40,20 @@ class CommentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun postComment(
-        userId: Int,
         postid: Int,
         postCommentRequest: PostCommentRequest
     ): Flow<Resource<PostCommentResponse>> {
         return flow {
             try{
-                val response = commentApi.postComment(userId = userId, postid = postid, postCommentRequest = postCommentRequest)
-                Log.d("PostComment", "repo exec")
-                if(response.isSuccessful){
-                    val comment = response.body()!!
-                    emit(Resource.Success(comment))
-                }else{
-                    emit(Resource.Error(response.errorBody().toString()))
+                pref.getUserId().collect(){ userId ->
+                    val response = commentApi.postComment(userId = userId, postid = postid, postCommentRequest = postCommentRequest)
+                    Log.d("PostComment", "repo exec")
+                    if(response.isSuccessful){
+                        val comment = response.body()!!
+                        emit(Resource.Success(comment))
+                    }else{
+                        emit(Resource.Error(response.errorBody().toString()))
+                    }
                 }
             } catch (e: HttpException) {
                 Log.d("PostComment", "HttpException")

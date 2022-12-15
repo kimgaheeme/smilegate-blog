@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CommentRepository {
     suspend fun getComments(postid: Int) : Flow<PagingData<GetCommentsResponseItem>>
-    suspend fun postComment(userId: Int, postid: Int, postCommentRequest: PostCommentRequest) : Flow<Resource<PostCommentResponse>>
+    suspend fun postComment(postid: Int, postCommentRequest: PostCommentRequest) : Flow<Resource<PostCommentResponse>>
     suspend fun putComment(commentid: Int, putCommentRequest: PutCommentRequest) : Flow<Resource<PutCommentResponse>>
     suspend fun delComment(commentid: Int) : Flow<Resource<Void>>
 }
