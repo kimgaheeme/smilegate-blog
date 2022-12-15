@@ -1,4 +1,4 @@
-package com.smilegateblog.smliegateblog.presentation.main.notifications
+package com.smilegateblog.smliegateblog.presentation.main.mypage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,10 +8,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class NotificationsViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
+class MyPageViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+        value = "This is mypage Fragment"
     }
     val text: LiveData<String> = _text
 }
