@@ -8,10 +8,10 @@ import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(private val loginRepository: LoginRepository){
-    suspend fun invoke(loginRequest: LoginRequest) : Flow<Resource<User>> {
-        Log.d("Login", "login usecase exec")
+class GetMyInfoUseCase @Inject constructor(private val loginRepository: LoginRepository){
+    suspend fun invoke(userId: Int) : Flow<Resource<User>> {
+        Log.d("GetMyInfo", "usecase exec")
 
-        return loginRepository.login(loginRequest)
+        return loginRepository.getMyInfo(userId)
     }
 }
