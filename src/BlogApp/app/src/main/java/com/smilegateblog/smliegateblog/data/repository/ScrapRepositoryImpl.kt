@@ -70,7 +70,7 @@ class ScrapRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getScrapPost(): Flow<PagingData<GetScrapPostItem>> {
+    override fun getScrapPost(): Flow<PagingData<GetScrapPostItem>> {
         return flow {
             pref.getUserId().collect(){ userId ->
                 Pager(

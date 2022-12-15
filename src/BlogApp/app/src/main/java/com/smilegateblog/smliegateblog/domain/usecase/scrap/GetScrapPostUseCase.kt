@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetScrapPostUseCase @Inject constructor(private val scrapRepository: ScrapRepository){
-    suspend fun invoke() : Flow<PagingData<GetScrapPostItem>> {
+    operator fun invoke() : Flow<PagingData<GetScrapPostItem>> {
         Log.d("get scrap Post", "usecase exec")
 
         return scrapRepository.getScrapPost()
