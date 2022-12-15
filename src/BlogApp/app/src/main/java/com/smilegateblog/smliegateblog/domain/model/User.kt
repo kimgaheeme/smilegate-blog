@@ -6,7 +6,7 @@ import com.smilegateblog.smliegateblog.data.dto.login.MyInfoResponse
 data class User(
     var email: String = "",
     var nickname: String = "",
-    var userId: String = ""
+    var userId: Int = 0
 )
 
 fun LoginResponse.toDomain(): User = User(

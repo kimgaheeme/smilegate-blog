@@ -4,6 +4,8 @@ import com.smilegateblog.smliegateblog.data.api.CommentApi
 import com.smilegateblog.smliegateblog.data.api.LoginApi
 import com.smilegateblog.smliegateblog.data.api.PostApi
 import com.smilegateblog.smliegateblog.data.api.ScrapApi
+import com.smilegateblog.smliegateblog.data.pref.PrefDataSource
+import com.smilegateblog.smliegateblog.data.pref.model.UserPref
 import com.smilegateblog.smliegateblog.data.repository.CommentRepositoryImpl
 import com.smilegateblog.smliegateblog.data.repository.LoginRepositoryImpl
 import com.smilegateblog.smliegateblog.data.repository.PostRepositoryImpl
@@ -24,8 +26,8 @@ class InterfaceModule {
 
     @Singleton
     @Provides
-    fun provideLoginRepository(loginApi: LoginApi) : LoginRepository {
-        return LoginRepositoryImpl(loginApi)
+    fun provideLoginRepository(loginApi: LoginApi, pref: PrefDataSource) : LoginRepository {
+        return LoginRepositoryImpl(loginApi, pref)
     }
 
     @Singleton

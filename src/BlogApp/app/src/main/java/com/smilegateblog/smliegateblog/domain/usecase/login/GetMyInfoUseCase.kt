@@ -12,6 +12,6 @@ class GetMyInfoUseCase @Inject constructor(private val loginRepository: LoginRep
     suspend fun invoke(userId: Int) : Flow<Resource<User>> {
         Log.d("GetMyInfo", "usecase exec")
 
-        return loginRepository.getMyInfo(userId)
+        return loginRepository.getMyInfo()
     }
 }

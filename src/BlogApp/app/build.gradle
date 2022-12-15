@@ -75,4 +75,7 @@ dependencies {
 
     //paging
     implementation "androidx.paging:paging-runtime:$paging_version"
+
+    //data stroe
+    implementation "androidx.datastore:datastore-preferences:$data_store_version"
 }

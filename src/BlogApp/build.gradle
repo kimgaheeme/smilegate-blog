@@ -21,6 +21,9 @@ buildscript {
         //Paging
         paging_version = "3.0.0-alpha07"
 
+        //data store
+        data_store_version = "1.0.0"
+
     }
     repositories {
         google()  // Google's Maven repository
