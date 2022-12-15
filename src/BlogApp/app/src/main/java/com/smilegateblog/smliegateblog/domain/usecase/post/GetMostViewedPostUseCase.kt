@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetMostViewedPostUseCase @Inject constructor(private val postRepository: PostRepository){
-    suspend fun invoke() :  Flow<Resource<GetMostViewedResponse>> {
+    suspend operator fun invoke() :  Flow<Resource<GetMostViewedResponse>> {
         Log.d("get most viewed post", "usecase exec")
 
         return postRepository.getMostViewedPost()
