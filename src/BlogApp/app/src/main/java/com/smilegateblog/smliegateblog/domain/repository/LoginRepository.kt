@@ -13,4 +13,5 @@ interface LoginRepository {
     suspend fun login(loginRequest: LoginRequest) : Flow<Resource<User>>
     suspend fun getMyInfo() : Flow<Resource<User>>
     suspend fun logoutUser()
+    suspend fun checkLogin() : Flow<Resource<Boolean>>
 }

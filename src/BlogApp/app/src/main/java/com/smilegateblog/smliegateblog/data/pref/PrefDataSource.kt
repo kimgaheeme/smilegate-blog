@@ -46,6 +46,12 @@ class PrefDataSource @Inject constructor(@ApplicationContext val context: Contex
         }
     }
 
+    fun checkLogin(): Flow<Boolean> {
+        return context.dataStore.data.map {
+            it[LOGIN_USER_ID] != 0
+        }
+    }
+
     fun getUser(): Flow<UserPref> {
         return context.dataStore.data.map { preference ->
             val userId = preference[LOGIN_USER_ID] ?: 0

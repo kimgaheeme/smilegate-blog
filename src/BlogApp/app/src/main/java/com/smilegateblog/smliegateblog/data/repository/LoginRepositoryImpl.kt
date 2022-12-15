@@ -73,4 +73,12 @@ class LoginRepositoryImpl @Inject constructor(
         pref.logoutUser()
     }
 
+    override suspend fun checkLogin(): Flow<Resource<Boolean>> {
+       return flow {
+           pref.checkLogin().collect(){ isLogin ->
+               emit(Resource.Success(isLogin))
+           }
+       }
+    }
+
 }
