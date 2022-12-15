@@ -12,6 +12,7 @@ import com.smilegateblog.smliegateblog.data.pref.PrefDataSource
 import com.smilegateblog.smliegateblog.domain.repository.ScrapRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
@@ -23,16 +24,18 @@ class ScrapRepositoryImpl @Inject constructor(
 ) : ScrapRepository {
 
 
-    override suspend fun postScrap(userId: Int, postid: Int): Flow<Resource<PostScrapResponse>> {
+    override suspend fun postScrap( postid: Int): Flow<Resource<PostScrapResponse>> {
         return flow {
             try{
-                val response = scrapApi.postScrap(userId = userId, postid = postid)
-                Log.d("PostScrap", "repo exec")
-                if(response.isSuccessful){
-                    val scrapId = response.body()!!
-                    emit(Resource.Success(scrapId))
-                }else{
-                    emit(Resource.Error(response.errorBody().toString()))
+                pref.getUserId().collect(){ userId ->
+                    val response = scrapApi.postScrap(userId = userId, postid = postid)
+                    Log.d("PostScrap", "repo exec")
+                    if(response.isSuccessful){
+                        val scrapId = response.body()!!
+                        emit(Resource.Success(scrapId))
+                    }else{
+                        emit(Resource.Error(response.errorBody().toString()))
+                    }
                 }
             } catch (e: HttpException) {
                 Log.d("PostScrap", "HttpException")
@@ -44,16 +47,18 @@ class ScrapRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun delScrap(userId: Int, postid: Int): Flow<Resource<Void>> {
+    override suspend fun delScrap(postid: Int): Flow<Resource<Void>> {
         return flow {
             try{
-                val response = scrapApi.delScrap(userId = userId, postid = postid)
-                Log.d("DelScrap", "repo exec")
-                if(response.isSuccessful){
-                    val v = response.body()!!
-                    emit(Resource.Success(v))
-                }else{
-                    emit(Resource.Error(response.errorBody().toString()))
+                pref.getUserId().collect(){ userId ->
+                    val response = scrapApi.delScrap(userId = userId, postid = postid)
+                    Log.d("DelScrap", "repo exec")
+                    if(response.isSuccessful){
+                        val v = response.body()!!
+                        emit(Resource.Success(v))
+                    }else{
+                        emit(Resource.Error(response.errorBody().toString()))
+                    }
                 }
             } catch (e: HttpException) {
                 Log.d("PostScrap", "HttpException")
@@ -65,11 +70,15 @@ class ScrapRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getScrapPost(userid: Int): Flow<PagingData<GetScrapPostItem>> {
-        return Pager(
-            config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-            pagingSourceFactory = { ScrapPostPagingSource(scrapApi = scrapApi, userid = userid) }
-        ).flow
+    override suspend fun getScrapPost(): Flow<PagingData<GetScrapPostItem>> {
+        return flow {
+            pref.getUserId().collect(){ userId ->
+                Pager(
+                    config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+                    pagingSourceFactory = { ScrapPostPagingSource(scrapApi = scrapApi, userid = userId) }
+                )
+            }
+        }
     }
 
 }

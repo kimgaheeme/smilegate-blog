@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class PostScrapUseCase @Inject constructor(private val scrapRepository: ScrapRepository){
-    suspend fun invoke(userId: Int, postid: Int) : Flow<Resource<PostScrapResponse>> {
+    suspend fun invoke(postid: Int) : Flow<Resource<PostScrapResponse>> {
         Log.d("Post scrap", "usecase exec")
 
-        return scrapRepository.postScrap(userId = userId, postid = postid)
+        return scrapRepository.postScrap(postid = postid)
     }
 }

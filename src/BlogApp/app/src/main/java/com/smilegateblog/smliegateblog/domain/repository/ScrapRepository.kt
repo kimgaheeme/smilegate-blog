@@ -10,7 +10,7 @@ import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface ScrapRepository {
-    suspend fun postScrap(userId: Int, postid: Int) : Flow<Resource<PostScrapResponse>>
-    suspend fun delScrap(userId: Int, postid: Int) : Flow<Resource<Void>>
-    suspend fun getScrapPost(userid: Int) : Flow<PagingData<GetScrapPostItem>>
+    suspend fun postScrap(postid: Int) : Flow<Resource<PostScrapResponse>>
+    suspend fun delScrap(postid: Int) : Flow<Resource<Void>>
+    suspend fun getScrapPost() : Flow<PagingData<GetScrapPostItem>>
 }
