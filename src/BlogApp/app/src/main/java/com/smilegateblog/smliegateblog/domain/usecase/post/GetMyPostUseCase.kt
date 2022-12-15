@@ -15,6 +15,6 @@ class GetMyPostUseCase @Inject constructor(private val postRepository: PostRepos
     suspend fun invoke(userId: Int) : Flow<PagingData<GetMyPostResponseItem>> {
         Log.d("Get my post", "usecase exec")
 
-        return postRepository.getMyPost(userId)
+        return postRepository.getMyPost()
     }
 }

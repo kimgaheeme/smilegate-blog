@@ -12,6 +12,7 @@ import com.smilegateblog.smliegateblog.data.dto.login.MyInfoResponse
 import com.smilegateblog.smliegateblog.data.dto.post.GetRecentPostResponseItem
 import com.smilegateblog.smliegateblog.data.pagingsource.CommentPagingSource
 import com.smilegateblog.smliegateblog.data.pagingsource.RecentPostPagingSource
+import com.smilegateblog.smliegateblog.data.pref.PrefDataSource
 import com.smilegateblog.smliegateblog.domain.model.User
 import com.smilegateblog.smliegateblog.domain.model.toDomain
 import com.smilegateblog.smliegateblog.domain.repository.CommentRepository
@@ -24,7 +25,10 @@ import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class CommentRepositoryImpl @Inject constructor(private val commentApi: CommentApi) : CommentRepository {
+class CommentRepositoryImpl @Inject constructor(
+    private val commentApi: CommentApi,
+    private val pref: PrefDataSource
+) : CommentRepository {
 
 
     override suspend fun getComments(postid: Int): Flow<PagingData<GetCommentsResponseItem>> {

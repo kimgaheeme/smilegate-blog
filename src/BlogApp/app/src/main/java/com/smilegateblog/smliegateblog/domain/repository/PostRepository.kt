@@ -8,11 +8,11 @@ import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
-    suspend fun postPost(postPostRequest: PostPostRequest, userId: Int) : Flow<Resource<PostPostResponse>>
-    suspend fun getPost(postid: Int, userid: Int) : Flow<Resource<GetPostResponse>>
+    suspend fun postPost(postPostRequest: PostPostRequest) : Flow<Resource<PostPostResponse>>
+    suspend fun getPost(postid: Int) : Flow<Resource<GetPostResponse>>
     suspend fun putPost(postPostRequest: PutPostRequest, postid: Int) : Flow<Resource<PutPostResponse>>
     suspend fun delPost(postid: Int) : Flow<Resource<Void>>
     suspend fun getRecentPost() : Flow<PagingData<GetRecentPostResponseItem>>
     suspend fun getMostViewedPost() : Flow<Resource<GetMostViewedResponse>>
-    suspend fun getMyPost(userId: Int) : Flow<PagingData<GetMyPostResponseItem>>
+    suspend fun getMyPost() : Flow<PagingData<GetMyPostResponseItem>>
 }

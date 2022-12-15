@@ -32,19 +32,19 @@ class InterfaceModule {
 
     @Singleton
     @Provides
-    fun providePostRepository(postApi: PostApi) : PostRepository {
-        return PostRepositoryImpl(postApi)
+    fun providePostRepository(postApi: PostApi, pref: PrefDataSource) : PostRepository {
+        return PostRepositoryImpl(postApi, pref)
     }
 
     @Singleton
     @Provides
-    fun provideScrapRepository(scrapApi: ScrapApi) : ScrapRepository {
-        return ScrapRepositoryImpl(scrapApi)
+    fun provideScrapRepository(scrapApi: ScrapApi, pref: PrefDataSource) : ScrapRepository {
+        return ScrapRepositoryImpl(scrapApi, pref)
     }
 
     @Singleton
     @Provides
-    fun provideCommentRepository(commentApi: CommentApi) : CommentRepository {
-        return CommentRepositoryImpl(commentApi)
+    fun provideCommentRepository(commentApi: CommentApi, pref: PrefDataSource) : CommentRepository {
+        return CommentRepositoryImpl(commentApi, pref)
     }
 }

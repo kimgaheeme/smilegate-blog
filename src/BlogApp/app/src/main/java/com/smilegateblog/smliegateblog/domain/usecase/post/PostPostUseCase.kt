@@ -15,6 +15,6 @@ class PostPostUseCase @Inject constructor(private val postRepository: PostReposi
     suspend fun invoke(postPostRequest: PostPostRequest, userId: Int) : Flow<Resource<PostPostResponse>> {
         Log.d("post post request", "usecase exec")
 
-        return postRepository.postPost(postPostRequest = postPostRequest, userId = userId)
+        return postRepository.postPost(postPostRequest = postPostRequest)
     }
 }

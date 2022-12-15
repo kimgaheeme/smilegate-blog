@@ -11,33 +11,39 @@ import com.smilegateblog.smliegateblog.data.dto.login.MyInfoResponse
 import com.smilegateblog.smliegateblog.data.dto.post.*
 import com.smilegateblog.smliegateblog.data.pagingsource.MyPostPagingSource
 import com.smilegateblog.smliegateblog.data.pagingsource.RecentPostPagingSource
+import com.smilegateblog.smliegateblog.data.pref.PrefDataSource
 import com.smilegateblog.smliegateblog.domain.model.User
 import com.smilegateblog.smliegateblog.domain.model.toDomain
 import com.smilegateblog.smliegateblog.domain.repository.LoginRepository
 import com.smilegateblog.smliegateblog.domain.repository.PostRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class PostRepositoryImpl @Inject constructor(private val postApi: PostApi) : PostRepository {
+class PostRepositoryImpl @Inject constructor(
+    private val postApi: PostApi,
+    private val pref: PrefDataSource
+) : PostRepository {
 
     override suspend fun postPost(
-        postPostRequest: PostPostRequest,
-        userId: Int
+        postPostRequest: PostPostRequest
     ): Flow<Resource<PostPostResponse>> {
         return flow {
             try{
-                val response = postApi.postPost(postPostRequest = postPostRequest, userId = userId)
-                Log.d("PostPost", "repo exec")
-                if(response.isSuccessful){
-                    val postId = response.body()!!
-                    emit(Resource.Success(postId))
-                }else{
-                    emit(Resource.Error(response.errorBody().toString()))
+                pref.getUserId().collect(){ userId ->
+                    val response = postApi.postPost(postPostRequest = postPostRequest, userId = userId)
+                    Log.d("PostPost", "repo exec")
+                    if(response.isSuccessful){
+                        val postId = response.body()!!
+                        emit(Resource.Success(postId))
+                    }else{
+                        emit(Resource.Error(response.errorBody().toString()))
+                    }
                 }
             } catch (e: HttpException) {
                 Log.d("PostPost", "HttpException")
@@ -49,16 +55,18 @@ class PostRepositoryImpl @Inject constructor(private val postApi: PostApi) : Pos
         }
     }
 
-    override suspend fun getPost(postid: Int, userid: Int): Flow<Resource<GetPostResponse>> {
+    override suspend fun getPost(postid: Int): Flow<Resource<GetPostResponse>> {
         return flow {
             try{
-                val response = postApi.getPost(postid = postid, userid = userid)
-                Log.d("GetPost", "repo exec")
-                if(response.isSuccessful){
-                    val post = response.body()!!
-                    emit(Resource.Success(post))
-                }else{
-                    emit(Resource.Error(response.errorBody().toString()))
+                pref.getUserId().collect(){ userId ->
+                    val response = postApi.getPost(postid = postid, userid = userId)
+                    Log.d("GetPost", "repo exec")
+                    if(response.isSuccessful){
+                        val post = response.body()!!
+                        emit(Resource.Success(post))
+                    }else{
+                        emit(Resource.Error(response.errorBody().toString()))
+                    }
                 }
             } catch (e: HttpException) {
                 Log.d("GetPost", "HttpException")
@@ -143,11 +151,15 @@ class PostRepositoryImpl @Inject constructor(private val postApi: PostApi) : Pos
         }
     }
 
-    override suspend fun getMyPost(userId: Int): Flow<PagingData<GetMyPostResponseItem>> {
-        return Pager(
-            config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-            pagingSourceFactory = { MyPostPagingSource(postApi = postApi, userId = userId) }
-        ).flow
+    override suspend fun getMyPost(): Flow<PagingData<GetMyPostResponseItem>> {
+        return flow {
+            pref.getUserId().collect(){ userId ->
+                Pager(
+                    config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+                    pagingSourceFactory = { MyPostPagingSource(postApi = postApi, userId = userId) }
+                )
+            }
+        }
     }
 
 }

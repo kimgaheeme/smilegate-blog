@@ -14,6 +14,6 @@ class GetPostUseCase @Inject constructor(private val postRepository: PostReposit
     suspend fun invoke(postid: Int, userid: Int) : Flow<Resource<GetPostResponse>> {
         Log.d("Get post", "usecase exec")
 
-        return postRepository.getPost(postid = postid, userid = userid)
+        return postRepository.getPost(postid = postid)
     }
 }

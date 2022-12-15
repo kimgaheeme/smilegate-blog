@@ -8,6 +8,7 @@ import com.smilegateblog.smliegateblog.data.api.ScrapApi
 import com.smilegateblog.smliegateblog.data.dto.scrap.GetScrapPostItem
 import com.smilegateblog.smliegateblog.data.dto.scrap.PostScrapResponse
 import com.smilegateblog.smliegateblog.data.pagingsource.ScrapPostPagingSource
+import com.smilegateblog.smliegateblog.data.pref.PrefDataSource
 import com.smilegateblog.smliegateblog.domain.repository.ScrapRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +17,10 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class ScrapRepositoryImpl @Inject constructor(private val scrapApi: ScrapApi) : ScrapRepository {
+class ScrapRepositoryImpl @Inject constructor(
+    private val scrapApi: ScrapApi,
+    private val pref: PrefDataSource
+) : ScrapRepository {
 
 
     override suspend fun postScrap(userId: Int, postid: Int): Flow<Resource<PostScrapResponse>> {
