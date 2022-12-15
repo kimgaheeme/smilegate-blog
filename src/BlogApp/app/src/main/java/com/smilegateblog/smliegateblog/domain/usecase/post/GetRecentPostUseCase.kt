@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetRecentPostUseCase @Inject constructor(private val postRepository: PostRepository){
-    suspend fun invoke() : Flow<PagingData<GetRecentPostResponseItem>> {
+    operator fun invoke() : Flow<PagingData<GetRecentPostResponseItem>> {
         Log.d("Get recent post", "usecase exec")
 
         return postRepository.getRecentPost()

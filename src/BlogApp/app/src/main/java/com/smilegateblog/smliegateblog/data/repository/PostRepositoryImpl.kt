@@ -123,7 +123,7 @@ class PostRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getRecentPost(): Flow<PagingData<GetRecentPostResponseItem>> {
+    override fun getRecentPost(): Flow<PagingData<GetRecentPostResponseItem>> {
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = false),
             pagingSourceFactory = { RecentPostPagingSource(postApi = postApi) }
