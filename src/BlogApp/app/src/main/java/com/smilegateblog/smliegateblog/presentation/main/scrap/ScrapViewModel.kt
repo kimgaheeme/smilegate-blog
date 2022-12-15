@@ -7,6 +7,8 @@ import com.smilegateblog.smliegateblog.domain.usecase.ScrapUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,7 +17,8 @@ class ScrapViewModel @Inject constructor(private val scrapUseCase: ScrapUseCase)
     private val _state = MutableStateFlow<ScrapFragmentState>(ScrapFragmentState.Init)
     val state: StateFlow<ScrapFragmentState> get() = _state
 
-    val scrapPost = scrapUseCase.getScrapPostUseCase().cachedIn(viewModelScope)
+
+    val scrapPost = runBlocking { scrapUseCase.getScrapPostUseCase().cachedIn(viewModelScope) }
 
     private fun setLoading(){
         _state.value = ScrapFragmentState.IsLoading(true)

@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.smilegateblog.smliegateblog.databinding.FragmentScrapBinding
 import com.smilegateblog.smliegateblog.presentation.main.home.HomeRecentPostAdapter
 import com.smilegateblog.smliegateblog.presentation.main.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class ScrapFragment : Fragment() {
 
     private var _binding: FragmentScrapBinding? = null
@@ -30,7 +31,7 @@ class ScrapFragment : Fragment() {
 
         _binding = FragmentScrapBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        setupScrapPostRecyclerView()
 
         return root
     }

@@ -11,9 +11,8 @@ import com.smilegateblog.smliegateblog.data.pagingsource.ScrapPostPagingSource
 import com.smilegateblog.smliegateblog.data.pref.PrefDataSource
 import com.smilegateblog.smliegateblog.domain.repository.ScrapRepository
 import com.smilegateblog.smliegateblog.util.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -22,7 +21,6 @@ class ScrapRepositoryImpl @Inject constructor(
     private val scrapApi: ScrapApi,
     private val pref: PrefDataSource
 ) : ScrapRepository {
-
 
     override suspend fun postScrap( postid: Int): Flow<Resource<PostScrapResponse>> {
         return flow {
@@ -70,15 +68,12 @@ class ScrapRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getScrapPost(): Flow<PagingData<GetScrapPostItem>> {
-        return flow {
-            pref.getUserId().collect(){ userId ->
-                Pager(
-                    config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-                    pagingSourceFactory = { ScrapPostPagingSource(scrapApi = scrapApi, userid = userId) }
-                )
-            }
-        }
+    override suspend fun getScrapPost(): Flow<PagingData<GetScrapPostItem>> {
+        val userId = pref.getUserId().first()
+        return Pager(
+            config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+            pagingSourceFactory = { ScrapPostPagingSource(scrapApi = scrapApi, userid = userId) }
+        ).flow
     }
 
 }

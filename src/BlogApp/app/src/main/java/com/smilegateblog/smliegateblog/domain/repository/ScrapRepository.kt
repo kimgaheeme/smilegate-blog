@@ -12,5 +12,5 @@ import kotlinx.coroutines.flow.Flow
 interface ScrapRepository {
     suspend fun postScrap(postid: Int) : Flow<Resource<PostScrapResponse>>
     suspend fun delScrap(postid: Int) : Flow<Resource<Void>>
-    fun getScrapPost() : Flow<PagingData<GetScrapPostItem>>
+    suspend fun getScrapPost() : Flow<PagingData<GetScrapPostItem>>
 }
