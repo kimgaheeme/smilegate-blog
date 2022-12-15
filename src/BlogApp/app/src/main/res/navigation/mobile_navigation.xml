@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.smilegateblog.smliegateblog.presentation.main.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_scrap"
+        android:name="com.smilegateblog.smliegateblog.presentation.main.scrap.ScrapFragment"
+        android:label="@string/title_scrap"
+        tools:layout="@layout/fragment_scrap" />
 
     <fragment
         android:id="@+id/navigation_notifications"
