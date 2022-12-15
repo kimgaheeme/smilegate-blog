@@ -15,13 +15,13 @@ class ScrapPostPagingSource (
         params: LoadParams<Int>
     ): LoadResult<Int, GetScrapPostItem> {
         return try {
-
+            Log.d("ScrapPost", "paging source")
             val nextPageNumber = params.key ?: 1
             val response = scrapApi.getScrapPost(page = nextPageNumber, userid = userid)
             LoadResult.Page(
                 data = response.body()!!,
                 prevKey = null, // 이전 페이지는 불러오지 않음
-                nextKey = nextPageNumber.plus(1)
+                nextKey = if(response.body()!!.isEmpty()) null else nextPageNumber.plus(1)
             )
         } catch (e: Exception) {
             Log.d("ScrapPost", "paging 오류" + e.stackTraceToString())

@@ -19,7 +19,7 @@ class RecentPostPagingSource (
             LoadResult.Page(
                 data = response.body()!!,
                 prevKey = null, // 이전 페이지는 불러오지 않음
-                nextKey = nextPageNumber.plus(1)
+                nextKey = if(response.body()!!.isEmpty()) null else nextPageNumber.plus(1)
             )
         } catch (e: Exception) {
             Log.d("RecentPost", "paging 오류" + e.stackTraceToString())
