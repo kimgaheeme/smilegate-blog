@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smilegateblog.smliegateblog.data.dto.login.LoginRequest
-import com.smilegateblog.smliegateblog.data.dto.login.LoginResponse
 import com.smilegateblog.smliegateblog.domain.model.User
-import com.smilegateblog.smliegateblog.domain.usecase.login.LoginUseCase
+import com.smilegateblog.smliegateblog.domain.usecase.LoginUseCase
 import com.smilegateblog.smliegateblog.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -18,6 +17,21 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
 
     private val _state = MutableStateFlow<LoginActivityState>(LoginActivityState.Init)
     val state : StateFlow<LoginActivityState> get() = _state
+
+    init {
+        isLogged()
+    }
+
+    private fun isLogged(){
+        viewModelScope.launch {
+            loginUseCase.checkLoginUseCase().collect{ result ->
+                if(result.data == true) {
+                    _state.value = LoginActivityState.SuccessLogin(User())
+                }
+            }
+        }
+
+    }
 
     private fun setLoading(){
         _state.value = LoginActivityState.Loading(true)
@@ -31,8 +45,8 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
         _state.value = LoginActivityState.ShowToast(message)
     }
 
-    private fun successLogin(user: User) {
-        _state.value = LoginActivityState.SuccessLogin(user)
+    private fun successLogin(user: User?) {
+        _state.value = LoginActivityState.SuccessLogin(user = user)
     }
 
     private fun errorLogin(message: String) {
@@ -42,7 +56,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     fun login(loginRequest: LoginRequest) {
         Log.d("Login", "login function exec")
         viewModelScope.launch {
-            loginUseCase.invoke(loginRequest)
+            loginUseCase.loginUseCase.invoke(loginRequest)
                 .onStart {
                     setLoading()
                 }
@@ -69,6 +83,6 @@ sealed class LoginActivityState {
     object Init : LoginActivityState()
     data class Loading(val isLoading: Boolean) : LoginActivityState()
     data class ShowToast(val message: String) : LoginActivityState()
-    data class SuccessLogin(val user: User) : LoginActivityState()
+    data class SuccessLogin(val user: User?) : LoginActivityState()
     data class ErrorLogin(val rawResponse: String) : LoginActivityState()
 }

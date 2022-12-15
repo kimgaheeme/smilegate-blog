@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CheckLoginUseCase @Inject constructor(private val loginRepository: LoginRepository){
-    suspend fun invoke() : Flow<Resource<Boolean>> {
+    suspend operator fun invoke() : Flow<Resource<Boolean>> {
         return loginRepository.checkLogin()
     }
 }

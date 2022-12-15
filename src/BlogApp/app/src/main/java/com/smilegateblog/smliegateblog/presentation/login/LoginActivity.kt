@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -27,6 +28,8 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityLoginBinding
     private val viewModel : LoginViewModel by viewModels()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
             is LoginActivityState.Loading -> handleLoading(state.isLoading)
             is LoginActivityState.Init -> Unit
             is LoginActivityState.ErrorLogin -> handleErrorLogin(state.rawResponse)
-            is LoginActivityState.SuccessLogin -> handleSuccessLogin(state.user)
+            is LoginActivityState.SuccessLogin -> handleSuccessLogin()
         }
     }
 
@@ -67,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
         //로그인 프로그래스바 수정필요
     }
 
-    private fun handleSuccessLogin(user: User){
+    private fun handleSuccessLogin(){
         goToMainActivity()
     }
 
