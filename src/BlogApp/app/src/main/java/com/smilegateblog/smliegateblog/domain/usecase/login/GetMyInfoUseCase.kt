@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetMyInfoUseCase @Inject constructor(private val loginRepository: LoginRepository){
-    suspend fun invoke(userId: Int) : Flow<Resource<User>> {
+    suspend operator fun invoke() : Flow<Resource<User>> {
         Log.d("GetMyInfo", "usecase exec")
 
         return loginRepository.getMyInfo()

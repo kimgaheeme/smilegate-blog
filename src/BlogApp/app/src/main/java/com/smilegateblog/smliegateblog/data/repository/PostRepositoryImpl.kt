@@ -19,6 +19,7 @@ import com.smilegateblog.smliegateblog.domain.repository.PostRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response
@@ -152,14 +153,11 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMyPost(): Flow<PagingData<GetMyPostResponseItem>> {
-        return flow {
-            pref.getUserId().collect(){ userId ->
-                Pager(
-                    config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-                    pagingSourceFactory = { MyPostPagingSource(postApi = postApi, userId = userId) }
-                )
-            }
-        }
+        val userId = pref.getUserId().first()
+        return Pager(
+            config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+            pagingSourceFactory = { MyPostPagingSource(postApi = postApi, userId = userId) }
+        ).flow
     }
 
 }

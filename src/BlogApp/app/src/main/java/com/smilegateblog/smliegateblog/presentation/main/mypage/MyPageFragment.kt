@@ -6,15 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.smilegateblog.smliegateblog.databinding.FragmentMypageBinding
+import com.smilegateblog.smliegateblog.presentation.main.scrap.ScrapPostAdapter
+import com.smilegateblog.smliegateblog.presentation.main.scrap.ScrapViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MyPageFragment : Fragment() {
 
     private var _binding: FragmentMypageBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private val viewModel: MyPageViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +33,23 @@ class MyPageFragment : Fragment() {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        setupMyPostRecyclerView()
         return root
+    }
+
+    private fun setupMyPostRecyclerView(){
+        val mAdapter = MyPostAdapter()
+
+        binding.listScrapItem.apply {
+            this.adapter = mAdapter
+            this.layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        lifecycleScope.launch {
+            viewModel.myPost.collectLatest {
+                mAdapter.submitData(it)
+            }
+        }
     }
 
     override fun onDestroyView() {

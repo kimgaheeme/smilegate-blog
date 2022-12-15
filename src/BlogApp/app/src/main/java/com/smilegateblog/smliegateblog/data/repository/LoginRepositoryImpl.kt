@@ -13,6 +13,7 @@ import com.smilegateblog.smliegateblog.domain.repository.LoginRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response
@@ -47,17 +48,16 @@ class LoginRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMyInfo(): Flow<Resource<User>> {
+        val userId = pref.getUserId().first()
         return flow {
             try{
-                pref.getUserId().collect(){ userId ->
-                    val response = loginApi.getMyInfo(userId)
-                    Log.d("GetMyInfo", "repo exec")
-                    if(response.isSuccessful){
-                        val user = response.body()!!.toDomain()
-                        emit(Resource.Success(user))
-                    }else{
-                        emit(Resource.Error(response.errorBody().toString()))
-                    }
+                val response = loginApi.getMyInfo(userId)
+                Log.d("GetMyInfo", "repo exec")
+                if(response.isSuccessful){
+                    val user = response.body()!!.toDomain()
+                    emit(Resource.Success(user))
+                }else{
+                    emit(Resource.Error(response.errorBody().toString()))
                 }
             } catch (e: HttpException) {
                 Log.d("GetMyInfo", "HttpException")
@@ -74,11 +74,11 @@ class LoginRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkLogin(): Flow<Resource<Boolean>> {
-       return flow {
-           pref.checkLogin().collect(){ isLogin ->
-               emit(Resource.Success(isLogin))
-           }
-       }
+        return flow {
+            pref.checkLogin().collect(){ isLogin ->
+                emit(Resource.Success(isLogin))
+            }
+        }
     }
 
 }
