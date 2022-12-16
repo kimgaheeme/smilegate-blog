@@ -13,7 +13,7 @@ interface OnItemClickListener<T> {
     fun onItemClicked(item: T?)
 }
 
-class PostAdapter(private val listener: OnItemClickListener<String>?) :
+class PostAdapter(private val listener: OnItemClickListener<Int>?) :
     PagingDataAdapter<Post, PostAdapter.PagingViewHolder>(diffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -36,7 +36,7 @@ class PostAdapter(private val listener: OnItemClickListener<String>?) :
             binding.labelPostContent.text = post.content
             binding.labelPostTitle.text = post.title
             binding.root.setOnClickListener {
-                listener?.onItemClicked(post.title)
+                listener?.onItemClicked(post.postId)
             }
         }
     }

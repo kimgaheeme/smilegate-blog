@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ScrapFragment : Fragment(), OnItemClickListener<String> {
+class ScrapFragment : Fragment(), OnItemClickListener<Int> {
 
     private var _binding: FragmentScrapBinding? = null
     private val binding get() = _binding!!
@@ -54,7 +54,7 @@ class ScrapFragment : Fragment(), OnItemClickListener<String> {
         }
     }
 
-    override fun onItemClicked(postId: String?) {
+    override fun onItemClicked(postId: Int?) {
         val intent = Intent(activity, PostDetailActivity::class.java)
         intent.putExtra("postId", postId)
         startActivity(intent)
