@@ -31,8 +31,15 @@ async def create_user(userRequest: CreateUserRequest):
         sessionmaker.add(add_user)
         sessionmaker.flush()
         sessionmaker.commit()
+        return CreateUserResponse(userId=add_user.user_id, email=add_user.email, nickname=add_user.nickname)
+    else :
+        user_object = sessionmaker.query(User) \
+            .filter(User.nickname == userRequest.nickname) \
+            .filter(User.email == userRequest.email) \
+            .first()
+        return CreateUserResponse(userId=user_object.user_id, email=user_object.email, nickname=user_object.nickname)
+        
 
-    return CreateUserResponse(userId=add_user.user_id, email=add_user.email, nickname=add_user.nickname)
 
 
 @router.post(
