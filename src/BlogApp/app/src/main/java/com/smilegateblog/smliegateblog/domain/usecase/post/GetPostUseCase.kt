@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetPostUseCase @Inject constructor(private val postRepository: PostRepository){
-    suspend fun invoke(postid: Int, userid: Int) : Flow<Resource<GetPostResponse>> {
+    suspend operator fun invoke(postid: Int) : Flow<Resource<GetPostResponse>> {
         Log.d("Get post", "usecase exec")
 
         return postRepository.getPost(postid = postid)

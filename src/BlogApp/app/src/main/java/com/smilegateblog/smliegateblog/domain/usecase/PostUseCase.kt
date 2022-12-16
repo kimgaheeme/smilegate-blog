@@ -9,7 +9,7 @@ data class PostUseCase @Inject constructor(
     val delPostUseCase: DelPostUseCase,
     val getMostViewedPostUseCase: GetMostViewedPostUseCase,
     val getMyPostUseCase: GetMyPostUseCase,
-    val getPostUseCase: DelPostUseCase,
+    val getPostUseCase: GetPostUseCase,
     val getRecentPostUseCase: GetRecentPostUseCase,
     val postPostUseCase: PostPostUseCase,
     val putPostUseCase: PutPostUseCase

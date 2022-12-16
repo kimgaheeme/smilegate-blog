@@ -32,7 +32,7 @@ class CommentRepositoryImpl @Inject constructor(
 ) : CommentRepository {
 
 
-    override suspend fun getComments(postid: Int): Flow<PagingData<GetCommentsResponseItem>> {
+    override fun getComments(postid: Int): Flow<PagingData<GetCommentsResponseItem>> {
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = false),
             pagingSourceFactory = { CommentPagingSource(commentApi = commentApi, postid = postid) }

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetCommentsUseCase @Inject constructor(private val commentRepository: CommentRepository){
-    suspend fun invoke(postid: Int) : Flow<PagingData<GetCommentsResponseItem>> {
+    operator fun invoke(postid: Int) : Flow<PagingData<GetCommentsResponseItem>> {
         Log.d("get comment ", "usecase exec")
 
         return commentRepository.getComments(postid = postid)
