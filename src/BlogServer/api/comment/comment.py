@@ -27,7 +27,8 @@ now = datetime.now()
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Comment"
 )
 async def create_comment(userId: int, postid: int, userRequest: CreateCommentRequest):
     add_comment = Comment(
@@ -57,7 +58,8 @@ async def create_comment(userId: int, postid: int, userRequest: CreateCommentReq
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Comment"
 )
 async def update_comment(commentid: int, userRequest: UpdateCommentRequest):
     sessionmaker.query(Comment).filter(Comment.comment_id == commentid) \
@@ -71,7 +73,7 @@ async def update_comment(commentid: int, userRequest: UpdateCommentRequest):
 
 
 @router.delete(
-    "/posts/commments/{commentid}",
+    "/posts/comments/{commentid}",
     responses={
         status.HTTP_401_UNAUTHORIZED: {
             "description": "10001.",
@@ -82,7 +84,8 @@ async def update_comment(commentid: int, userRequest: UpdateCommentRequest):
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Comment"
 )
 async def delete_comment(commentid: int):
     if sessionmaker.query(Comment).filter(Comment.comment_id == commentid) \
@@ -108,7 +111,8 @@ async def delete_comment(commentid: int):
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Comment"
 )
 async def get_comment(postid: int, page: int = 1):
     offset = (page - 1) * 10

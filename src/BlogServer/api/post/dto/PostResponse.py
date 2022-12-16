@@ -16,6 +16,7 @@ class GetRecentPostResponse(BaseModel):
     content: str
     postImageId: str
     created_at: datetime
+    postId: int
 
 
 class GetMostViewedPostResponse(BaseModel):
@@ -23,12 +24,14 @@ class GetMostViewedPostResponse(BaseModel):
     content: str
     postImageId: str
     nickname: str
+    postId: int
 
 
 class GetMyPostResponse(BaseModel):
     title: str
     content: str
     postImageId: str
+    postId: int
 
 
 class GetPostDetailResponse(BaseModel):

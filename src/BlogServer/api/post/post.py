@@ -27,7 +27,8 @@ now = datetime.now()
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Post"
 )
 async def create_post(userRequest: CreatePostRequest, userId: int):
     add_post = Post(
@@ -63,13 +64,15 @@ async def create_post(userRequest: CreatePostRequest, userId: int):
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Post"
 )
 async def update_post(postid: int, userRequest: UpdatePostRequest):
     sessionmaker.query(Post).filter(Post.post_id == postid) \
         .update({Post.title: userRequest.title,
                  Post.content: userRequest.content,
-                 Post.post_image_id: userRequest.postImage}, synchronize_session=False)
+                 Post.post_image_id: userRequest.postImage,
+                 Post.update_at: now.date()}, synchronize_session=False)
 
     sessionmaker.flush()
     sessionmaker.commit()
@@ -89,7 +92,8 @@ async def update_post(postid: int, userRequest: UpdatePostRequest):
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Post"
 )
 async def delete_post(postid: int):
     sessionmaker.query(Post).filter(Post.post_id == postid).delete()
@@ -111,7 +115,8 @@ async def delete_post(postid: int):
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Post"
 )
 async def get_recent_post(page: int = 1):
     offset = (page - 1) * 10
@@ -120,6 +125,7 @@ async def get_recent_post(page: int = 1):
 
     for post in posts:
         result.append(GetRecentPostResponse(
+            postId=post.post_id,
             title=post.title,
             content=post.content,
             postImageId=post.post_image_id,
@@ -142,7 +148,8 @@ async def get_recent_post(page: int = 1):
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Post"
 )
 async def get_most_viewed_post():
     posts = sessionmaker.query(Post).outerjoin(User, Post.user_id == User.user_id).order_by(Post.view_cnt).limit(5)
@@ -153,7 +160,9 @@ async def get_most_viewed_post():
             title=post.title,
             content=post.content,
             postImageId=post.post_image_id,
-            nickname=post.user.nickname)
+            nickname=post.user.nickname,
+            postId=post.post_id
+        )
         )
 
     return result
@@ -172,7 +181,8 @@ async def get_most_viewed_post():
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Post"
 )
 async def get_my_post(userId: int, page: int = 1):
     offset = (page - 1) * 10
@@ -184,7 +194,8 @@ async def get_my_post(userId: int, page: int = 1):
         result.append(GetMyPostResponse(
             title=post.title,
             content=post.content,
-            postImageId=post.post_image_id
+            postImageId=post.post_image_id,
+            postId=post.post_id
         ))
 
     return result
@@ -203,12 +214,18 @@ async def get_my_post(userId: int, page: int = 1):
         status.HTTP_404_NOT_FOUND: {
             "description": "10003.",
         },
-    }
+    },
+    tags="Post"
 )
-async def get_scrap_post(userid: int, postid: int):
+async def get_post_detail(userid: int, postid: int):
     post = sessionmaker.query(Post).join(User, User.user_id == Post.user_id) \
         .filter(Post.post_id == postid) \
         .first()
+
+    sessionmaker.query(Post).filter(Post.post_id == postid) \
+        .update({Post.view_cnt: post.view_cnt + 1}, synchronize_session=False)
+    sessionmaker.flush()
+    sessionmaker.commit()
 
     if (sessionmaker.query(Scrap) \
             .filter(Scrap.post_id == postid).filter(Scrap.user_id == userid).count() == 0):
@@ -222,7 +239,8 @@ async def get_scrap_post(userid: int, postid: int):
         content=post.content,
         postImageId=post.post_image_id,
         type=post.type,
-        view_cnt=post.view_cnt,
+        view_cnt=post.view_cnt + 1,
         update_at=post.update_at,
-        isScrap=isScrap
+        isScrap=isScrap,
+        postid=post.post_id
     )

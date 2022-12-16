@@ -26,17 +26,13 @@ now = datetime.now()
     }
 )
 async def create_user(userRequest: CreateUserRequest):
-    if sessionmaker.query(User).filter(User.email == userRequest.email).count() >= 1:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    else:
-        sessionmaker.add(User(email=userRequest.email, nickname=userRequest.nickname, created_at=now.date()))
+    if sessionmaker.query(User).filter(User.email == userRequest.email).count() < 1:
+        add_user = User(email=userRequest.email, nickname=userRequest.nickname, created_at=now.date())
+        sessionmaker.add(add_user)
+        sessionmaker.flush()
         sessionmaker.commit()
 
-        user_object = sessionmaker.query(User) \
-            .filter(User.email == userRequest.email) \
-            .filter(User.nickname == userRequest.nickname).first()
-
-        return CreateUserResponse(userId=user_object.user_id, email=user_object.email, nickname=user_object.nickname)
+    return CreateUserResponse(userId=add_user.user_id, email=add_user.email, nickname=add_user.nickname)
 
 
 @router.post(

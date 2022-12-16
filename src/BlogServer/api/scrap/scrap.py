@@ -98,7 +98,8 @@ async def get_scrap_post(userid: int, page: int = 1):
         result.append(GetScrapPostResponse(
             title=post.title,
             content=post.content,
-            postImageId=post.post_image_id
+            postImageId=post.post_image_id,
+            postId=post.post_id
         ))
 
     return result

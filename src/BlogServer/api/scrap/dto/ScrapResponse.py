@@ -9,3 +9,4 @@ class GetScrapPostResponse(BaseModel):
     title: str
     content: str
     postImageId: str
+    postId: int
