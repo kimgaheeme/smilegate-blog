@@ -7,5 +7,6 @@ data class GetMostViewedResponseItem(
     val content: String,
     val nickname: String,
     val postImageId: String,
-    val title: String
+    val title: String,
+    val postId: Int
 )

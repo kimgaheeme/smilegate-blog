@@ -11,6 +11,7 @@ import com.smilegateblog.smliegateblog.data.dto.post.GetMostViewedResponse
 import com.smilegateblog.smliegateblog.data.dto.post.GetMostViewedResponseItem
 import com.smilegateblog.smliegateblog.data.dto.post.GetRecentPostResponse
 import com.smilegateblog.smliegateblog.data.dto.post.GetRecentPostResponseItem
+import com.smilegateblog.smliegateblog.domain.model.Post
 import com.smilegateblog.smliegateblog.domain.model.User
 import com.smilegateblog.smliegateblog.domain.usecase.PostUseCase
 import com.smilegateblog.smliegateblog.domain.usecase.login.LoginUseCase
@@ -29,8 +30,8 @@ class HomeViewModel @Inject constructor(private val postUseCase: PostUseCase) : 
 
     val recentPost = postUseCase.getRecentPostUseCase().cachedIn(viewModelScope)
 
-    private val _mostViewedPost = MutableStateFlow<List<GetMostViewedResponseItem>>(mutableListOf())
-    val mostViewedPost : StateFlow<List<GetMostViewedResponseItem>> get() = _mostViewedPost
+    private val _mostViewedPost = MutableStateFlow<List<Post>>(mutableListOf())
+    val mostViewedPost : StateFlow<List<Post>> get() = _mostViewedPost
 
     init {
         getMostViewedPost()

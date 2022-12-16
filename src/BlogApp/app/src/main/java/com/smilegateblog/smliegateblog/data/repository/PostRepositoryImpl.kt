@@ -12,6 +12,7 @@ import com.smilegateblog.smliegateblog.data.dto.post.*
 import com.smilegateblog.smliegateblog.data.pagingsource.MyPostPagingSource
 import com.smilegateblog.smliegateblog.data.pagingsource.RecentPostPagingSource
 import com.smilegateblog.smliegateblog.data.pref.PrefDataSource
+import com.smilegateblog.smliegateblog.domain.model.Post
 import com.smilegateblog.smliegateblog.domain.model.User
 import com.smilegateblog.smliegateblog.domain.model.toDomain
 import com.smilegateblog.smliegateblog.domain.repository.LoginRepository
@@ -124,20 +125,20 @@ class PostRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getRecentPost(): Flow<PagingData<GetRecentPostResponseItem>> {
+    override fun getRecentPost(): Flow<PagingData<Post>> {
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = false),
             pagingSourceFactory = { RecentPostPagingSource(postApi = postApi) }
         ).flow
     }
 
-    override suspend fun getMostViewedPost(): Flow<Resource<GetMostViewedResponse>> {
+    override suspend fun getMostViewedPost(): Flow<Resource<List<Post>>> {
         return flow {
             try{
                 val response = postApi.getMostViewedPost()
                 Log.d("MostViewedPost", "repo exec")
                 if(response.isSuccessful){
-                    val posts = response.body()!!
+                    val posts = response.body()!!.map { it.toDomain() }
                     emit(Resource.Success(posts))
                 }else{
                     emit(Resource.Error(response.errorBody().toString()))
@@ -152,7 +153,7 @@ class PostRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMyPost(): Flow<PagingData<GetMyPostResponseItem>> {
+    override suspend fun getMyPost(): Flow<PagingData<Post>> {
         val userId = pref.getUserId().first()
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = false),

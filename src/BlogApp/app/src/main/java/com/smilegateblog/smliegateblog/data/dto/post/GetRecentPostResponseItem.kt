@@ -8,5 +8,6 @@ data class GetRecentPostResponseItem(
     @SerializedName("created_at")
     val createdAt: String,
     val postImageId: String,
-    val title: String
+    val title: String,
+    val postId: Int
 )

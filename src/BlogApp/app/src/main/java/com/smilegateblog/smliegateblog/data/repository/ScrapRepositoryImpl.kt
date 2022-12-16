@@ -9,6 +9,7 @@ import com.smilegateblog.smliegateblog.data.dto.scrap.GetScrapPostItem
 import com.smilegateblog.smliegateblog.data.dto.scrap.PostScrapResponse
 import com.smilegateblog.smliegateblog.data.pagingsource.ScrapPostPagingSource
 import com.smilegateblog.smliegateblog.data.pref.PrefDataSource
+import com.smilegateblog.smliegateblog.domain.model.Post
 import com.smilegateblog.smliegateblog.domain.repository.ScrapRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.*
@@ -68,7 +69,7 @@ class ScrapRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getScrapPost(): Flow<PagingData<GetScrapPostItem>> {
+    override suspend fun getScrapPost(): Flow<PagingData<Post>> {
         val userId = pref.getUserId().first()
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = false),

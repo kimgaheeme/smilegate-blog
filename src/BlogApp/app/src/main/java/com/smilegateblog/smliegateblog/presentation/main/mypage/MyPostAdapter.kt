@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.smilegateblog.smliegateblog.data.dto.post.GetMyPostResponseItem
 import com.smilegateblog.smliegateblog.databinding.ItemPostBinding
+import com.smilegateblog.smliegateblog.domain.model.Post
 
-class MyPostAdapter : PagingDataAdapter<GetMyPostResponseItem, PagingViewHolder>(diffCallback) {
+class MyPostAdapter : PagingDataAdapter<Post, PagingViewHolder>(diffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return PagingViewHolder(
@@ -24,12 +24,12 @@ class MyPostAdapter : PagingDataAdapter<GetMyPostResponseItem, PagingViewHolder>
     }
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<GetMyPostResponseItem>() {
-            override fun areItemsTheSame(oldItem: GetMyPostResponseItem, newItem: GetMyPostResponseItem): Boolean {
+        private val diffCallback = object : DiffUtil.ItemCallback<Post>() {
+            override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: GetMyPostResponseItem, newItem: GetMyPostResponseItem): Boolean {
+            override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
                 return oldItem == newItem
             }
         }
@@ -41,7 +41,7 @@ class PagingViewHolder(
     private val binding: ItemPostBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(post: GetMyPostResponseItem) {
+    fun bind(post: Post) {
         binding.labelPostContent.text = post.content
         binding.labelPostTitle.text = post.title
     }

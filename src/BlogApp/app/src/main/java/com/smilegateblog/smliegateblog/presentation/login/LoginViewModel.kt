@@ -19,7 +19,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     val state : StateFlow<LoginActivityState> get() = _state
 
     init {
-        isLogged()
+        //isLogged()
     }
 
     private fun isLogged(){

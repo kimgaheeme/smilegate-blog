@@ -8,8 +8,8 @@ import android.widget.AdapterView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.smilegateblog.smliegateblog.data.dto.post.GetRecentPostResponseItem
 import com.smilegateblog.smliegateblog.databinding.ItemPostBinding
+import com.smilegateblog.smliegateblog.domain.model.Post
 
 
 interface OnItemClickListener<T> {
@@ -17,7 +17,7 @@ interface OnItemClickListener<T> {
 }
 
 class HomeRecentPostAdapter(private val listener: OnItemClickListener<String>?) :
-    PagingDataAdapter<GetRecentPostResponseItem, HomeRecentPostAdapter.PagingViewHolder>(diffCallback) {
+    PagingDataAdapter<Post, HomeRecentPostAdapter.PagingViewHolder>(diffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return PagingViewHolder(
@@ -35,7 +35,7 @@ class HomeRecentPostAdapter(private val listener: OnItemClickListener<String>?) 
     inner class PagingViewHolder(
         private val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(post: GetRecentPostResponseItem) {
+        fun bind(post: Post) {
             binding.labelPostContent.text = post.content
             binding.labelPostTitle.text = post.title
             binding.root.setOnClickListener {
@@ -45,12 +45,12 @@ class HomeRecentPostAdapter(private val listener: OnItemClickListener<String>?) 
     }
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<GetRecentPostResponseItem>() {
-            override fun areItemsTheSame(oldItem: GetRecentPostResponseItem, newItem: GetRecentPostResponseItem): Boolean {
+        private val diffCallback = object : DiffUtil.ItemCallback<Post>() {
+            override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: GetRecentPostResponseItem, newItem: GetRecentPostResponseItem): Boolean {
+            override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
                 return oldItem == newItem
             }
         }
