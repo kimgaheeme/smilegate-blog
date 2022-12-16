@@ -28,6 +28,10 @@ class PostDetailActivity : AppCompatActivity() {
         binding = ActivityPostDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupCommentRecyclerView()
+
+        binding.btnDeletePost.setOnClickListener {
+            deletePost()
+        }
     }
 
     private fun setupCommentRecyclerView(){
@@ -43,6 +47,11 @@ class PostDetailActivity : AppCompatActivity() {
                 mAdapter.submitData(it)
             }
         }
+    }
+
+    private fun deletePost(){
+        viewModel.deletePost()
+        finish()
     }
 
 

@@ -4,11 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.postdetail.PostDetailActivity">
+    tools:context=".presentation.postdetail.PostDetailActivity"
+    android:orientation="vertical">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:id="@+id/btn_delete_post"
+        android:text="글 삭제"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_comment_item"
         tools:listitem="@layout/item_comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+
 </LinearLayout>

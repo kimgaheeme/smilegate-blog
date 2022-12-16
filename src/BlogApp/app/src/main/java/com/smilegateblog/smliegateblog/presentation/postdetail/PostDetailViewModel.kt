@@ -52,6 +52,22 @@ class PostDetailViewModel @Inject constructor(
         _state.value = PostDetailFragmentState.ShowToast(message)
     }
 
+    fun deletePost() {
+        viewModelScope.launch {
+            postUseCase.delPostUseCase(postId).collect{ result ->
+                hideLoading()
+                when(result) {
+                    is Resource.Success -> {
+                        Log.d("delete", "delete post successful")
+                    }
+                    else -> {
+                        showToast(result.message.toString())
+                    }
+                }
+            }
+        }
+    }
+
     fun getPostDetail() {
         Log.d("Get Post Detail", "function exec")
         viewModelScope.launch {

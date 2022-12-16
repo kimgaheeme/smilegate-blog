@@ -12,7 +12,7 @@ interface PostRepository {
     suspend fun postPost(postPostRequest: PostPostRequest) : Flow<Resource<PostPostResponse>>
     suspend fun getPost(postid: Int) : Flow<Resource<GetPostResponse>>
     suspend fun putPost(postPostRequest: PutPostRequest, postid: Int) : Flow<Resource<PutPostResponse>>
-    suspend fun delPost(postid: Int) : Flow<Resource<Void>>
+    suspend fun delPost(postid: Int) : Flow<Resource<Boolean>>
     fun getRecentPost() : Flow<PagingData<Post>>
     suspend fun getMostViewedPost() : Flow<Resource<List<Post>>>
     suspend fun getMyPost() : Flow<PagingData<Post>>

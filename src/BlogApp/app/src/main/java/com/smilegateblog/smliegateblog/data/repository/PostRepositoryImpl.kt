@@ -104,14 +104,13 @@ class PostRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun delPost(postid: Int): Flow<Resource<Void>> {
+    override suspend fun delPost(postid: Int): Flow<Resource<Boolean>> {
         return flow {
             try{
                 val response = postApi.delPost(postid = postid)
                 Log.d("DelPost", "repo exec")
                 if(response.isSuccessful){
-                    val v = response.body()!!
-                    emit(Resource.Success(v))
+                    emit(Resource.Success(true))
                 }else{
                     emit(Resource.Error(response.errorBody().toString()))
                 }

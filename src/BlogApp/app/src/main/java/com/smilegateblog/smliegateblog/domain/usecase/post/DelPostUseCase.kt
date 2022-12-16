@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class DelPostUseCase @Inject constructor(private val postRepository: PostRepository){
-    suspend operator fun invoke(postid: Int) : Flow<Resource<Void>> {
+    suspend operator fun invoke(postid: Int) : Flow<Resource<Boolean>> {
         Log.d("DelPost", "usecase exec")
 
         return postRepository.delPost(postid)
