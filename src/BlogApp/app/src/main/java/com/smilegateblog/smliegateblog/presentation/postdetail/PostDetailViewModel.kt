@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.smilegateblog.smliegateblog.data.dto.comment.GetCommentsResponseItem
 import com.smilegateblog.smliegateblog.data.dto.post.GetPostResponse
 import com.smilegateblog.smliegateblog.domain.usecase.CommentUseCase
 import com.smilegateblog.smliegateblog.domain.usecase.PostUseCase
@@ -25,19 +27,16 @@ class PostDetailViewModel @Inject constructor(
 
     private var postId = 0
 
-    val comment = commentUseCase.getCommentsUseCase(postId).cachedIn(viewModelScope)
-
     private val _postDetail = MutableStateFlow(GetPostResponse())
     val postDetail : StateFlow<GetPostResponse> get() = _postDetail
     
     private val _state = MutableStateFlow<PostDetailFragmentState>(PostDetailFragmentState.Init)
     val state: StateFlow<PostDetailFragmentState> get() = _state
 
+    var comment= commentUseCase.getCommentsUseCase(handle.get<Int>("postId")?: 0).cachedIn(viewModelScope)
+
     init {
-        handle.keys().forEach { key ->
-            postId = handle.get<Int>("postId")?: 0
-        }
-        Log.d("postId", postId.toString())
+        postId = handle.get<Int>("postId")?: 0
         getPostDetail()
     }
 

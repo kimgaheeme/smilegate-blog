@@ -10,8 +10,8 @@ interface CommentApi {
 
     @GET("/posts/{postid}/comments")
     suspend fun getComments(
-        @Query("page") page: Int,
-        @Path("postid") postid: Int
+        @Path("postid") postid: Int,
+        @Query("page") page: Int
     ) : Response<GetCommentsResponse>
 
     @POST("/posts/{postid}/comments")
