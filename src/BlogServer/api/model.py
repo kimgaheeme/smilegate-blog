@@ -25,8 +25,6 @@ class Post(Base):
     update_at = Column(DATETIME, nullable=False)
     created_at = Column(DATETIME, nullable=False)
     user = relationship("User", backref=backref("post", order_by=post_id))
-    post_scrap = relationship("Scrap", cascade="all,delete", backref="post")
-    post_comment = relationship("Comment", cascade="all,delete", backref="post")
 
 
 
@@ -34,7 +32,7 @@ class Scrap(Base):
     __tablename__ = 'post_scrap'
     post_scrap_id = Column(INT, nullable=False, autoincrement=True, primary_key=True)
     user_id = Column(INT, ForeignKey('user.user_id'), nullable=False)
-    post_id = Column(INT, ForeignKey('post.post_id'), nullable=False)
+    post_id = Column(INT, ForeignKey('post.post_id', ondelete='CASCADE'), nullable=False)
     created_at = Column(DATETIME, nullable=False)
     user = relationship("User", backref=backref("post_scrap", order_by=post_scrap_id))
     post = relationship("Post", backref=backref("post_scrap", order_by=post_scrap_id, passive_deletes=True))
@@ -44,7 +42,7 @@ class Comment(Base):
     __tablename__ = 'post_comment'
     comment_id = Column(INT, nullable=False, autoincrement=True, primary_key=True)
     user_id = Column(INT, ForeignKey('user.user_id'), nullable=False)
-    post_id = Column(INT, ForeignKey('post.post_id'), nullable=False)
+    post_id = Column(INT, ForeignKey('post.post_id', ondelete='CASCADE'), nullable=False)
     content = Column(TEXT, nullable=False)
     update_at = Column(DATETIME, nullable=False)
     created_at = Column(DATETIME, nullable=False)
