@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException, status
 
-from api.model import Post
+from api.model import Post, Comment
 from api.model import User
 from api.model import Scrap
 from db_conn import sessionmaker
@@ -96,6 +96,8 @@ async def update_post(postid: int, userRequest: UpdatePostRequest):
     tags="Post"
 )
 async def delete_post(postid: int):
+    sessionmaker.query(Scrap).filter(Scrap.post_id == postid).delete()
+    sessionmaker.query(Comment).filter(Comment.post_id == postid).delete()
     sessionmaker.query(Post).filter(Post.post_id == postid).delete()
     sessionmaker.commit()
 
