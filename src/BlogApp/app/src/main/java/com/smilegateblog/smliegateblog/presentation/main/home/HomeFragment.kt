@@ -42,7 +42,7 @@ class HomeFragment : Fragment(), OnItemClickListener<String> {
     }
 
     private fun setupRecentPostRecyclerView(){
-        val mAdapter = HomeRecentPostAdapter(this)
+        val mAdapter = PostAdapter(this)
 
         binding.listRecentPostItem.apply {
             this.adapter = mAdapter

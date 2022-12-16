@@ -27,7 +27,7 @@ interface CommentApi {
         @Path("commentid") commentid: Int
     ) : Response<PutCommentResponse>
 
-    @DELETE("/posts/commments/{commentid}")
+    @DELETE("/posts/comments/{commentid}")
     suspend fun delComment(
         @Path("commentid") commentid: Int
     ) : Response<Void>

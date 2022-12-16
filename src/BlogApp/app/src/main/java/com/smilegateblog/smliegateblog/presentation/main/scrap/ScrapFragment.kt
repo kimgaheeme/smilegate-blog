@@ -1,5 +1,6 @@
 package com.smilegateblog.smliegateblog.presentation.main.scrap
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +10,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.smilegateblog.smliegateblog.databinding.FragmentScrapBinding
-import com.smilegateblog.smliegateblog.presentation.main.home.HomeRecentPostAdapter
+import com.smilegateblog.smliegateblog.presentation.main.home.PostAdapter
 import com.smilegateblog.smliegateblog.presentation.main.home.HomeViewModel
+import com.smilegateblog.smliegateblog.presentation.main.home.OnItemClickListener
+import com.smilegateblog.smliegateblog.presentation.postdetail.PostDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ScrapFragment : Fragment() {
+class ScrapFragment : Fragment(), OnItemClickListener<String> {
 
     private var _binding: FragmentScrapBinding? = null
     private val binding get() = _binding!!
@@ -37,7 +40,7 @@ class ScrapFragment : Fragment() {
     }
 
     private fun setupScrapPostRecyclerView(){
-        val mAdapter = ScrapPostAdapter()
+        val mAdapter = PostAdapter(this)
 
         binding.listScrapItem.apply {
             this.adapter = mAdapter
@@ -49,6 +52,12 @@ class ScrapFragment : Fragment() {
                 mAdapter.submitData(it)
             }
         }
+    }
+
+    override fun onItemClicked(postId: String?) {
+        val intent = Intent(activity, PostDetailActivity::class.java)
+        intent.putExtra("postId", postId)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

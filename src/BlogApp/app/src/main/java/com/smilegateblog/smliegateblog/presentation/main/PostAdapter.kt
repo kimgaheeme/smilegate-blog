@@ -1,10 +1,7 @@
 package com.smilegateblog.smliegateblog.presentation.main.home
 
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +13,8 @@ interface OnItemClickListener<T> {
     fun onItemClicked(item: T?)
 }
 
-class HomeRecentPostAdapter(private val listener: OnItemClickListener<String>?) :
-    PagingDataAdapter<Post, HomeRecentPostAdapter.PagingViewHolder>(diffCallback) {
+class PostAdapter(private val listener: OnItemClickListener<String>?) :
+    PagingDataAdapter<Post, PostAdapter.PagingViewHolder>(diffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return PagingViewHolder(
