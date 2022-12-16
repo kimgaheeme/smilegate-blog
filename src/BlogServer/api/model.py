@@ -31,19 +31,19 @@ class Scrap(Base):
     __tablename__ = 'post_scrap'
     post_scrap_id = Column(INT, nullable=False, autoincrement=True, primary_key=True)
     user_id = Column(INT, ForeignKey('user.user_id'), nullable=False)
-    post_id = Column(INT, ForeignKey('post.post_id'), nullable=False, ondelete='CASCADE')
+    post_id = Column(INT, ForeignKey('post.post_id'), nullable=False)
     created_at = Column(DATETIME, nullable=False)
     user = relationship("User", backref=backref("post_scrap", order_by=post_scrap_id))
-    post = relationship("Post", backref=backref("post_scrap", order_by=post_scrap_id))
+    post = relationship("Post", backref=backref("post_scrap", order_by=post_scrap_id, cascade="all,delete"))
 
 
 class Comment(Base):
     __tablename__ = 'post_comment'
     comment_id = Column(INT, nullable=False, autoincrement=True, primary_key=True)
     user_id = Column(INT, ForeignKey('user.user_id'), nullable=False)
-    post_id = Column(INT, ForeignKey('post.post_id'), nullable=False, ondelete='CASCADE')
+    post_id = Column(INT, ForeignKey('post.post_id'), nullable=False)
     content = Column(TEXT, nullable=False)
     update_at = Column(DATETIME, nullable=False)
     created_at = Column(DATETIME, nullable=False)
     user = relationship("User", backref=backref("post_comment", order_by=comment_id))
-    post = relationship("Post", backref=backref("post_comment", order_by=comment_id))
+    post = relationship("Post", backref=backref("post_comment", order_by=comment_id, cascade="all,delete"))
