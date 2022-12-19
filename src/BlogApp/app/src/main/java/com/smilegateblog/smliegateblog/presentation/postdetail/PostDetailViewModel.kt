@@ -8,6 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.smilegateblog.smliegateblog.data.dto.comment.GetCommentsResponseItem
 import com.smilegateblog.smliegateblog.data.dto.comment.PostCommentRequest
+import com.smilegateblog.smliegateblog.data.dto.comment.PutCommentRequest
 import com.smilegateblog.smliegateblog.data.dto.post.GetPostResponse
 import com.smilegateblog.smliegateblog.domain.model.User
 import com.smilegateblog.smliegateblog.domain.usecase.CommentUseCase
@@ -49,6 +50,14 @@ class PostDetailViewModel @Inject constructor(
     
     private fun successAddComment(commentId: Int) {
         _state.value = PostDetailActivityState.SuccessAddComment(commentId)
+    }
+
+    fun setIsUpdateComment(commentId: Int){
+        _state.value = PostDetailActivityState.IsUpdateComment(true, commentId)
+    }
+
+    private fun successUpdateComment(){
+        _state.value = PostDetailActivityState.IsUpdateComment(false, 0)
     }
 
     private fun hideLoading(){
@@ -117,10 +126,43 @@ class PostDetailViewModel @Inject constructor(
         }
     }
 
-    fun addComment(commentRequest: PostCommentRequest) {
+    fun sendComment(comment: String) {
+        when(state.value){
+            is PostDetailActivityState.IsUpdateComment -> updateComment(PutCommentRequest(comment), (state.value as PostDetailActivityState.IsUpdateComment).commentId!!)
+            else -> addComment(PostCommentRequest(comment))
+        }
+    }
+
+    private fun addComment(commentRequest: PostCommentRequest) {
         Log.d("Add Comment Detail", "function exec")
         viewModelScope.launch {
             commentUseCase.postCommentUseCase(postId, commentRequest)
+                .onStart {
+                    setLoading()
+                }
+                .catch { exception ->
+                    hideLoading()
+                    showToast(exception.message.toString())
+                }
+                .collect { result ->
+                    hideLoading()
+                    when(result) {
+                        is Resource.Success -> {
+                            successAddComment(result.data?.commentId!!.toInt())
+                            Log.d("Add Comment Detail", "add comment success")
+                        }
+                        else -> {
+                            showToast(result.message.toString())
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun updateComment(commentRequest: PutCommentRequest, commentId: Int){
+        Log.d("Update Comment", "function exec")
+        viewModelScope.launch {
+            commentUseCase.putCommentUseCase(commentId, commentRequest)
                 .onStart {
                     setLoading()
                 }
@@ -150,4 +192,5 @@ sealed class PostDetailActivityState {
     data class IsLoading(val isLoading: Boolean) : PostDetailActivityState()
     data class ShowToast(val message: String) : PostDetailActivityState()
     data class SuccessAddComment(val commentId: Int) : PostDetailActivityState()
+    data class IsUpdateComment(val isUpdateComment: Boolean, var commentId: Int) : PostDetailActivityState()
 }

@@ -23,6 +23,14 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"/>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:id="@+id/btn_update_comment"
+            android:text="댓글 수정"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

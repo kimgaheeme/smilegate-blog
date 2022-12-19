@@ -11,7 +11,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.smilegateblog.smliegateblog.R
+import com.smilegateblog.smliegateblog.data.dto.comment.GetCommentsResponseItem
 import com.smilegateblog.smliegateblog.data.dto.comment.PostCommentRequest
+import com.smilegateblog.smliegateblog.data.dto.comment.PutCommentRequest
 import com.smilegateblog.smliegateblog.data.dto.login.LoginRequest
 import com.smilegateblog.smliegateblog.databinding.ActivityPostDetailBinding
 import com.smilegateblog.smliegateblog.presentation.GetCommentsResponseItemdetail.CommentAdapter
@@ -45,6 +47,8 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
         }
     }
 
+
+
     private fun setupCommentRecyclerView(){
 
         binding.listCommentItem.apply {
@@ -67,8 +71,8 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
     private fun addComment(){
         binding.btnSendComment.setOnClickListener {
             val comment = binding.etComment.text.toString().trim()
-            if (comment.isNotEmpty()){
-                viewModel.addComment(PostCommentRequest(comment))
+            if(comment.isNotEmpty()) {
+                viewModel.sendComment(comment)
                 binding.etComment.setText("")
                 mAdapter.refresh()
             }
@@ -82,6 +86,11 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
 
     override fun onDeleteCommentClicked(item: Int?) {
         if(item != null) viewModel.deleteComment(item)
+    }
+
+    override fun onUpdateCommentClicked(item: GetCommentsResponseItem) {
+        binding.etComment.setText(item!!.content)
+        viewModel.setIsUpdateComment(item!!.commentId)
     }
 
 }

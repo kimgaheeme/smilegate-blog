@@ -9,6 +9,7 @@ import com.smilegateblog.smliegateblog.data.dto.comment.GetCommentsResponseItem
 import com.smilegateblog.smliegateblog.databinding.ItemCommentBinding
 interface OnCommentClickListener<T> {
     fun onDeleteCommentClicked(item: T?)
+    fun onUpdateCommentClicked(item: GetCommentsResponseItem)
 }
 
 
@@ -38,6 +39,9 @@ class CommentAdapter(private val listener: OnCommentClickListener<Int>?) :
             binding.btnDeleteComment.setOnClickListener {
                 listener?.onDeleteCommentClicked(GetCommentsResponseItem.commentId)
                 binding.labelCommentContent.text = "삭제된 댓글 입니다."
+            }
+            binding.btnUpdateComment.setOnClickListener {
+                listener?.onUpdateCommentClicked(GetCommentsResponseItem)
             }
 
         }
