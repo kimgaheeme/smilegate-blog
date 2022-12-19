@@ -90,14 +90,13 @@ class CommentRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun delComment(commentid: Int): Flow<Resource<Void>> {
+    override suspend fun delComment(commentid: Int): Flow<Resource<Boolean>> {
         return flow {
             try{
                 val response = commentApi.delComment(commentid = commentid)
                 Log.d("DelComment", "repo exec")
                 if(response.isSuccessful){
-                    val v = response.body()!!
-                    emit(Resource.Success(v))
+                    emit(Resource.Success(true))
                 }else{
                     emit(Resource.Error(response.errorBody().toString()))
                 }

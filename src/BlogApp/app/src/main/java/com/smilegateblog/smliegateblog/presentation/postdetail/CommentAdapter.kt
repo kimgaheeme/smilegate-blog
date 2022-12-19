@@ -7,9 +7,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.smilegateblog.smliegateblog.data.dto.comment.GetCommentsResponseItem
 import com.smilegateblog.smliegateblog.databinding.ItemCommentBinding
+import com.smilegateblog.smliegateblog.presentation.main.home.OnItemClickListener
+
+interface OnCommentClickListener<T> {
+    fun onDeleteCommentClicked(item: T?)
+}
 
 
-class CommentAdapter : PagingDataAdapter<GetCommentsResponseItem, PagingViewHolder>(diffCallback) {
+class CommentAdapter(private val listener: OnCommentClickListener<Int>?) :
+    PagingDataAdapter<GetCommentsResponseItem, CommentAdapter.PagingViewHolder>(diffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return PagingViewHolder(
@@ -21,6 +27,19 @@ class CommentAdapter : PagingDataAdapter<GetCommentsResponseItem, PagingViewHold
         val item = getItem(position)
         if (item != null) {
             holder.bind(item)
+        }
+    }
+
+    inner class PagingViewHolder(
+        private val binding: ItemCommentBinding
+    ): RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(GetCommentsResponseItem: GetCommentsResponseItem) {
+            binding.labelCommentContent.text = GetCommentsResponseItem.content
+            binding.labelCommentNickname.text = GetCommentsResponseItem.nickname
+            binding.root.setOnClickListener {
+                listener?.onDeleteCommentClicked(GetCommentsResponseItem.commentId)
+            }
         }
     }
 
@@ -38,12 +57,3 @@ class CommentAdapter : PagingDataAdapter<GetCommentsResponseItem, PagingViewHold
 
 }
 
-class PagingViewHolder(
-    private val binding: ItemCommentBinding
-): RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(GetCommentsResponseItem: GetCommentsResponseItem) {
-        binding.labelCommentContent.text = GetCommentsResponseItem.content
-        binding.labelCommentNickname.text = GetCommentsResponseItem.nickname
-    }
-}

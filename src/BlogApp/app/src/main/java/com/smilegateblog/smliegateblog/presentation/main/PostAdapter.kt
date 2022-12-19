@@ -30,7 +30,8 @@ class PostAdapter(private val listener: OnItemClickListener<Int>?) :
     }
 
     inner class PagingViewHolder(
-        private val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root) {
+        private val binding: ItemPostBinding
+    ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(post: Post) {
             binding.labelPostContent.text = post.content

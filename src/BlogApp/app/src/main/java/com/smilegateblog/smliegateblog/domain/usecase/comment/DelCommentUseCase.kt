@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class DelCommentUseCase @Inject constructor(private val commentRepository: CommentRepository){
-    suspend fun invoke(commentid: Int) : Flow<Resource<Void>> {
+    suspend operator fun invoke(commentid: Int) : Flow<Resource<Boolean>> {
         Log.d("del comment", "usecase exec")
 
         return commentRepository.delComment(commentid = commentid)

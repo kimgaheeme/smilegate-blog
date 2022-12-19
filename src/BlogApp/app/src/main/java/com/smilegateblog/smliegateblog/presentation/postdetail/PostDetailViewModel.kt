@@ -58,7 +58,23 @@ class PostDetailViewModel @Inject constructor(
                 hideLoading()
                 when(result) {
                     is Resource.Success -> {
-                        Log.d("delete", "delete post successful")
+                        Log.d("delete post", "delete post successful")
+                    }
+                    else -> {
+                        showToast(result.message.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    fun deleteComment(commentId: Int) {
+        viewModelScope.launch {
+            commentUseCase.delCommentUseCase(commentId).collect(){ result ->
+                hideLoading()
+                when(result) {
+                    is Resource.Success -> {
+                        Log.d("delete comment", "delete comment successful")
                     }
                     else -> {
                         showToast(result.message.toString())
