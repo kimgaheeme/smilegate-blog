@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.smilegateblog.smliegateblog.data.dto.comment.GetCommentsResponseItem
+import com.smilegateblog.smliegateblog.data.dto.comment.PostCommentRequest
 import com.smilegateblog.smliegateblog.data.dto.post.GetPostResponse
+import com.smilegateblog.smliegateblog.domain.model.User
 import com.smilegateblog.smliegateblog.domain.usecase.CommentUseCase
 import com.smilegateblog.smliegateblog.domain.usecase.PostUseCase
 import com.smilegateblog.smliegateblog.domain.usecase.ScrapUseCase
+import com.smilegateblog.smliegateblog.presentation.login.LoginActivityState
 import com.smilegateblog.smliegateblog.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -30,8 +33,8 @@ class PostDetailViewModel @Inject constructor(
     private val _postDetail = MutableStateFlow(GetPostResponse())
     val postDetail : StateFlow<GetPostResponse> get() = _postDetail
     
-    private val _state = MutableStateFlow<PostDetailFragmentState>(PostDetailFragmentState.Init)
-    val state: StateFlow<PostDetailFragmentState> get() = _state
+    private val _state = MutableStateFlow<PostDetailActivityState>(PostDetailActivityState.Init)
+    val state: StateFlow<PostDetailActivityState> get() = _state
 
     var comment= commentUseCase.getCommentsUseCase(handle.get<Int>("postId")?: 0).cachedIn(viewModelScope)
 
@@ -41,15 +44,19 @@ class PostDetailViewModel @Inject constructor(
     }
 
     private fun setLoading(){
-        _state.value = PostDetailFragmentState.IsLoading(true)
+        _state.value = PostDetailActivityState.IsLoading(true)
+    }
+    
+    private fun successAddComment(commentId: Int) {
+        _state.value = PostDetailActivityState.SuccessAddComment(commentId)
     }
 
     private fun hideLoading(){
-        _state.value = PostDetailFragmentState.IsLoading(false)
+        _state.value = PostDetailActivityState.IsLoading(false)
     }
 
     private fun showToast(message: String) {
-        _state.value = PostDetailFragmentState.ShowToast(message)
+        _state.value = PostDetailActivityState.ShowToast(message)
     }
 
     fun deletePost() {
@@ -108,12 +115,39 @@ class PostDetailViewModel @Inject constructor(
                     }
                 }
         }
-
     }
+
+    fun addComment(commentRequest: PostCommentRequest) {
+        Log.d("Add Comment Detail", "function exec")
+        viewModelScope.launch {
+            commentUseCase.postCommentUseCase(postId, commentRequest)
+                .onStart {
+                    setLoading()
+                }
+                .catch { exception ->
+                    hideLoading()
+                    showToast(exception.message.toString())
+                }
+                .collect { result ->
+                    hideLoading()
+                    when(result) {
+                        is Resource.Success -> {
+                            successAddComment(result.data?.commentId!!.toInt())
+                            Log.d("Add Comment Detail", "add comment success")
+                        }
+                        else -> {
+                            showToast(result.message.toString())
+                        }
+                    }
+                }
+        }
+    }
+
 }
 
-sealed class PostDetailFragmentState {
-    object Init : PostDetailFragmentState()
-    data class IsLoading(val isLoading: Boolean) : PostDetailFragmentState()
-    data class ShowToast(val message: String) : PostDetailFragmentState()
+sealed class PostDetailActivityState {
+    object Init : PostDetailActivityState()
+    data class IsLoading(val isLoading: Boolean) : PostDetailActivityState()
+    data class ShowToast(val message: String) : PostDetailActivityState()
+    data class SuccessAddComment(val commentId: Int) : PostDetailActivityState()
 }

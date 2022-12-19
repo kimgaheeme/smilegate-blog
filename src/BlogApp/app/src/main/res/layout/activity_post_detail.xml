@@ -1,27 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.postdetail.PostDetailActivity"
-    android:orientation="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:id="@+id/btn_delete_post"
-        android:text="글 삭제"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_comment_item"
-        tools:listitem="@layout/item_comment"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:context=".presentation.postdetail.PostDetailActivity"
+        android:orientation="vertical">
 
 
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:id="@+id/btn_delete_post"
+            android:text="글 삭제"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_comment_item"
+            tools:listitem="@layout/item_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_send_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_weight="5"
+            android:gravity="top|left"
+            android:inputType="textMultiLine|textCapSentences"
+            android:maxLines="5"
+            android:minLines="3"
+            android:scrollHorizontally="false" />
+
+        <Button
+            android:id="@+id/btn_send_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center"
+            android:text="send"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+
+</RelativeLayout>

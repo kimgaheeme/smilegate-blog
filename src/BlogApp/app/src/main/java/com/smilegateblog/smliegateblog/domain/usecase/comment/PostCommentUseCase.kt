@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class PostCommentUseCase @Inject constructor(private val commentRepository: CommentRepository){
-    suspend fun invoke(postid: Int, postCommentRequest: PostCommentRequest) : Flow<Resource<PostCommentResponse>> {
+    suspend operator fun invoke(postid: Int, postCommentRequest: PostCommentRequest) : Flow<Resource<PostCommentResponse>> {
         Log.d("post comment", "usecase exec")
 
         return commentRepository.postComment(postid = postid, postCommentRequest = postCommentRequest)

@@ -20,6 +20,7 @@ import com.smilegateblog.smliegateblog.domain.repository.LoginRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response
@@ -45,15 +46,14 @@ class CommentRepositoryImpl @Inject constructor(
     ): Flow<Resource<PostCommentResponse>> {
         return flow {
             try{
-                pref.getUserId().collect(){ userId ->
-                    val response = commentApi.postComment(userId = userId, postid = postid, postCommentRequest = postCommentRequest)
-                    Log.d("PostComment", "repo exec")
-                    if(response.isSuccessful){
-                        val comment = response.body()!!
-                        emit(Resource.Success(comment))
-                    }else{
-                        emit(Resource.Error(response.errorBody().toString()))
-                    }
+                val userId = pref.getUserId().first()
+                val response = commentApi.postComment(userId = userId, postid = postid, postCommentRequest = postCommentRequest)
+                Log.d("PostComment", "repo exec")
+                if(response.isSuccessful){
+                    val comment = response.body()!!
+                    emit(Resource.Success(comment))
+                }else{
+                    emit(Resource.Error(response.errorBody().toString()))
                 }
             } catch (e: HttpException) {
                 Log.d("PostComment", "HttpException")

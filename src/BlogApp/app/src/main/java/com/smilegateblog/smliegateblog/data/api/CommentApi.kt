@@ -17,8 +17,8 @@ interface CommentApi {
     @POST("/posts/{postid}/comments")
     suspend fun postComment(
         @Body postCommentRequest: PostCommentRequest,
-        @Query("userId") userId: Int,
-        @Path("postid") postid: Int
+        @Path("postid") postid: Int,
+        @Query("userId") userId: Int
     ) : Response<PostCommentResponse>
 
     @PUT("/posts/comments/{commentid}")
