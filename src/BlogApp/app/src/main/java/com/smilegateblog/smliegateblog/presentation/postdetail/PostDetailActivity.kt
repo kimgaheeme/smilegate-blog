@@ -109,6 +109,7 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
             val intent = Intent(this, EditPostActivity::class.java)
             intent.putExtra("postId", viewModel.postId)
             startActivity(intent)
+            finish()
         }
     }
 

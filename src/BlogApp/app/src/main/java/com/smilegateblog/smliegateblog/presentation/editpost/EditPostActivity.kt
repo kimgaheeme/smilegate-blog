@@ -26,7 +26,7 @@ class EditPostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel.getPostDetail()
+        if(viewModel.isUpdate) viewModel.getPostDetail()
         onBtnClicked()
         observe()
         observeProduct()
@@ -70,6 +70,7 @@ class EditPostActivity : AppCompatActivity() {
     private fun handleSuccessPost(postId: Int){
         val intent = Intent(this, PostDetailActivity::class.java)
         intent.putExtra("postId", postId)
+        startActivity(intent)
         finish()
     }
 

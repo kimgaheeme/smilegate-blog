@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, EditPostActivity::class.java)
             intent.putExtra("postId", 0)
             startActivity(intent)
-            finish()
         }
 
         setupActionBarWithNavController(navController, appBarConfiguration)
