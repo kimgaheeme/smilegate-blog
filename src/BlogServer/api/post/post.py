@@ -36,6 +36,7 @@ async def create_post(userRequest: CreatePostRequest, userId: int):
         title=userRequest.title,
         content=userRequest.content,
         type=userRequest.type,
+        view_cnt=0,
         update_at=now.date(),
         created_at=now.date())
 
