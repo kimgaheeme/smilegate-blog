@@ -185,6 +185,56 @@ class PostDetailViewModel @Inject constructor(
         }
     }
 
+    fun addScrap() {
+        Log.d("Add Scrap", "function exec")
+        viewModelScope.launch {
+            scrapUseCase.postScrapUseCase(postId)
+                .onStart {
+                    setLoading()
+                }
+                .catch { exception ->
+                    hideLoading()
+                    showToast(exception.message.toString())
+                }
+                .collect { result ->
+                    hideLoading()
+                    when(result) {
+                        is Resource.Success -> {
+                            Log.d("Add Scrap", "add Scrap success")
+                        }
+                        else -> {
+                            showToast(result.message.toString())
+                        }
+                    }
+                }
+        }
+    }
+
+    fun delScrap() {
+        Log.d("Delete Scrap", "function exec")
+        viewModelScope.launch {
+            scrapUseCase.delScrapUseCase(postId)
+                .onStart {
+                    setLoading()
+                }
+                .catch { exception ->
+                    hideLoading()
+                    showToast(exception.message.toString())
+                }
+                .collect { result ->
+                    hideLoading()
+                    when(result) {
+                        is Resource.Success -> {
+                            Log.d("Delete Scrap", "add Scrap success")
+                        }
+                        else -> {
+                            showToast(result.message.toString())
+                        }
+                    }
+                }
+        }
+    }
+
 }
 
 sealed class PostDetailActivityState {

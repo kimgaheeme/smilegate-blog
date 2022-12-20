@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class DelScrapUseCase @Inject constructor(private val scrapRepository: ScrapRepository){
-    suspend fun invoke(postid: Int) : Flow<Resource<Void>> {
+    suspend operator fun invoke(postid: Int) : Flow<Resource<Void>> {
         Log.d("Del scrap", "usecase exec")
 
         return scrapRepository.delScrap(postid = postid)

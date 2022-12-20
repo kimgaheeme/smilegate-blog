@@ -11,14 +11,14 @@ interface ScrapApi {
 
     @POST("/posts/scrap/{postid}")
     suspend fun postScrap(
-        @Query("userId") userId: Int,
-        @Path("postid") postid: Int
+        @Path("postid") postid: Int,
+        @Query("userId") userId: Int
     ) : Response<PostScrapResponse>
 
     @DELETE("/posts/scrap/{postid}")
     suspend fun delScrap(
-        @Query("userId") userId: Int,
-        @Path("postid") postid: Int
+        @Path("postid") postid: Int,
+        @Query("userId") userId: Int
     ) : Response<Void>
 
     @GET("/posts/scrap/my")

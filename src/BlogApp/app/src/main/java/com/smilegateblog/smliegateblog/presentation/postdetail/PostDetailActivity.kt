@@ -38,15 +38,23 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
         super.onCreate(savedInstanceState)
         binding = ActivityPostDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupPostDetail()
         setupCommentRecyclerView()
         //setCommentSendBtnVisible()
         addComment()
+        onToggleBtnClicked()
 
         binding.btnDeletePost.setOnClickListener {
             deletePost()
         }
     }
 
+
+    private fun setupPostDetail(){
+        if(viewModel.postDetail.value.isScrap){
+            binding.tbtnScrap.isChecked = true
+       }
+    }
 
 
     private fun setupCommentRecyclerView(){
@@ -77,6 +85,24 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
                 mAdapter.refresh()
             }
         }
+    }
+
+    private fun onToggleBtnClicked(){
+        binding.tbtnScrap.setOnClickListener {
+            if(binding.tbtnScrap.isChecked){
+                addScrap()
+            }else{
+                delScrap()
+            }
+        }
+    }
+
+    private fun addScrap() {
+        viewModel.addScrap()
+    }
+
+    private fun delScrap() {
+        viewModel.delScrap()
     }
 
     private fun setCommentSendBtnVisible(){
