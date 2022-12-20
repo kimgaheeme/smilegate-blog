@@ -32,7 +32,7 @@ now = datetime.now()
     },
     tags="Post"
 )
-async def create_post(userId: int, image: UploadFile = File(...), userRequest: CreatePostRequest = CreatePostRequest()):
+async def create_post(userId: int, file: UploadFile = File(...), userRequest: CreatePostRequest = CreatePostRequest()):
     add_post = Post(
         user_id=userId,
         title=userRequest.title,
