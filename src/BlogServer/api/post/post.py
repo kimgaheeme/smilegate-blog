@@ -10,6 +10,7 @@ from _datetime import datetime
 from api.post.dto.PostRequest import *
 from api.post.dto.PostResponse import *
 from api.image.image import upload_file
+from typing import Optional
 
 router = APIRouter()
 now = datetime.now()
@@ -31,7 +32,7 @@ now = datetime.now()
     },
     tags="Post"
 )
-async def create_post(userRequest: CreatePostRequest, userId: int, image: UploadFile = File(...)):
+async def create_post(userRequest: CreatePostRequest, userId: int, image: Optional[UploadFile] = File(None)):
     add_post = Post(
         user_id=userId,
         title=userRequest.title,
@@ -42,7 +43,7 @@ async def create_post(userRequest: CreatePostRequest, userId: int, image: Upload
         created_at=now.date())
 
     if userRequest.postImage is not None:
-        #upload_file("./static/blog/image.jpg", image)
+        upload_file("./static/blog/image.jpg", image)
         add_post.post_image_id = ""
     else:
         add_post.post_image_id = "랜덤 이미지 넣기"
