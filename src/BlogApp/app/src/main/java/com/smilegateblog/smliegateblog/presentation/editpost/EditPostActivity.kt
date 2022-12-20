@@ -3,7 +3,11 @@ package com.smilegateblog.smliegateblog.presentation.editpost
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,14 +26,38 @@ class EditPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditPostBinding
     private val viewModel: EditPostViewModel by viewModels()
 
+    val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            viewModel.setImage(uri)
+        } else {
+            Log.d("PhotoPicker", "No media selected")
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if(viewModel.isUpdate) viewModel.getPostDetail()
         onBtnClicked()
+        addImage()
         observe()
         observeProduct()
+        observeContent()
+        observeTitle()
+    }
+
+    private fun observeTitle() {
+        binding.etTitleText.addTextChangedListener {
+            viewModel.setTitleText(binding.etTitleText.text.toString())
+        }
+    }
+
+    private fun observeContent() {
+        binding.etContentText.addTextChangedListener {
+            viewModel.setContentText(binding.etContentText.text.toString())
+        }
     }
 
     private fun observeProduct() {
@@ -78,18 +106,24 @@ class EditPostActivity : AppCompatActivity() {
         showGenericAlertDialog(rawResponse)
     }
 
+    private fun addImage(){
+        binding.btnAddImage.setOnClickListener {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
 
     private fun updatePost() {
-        val content = binding.etContent.text.toString()
-        val title = binding.etTitle.text.toString()
+        val content = binding.etContentText.text.toString()
+        val title = binding.etTitleText.text.toString()
         if(validate(content, title)){
             viewModel.updatePost(content = content, title = title)
         }
     }
 
     private fun postPost() {
-        val content = binding.etContent.text.toString()
-        val title = binding.etTitle.text.toString()
+        val content = binding.etContentText.text.toString()
+        val title = binding.etTitleText.text.toString()
         if(validate(content, title)){
             viewModel.postPost(content = content, title = title)
         }
@@ -97,8 +131,8 @@ class EditPostActivity : AppCompatActivity() {
 
 
     private fun setupPostDetail(postdetail: GetPostResponse) {
-        binding.etContent.setText(postdetail.content)
-        binding.etTitle.setText(postdetail.title)
+        binding.etContentText.setText(postdetail.content)
+        binding.etTitleText.setText(postdetail.title)
     }
 
 //    private fun setEmailError(e: String?){

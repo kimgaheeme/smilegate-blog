@@ -15,26 +15,38 @@
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/et_title"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_weight="5"
-        android:gravity="top|left"
-        android:inputType="textMultiLine|textCapSentences"
-        android:maxLines="5"
-        android:minLines="3"
-        android:scrollHorizontally="false" />
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:id="@+id/btn_add_image"
+        android:text="사진 올리기"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/et_content"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_weight="5"
-        android:gravity="top|left"
-        android:inputType="textMultiLine|textCapSentences"
-        android:scrollHorizontally="false" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        app:errorEnabled="true"
+        android:id="@+id/et_title"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:id="@+id/et_title_text"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:id="@+id/net_content"
+        app:errorEnabled="true"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:inputType="text"
+            android:id="@+id/et_content_text"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

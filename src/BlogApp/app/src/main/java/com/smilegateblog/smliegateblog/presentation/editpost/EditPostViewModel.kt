@@ -1,6 +1,7 @@
 package com.smilegateblog.smliegateblog.presentation.editpost
 
 import android.icu.text.CaseMap.Title
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -31,13 +32,31 @@ class EditPostViewModel @Inject constructor(
 
     var postId = handle.get<Int>("postId")?: 0
     var isUpdate = postId != 0
+    private lateinit var image:Uri
+
 
     private val _postDetail = MutableStateFlow(GetPostResponse())
     val postDetail : StateFlow<GetPostResponse> get() = _postDetail
+
     
     private val _state = MutableStateFlow<EditPostActivityState>(EditPostActivityState.Init)
     val state: StateFlow<EditPostActivityState> get() = _state
 
+    fun setImage(uri: Uri){
+        image = uri
+    }
+
+    fun setContentText(text: String) {
+        _postDetail.update {
+            it.copy(content = text)
+        }
+    }
+
+    fun setTitleText(text: String) {
+        _postDetail.update {
+            it.copy(title = text)
+        }
+    }
 
     private fun setLoading(){
         _state.value = EditPostActivityState.IsLoading(true)
@@ -51,6 +70,8 @@ class EditPostViewModel @Inject constructor(
     private fun showToast(message: String) {
         _state.value = EditPostActivityState.ShowToast(message)
     }
+
+
 
 
     fun getPostDetail() {
@@ -89,7 +110,7 @@ class EditPostViewModel @Inject constructor(
 
     fun updatePost(content: String, title: String) {
         viewModelScope.launch {
-            postUseCase.putPostUseCase.invoke(PutPostRequest(title = title, content = content, postImage = ""), postid = postId)
+            postUseCase.putPostUseCase.invoke(PutPostRequest(title = title, content = content, postImage = image.toString()), postid = postId)
                 .onStart {
                     setLoading()
                 }
