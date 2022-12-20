@@ -11,7 +11,7 @@ class PostType(str, Enum):
 class CreatePostRequest(BaseModel):
     title: str
     content: str
-    postImage: str
+    postImage: UploadFile
     type: PostType = PostType.plain
 
 
