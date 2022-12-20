@@ -11,11 +11,11 @@ class PostType(str, Enum):
 class CreatePostRequest(BaseModel):
     title: str
     content: str
-    postImage: UploadFile
+    postImage: str
     type: PostType = PostType.plain
 
 
 class UpdatePostRequest(BaseModel):
     title: str
     content: str
-    postImage: UploadFile
+    postImage: str
