@@ -6,5 +6,7 @@
 
 
     <string name="error_email_not_valid">이메일이 적절하지 않습니다.</string>
+    <string name="error_title_not_valid">제목을 채워주세요.</string>
+    <string name="error_content_not_valid">내용을 채워주세요.</string>
     <string name="deleted_comment">삭제된 댓글 입니다.</string>
 </resources>

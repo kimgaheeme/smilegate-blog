@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".presentation.editpost.EditPostActivity">
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:id="@+id/btn_post_post"
+        android:text="글 올리기"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"/>
+
     <EditText
         android:id="@+id/et_title"
         android:layout_width="0dp"
