@@ -42,7 +42,8 @@ async def create_post(userRequest: CreatePostRequest, userId: int, image: Upload
         created_at=now.date())
 
     if userRequest.postImage is not None:
-        add_post.post_image_id = upload_file("./static/blog/image.jpg", image)
+        upload_file("./static/blog/image.jpg", image)
+        add_post.post_image_id = ""
     else:
         add_post.post_image_id = "랜덤 이미지 넣기"
 
