@@ -17,6 +17,13 @@
         android:theme="@style/Theme.SmlieGateBlogApp"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.editpost.EditPostActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".presentation.postdetail.PostDetailActivity"
             android:exported="false">
             <meta-data
@@ -35,7 +42,7 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

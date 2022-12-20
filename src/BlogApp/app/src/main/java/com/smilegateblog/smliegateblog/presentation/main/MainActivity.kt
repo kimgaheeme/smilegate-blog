@@ -1,5 +1,6 @@
 package com.smilegateblog.smliegateblog.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.smilegateblog.smliegateblog.R
 import com.smilegateblog.smliegateblog.databinding.ActivityMainBinding
+import com.smilegateblog.smliegateblog.presentation.editpost.EditPostActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,6 +34,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_scrap, R.id.navigation_mypage
             )
         )
+
+        binding.btnAddPost.setOnClickListener {
+            startActivity(Intent(this, EditPostActivity::class.java))
+            finish()
+        }
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
