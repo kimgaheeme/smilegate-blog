@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.smilegateblog.smliegateblog.R
 import com.smilegateblog.smliegateblog.databinding.ActivityMainBinding
 import com.smilegateblog.smliegateblog.presentation.editpost.EditPostActivity
+import com.smilegateblog.smliegateblog.presentation.postdetail.PostDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,7 +37,9 @@ class MainActivity : AppCompatActivity() {
         )
 
         binding.btnAddPost.setOnClickListener {
-            startActivity(Intent(this, EditPostActivity::class.java))
+            val intent = Intent(this, EditPostActivity::class.java)
+            intent.putExtra("postId", 0)
+            startActivity(intent)
             finish()
         }
 

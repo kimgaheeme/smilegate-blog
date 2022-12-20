@@ -29,7 +29,7 @@ class PostDetailViewModel @Inject constructor(
     private val commentUseCase: CommentUseCase
 ) : ViewModel() {
 
-    private var postId = 0
+    var postId = 0
 
     private val _postDetail = MutableStateFlow(GetPostResponse())
     val postDetail : StateFlow<GetPostResponse> get() = _postDetail

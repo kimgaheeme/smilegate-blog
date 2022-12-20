@@ -1,5 +1,6 @@
 package com.smilegateblog.smliegateblog.presentation.postdetail
 
+import android.content.Intent
 import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import com.smilegateblog.smliegateblog.presentation.GetCommentsResponseItemdetai
 import com.smilegateblog.smliegateblog.presentation.GetCommentsResponseItemdetail.OnCommentClickListener
 import com.smilegateblog.smliegateblog.presentation.common.isEmail
 import com.smilegateblog.smliegateblog.presentation.common.visible
+import com.smilegateblog.smliegateblog.presentation.editpost.EditPostActivity
 import com.smilegateblog.smliegateblog.presentation.main.home.OnItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -43,6 +45,7 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
         //setCommentSendBtnVisible()
         addComment()
         onToggleBtnClicked()
+        onUpdateBtnClicked()
 
         binding.btnDeletePost.setOnClickListener {
             deletePost()
@@ -99,6 +102,14 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
 
     private fun addScrap() {
         viewModel.addScrap()
+    }
+
+    private fun onUpdateBtnClicked() {
+        binding.btnUpdatePost.setOnClickListener {
+            val intent = Intent(this, EditPostActivity::class.java)
+            intent.putExtra("postId", viewModel.postId)
+            startActivity(intent)
+        }
     }
 
     private fun delScrap() {
