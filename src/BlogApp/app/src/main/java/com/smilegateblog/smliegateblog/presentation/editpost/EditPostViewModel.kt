@@ -100,6 +100,7 @@ class EditPostViewModel @Inject constructor(
                 }
                 .collect { result ->
                     hideLoading()
+                    Log.d("update post", "update post")
                     when(result) {
                         is Resource.Success -> {
                             successPost(result.data!!.postId)
