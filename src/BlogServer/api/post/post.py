@@ -32,27 +32,27 @@ now = datetime.now()
     },
     tags="Post"
 )
-async def create_post(userRequest: CreatePostRequest, userId: int, image: UploadFile = File(...)):
-    add_post = Post(
-        user_id=userId,
-        title=userRequest.title,
-        content=userRequest.content,
-        type=userRequest.type,
-        view_cnt=0,
-        update_at=now.date(),
-        created_at=now.date())
+async def create_post(image: UploadFile = File(...)):
+    # add_post = Post(
+    #     user_id=userId,
+    #     title=userRequest.title,
+    #     content=userRequest.content,
+    #     type=userRequest.type,
+    #     view_cnt=0,
+    #     update_at=now.date(),
+    #     created_at=now.date())
+    #
+    # if userRequest.postImage is not None:
+    #     #upload_file("./static/blog/image.jpg", image)
+    #     add_post.post_image_id = ""
+    # else:
+    #     add_post.post_image_id = "랜덤 이미지 넣기"
+    #
+    # sessionmaker.add(add_post)
+    # sessionmaker.flush()
+    # sessionmaker.commit()
 
-    if userRequest.postImage is not None:
-        #upload_file("./static/blog/image.jpg", image)
-        add_post.post_image_id = ""
-    else:
-        add_post.post_image_id = "랜덤 이미지 넣기"
-
-    sessionmaker.add(add_post)
-    sessionmaker.flush()
-    sessionmaker.commit()
-
-    return CreatePostResponse(postId=add_post.post_id)
+    return CreatePostResponse(postId=0)
 
 
 @router.put(
