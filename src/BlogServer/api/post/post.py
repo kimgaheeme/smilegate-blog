@@ -31,7 +31,7 @@ now = datetime.now()
     },
     tags="Post"
 )
-async def create_post(userRequest: CreatePostRequest, userId: int):
+async def create_post(userRequest: CreatePostRequest, userId: int, image: UploadFile = File()):
     add_post = Post(
         user_id=userId,
         title=userRequest.title,
@@ -42,7 +42,7 @@ async def create_post(userRequest: CreatePostRequest, userId: int):
         created_at=now.date())
 
     if userRequest.postImage is not None:
-        add_post.post_image_id = upload_file("./static/blog/image.jpg", userRequest.postImage)
+        add_post.post_image_id = upload_file("./static/blog/image.jpg", image)
     else:
         add_post.post_image_id = "랜덤 이미지 넣기"
 
