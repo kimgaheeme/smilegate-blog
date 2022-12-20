@@ -9,6 +9,7 @@ from db_conn import sessionmaker
 from _datetime import datetime
 from api.post.dto.PostRequest import *
 from api.post.dto.PostResponse import *
+from api.image.image import upload_file
 
 router = APIRouter()
 now = datetime.now()
@@ -41,7 +42,7 @@ async def create_post(userRequest: CreatePostRequest, userId: int):
         created_at=now.date())
 
     if userRequest.postImage is not None:
-        add_post.post_image_id = userRequest.postImage
+        add_post.post_image_id = upload_file("./static/blog/image.jpg", userRequest.postImage)
     else:
         add_post.post_image_id = "랜덤 이미지 넣기"
 
