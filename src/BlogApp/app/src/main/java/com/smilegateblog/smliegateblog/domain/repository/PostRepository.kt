@@ -7,9 +7,10 @@ import com.smilegateblog.smliegateblog.domain.model.Post
 import com.smilegateblog.smliegateblog.domain.model.User
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface PostRepository {
-    suspend fun postPost(postPostRequest: PostPostRequest) : Flow<Resource<PostPostResponse>>
+    suspend fun postPost(postPostRequest: PostPostRequest, file: File) : Flow<Resource<PostPostResponse>>
     suspend fun getPost(postid: Int) : Flow<Resource<GetPostResponse>>
     suspend fun putPost(postPostRequest: PutPostRequest, postid: Int) : Flow<Resource<PutPostResponse>>
     suspend fun delPost(postid: Int) : Flow<Resource<Boolean>>

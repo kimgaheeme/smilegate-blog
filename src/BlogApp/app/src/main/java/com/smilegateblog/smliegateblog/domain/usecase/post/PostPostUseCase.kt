@@ -9,12 +9,14 @@ import com.smilegateblog.smliegateblog.domain.repository.LoginRepository
 import com.smilegateblog.smliegateblog.domain.repository.PostRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 import javax.inject.Inject
 
 class PostPostUseCase @Inject constructor(private val postRepository: PostRepository){
-    suspend fun invoke(postPostRequest: PostPostRequest) : Flow<Resource<PostPostResponse>> {
+    suspend fun invoke(postPostRequest: PostPostRequest, file: File
+    ) : Flow<Resource<PostPostResponse>> {
         Log.d("post post request", "usecase exec")
 
-        return postRepository.postPost(postPostRequest = postPostRequest)
+        return postRepository.postPost(postPostRequest = postPostRequest, file)
     }
 }

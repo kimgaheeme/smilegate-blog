@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.google.gson.Gson
 import com.smilegateblog.smliegateblog.data.api.LoginApi
 import com.smilegateblog.smliegateblog.data.api.PostApi
 import com.smilegateblog.smliegateblog.data.dto.login.LoginRequest
@@ -22,8 +23,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
@@ -33,12 +40,22 @@ class PostRepositoryImpl @Inject constructor(
 ) : PostRepository {
 
     override suspend fun postPost(
-        postPostRequest: PostPostRequest
+        postPostRequest: PostPostRequest,
+        file: File
     ): Flow<Resource<PostPostResponse>> {
+        val multipartBody = MultipartBody.Part.createFormData(
+            name = "postImg",
+            filename = file.name,
+            body = file.asRequestBody("image/*".toMediaType())
+        )
         return flow {
             try{
                 pref.getUserId().collect(){ userId ->
-                    val response = postApi.postPost(postPostRequest = postPostRequest, userId = userId)
+                    val response = postApi.postPost(
+                        postPostRequest = Gson().toJson(postPostRequest)
+                            .toRequestBody("application/json".toMediaTypeOrNull()),
+                        image = multipartBody,
+                        userId = userId)
                     Log.d("PostPost", "repo exec")
                     if(response.isSuccessful){
                         val postId = response.body()!!

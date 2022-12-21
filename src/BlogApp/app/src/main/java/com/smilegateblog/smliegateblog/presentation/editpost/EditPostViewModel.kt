@@ -1,5 +1,6 @@
 package com.smilegateblog.smliegateblog.presentation.editpost
 
+import android.content.Context
 import android.icu.text.CaseMap.Title
 import android.net.Uri
 import android.util.Log
@@ -7,11 +8,6 @@ import androidx.core.net.toFile
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.smilegateblog.smliegateblog.data.dto.comment.GetCommentsResponseItem
-import com.smilegateblog.smliegateblog.data.dto.comment.PostCommentRequest
-import com.smilegateblog.smliegateblog.data.dto.comment.PutCommentRequest
 import com.smilegateblog.smliegateblog.data.dto.post.GetPostResponse
 import com.smilegateblog.smliegateblog.data.dto.post.PostPostRequest
 import com.smilegateblog.smliegateblog.data.dto.post.PutPostRequest
@@ -20,7 +16,9 @@ import com.smilegateblog.smliegateblog.domain.usecase.CommentUseCase
 import com.smilegateblog.smliegateblog.domain.usecase.PostUseCase
 import com.smilegateblog.smliegateblog.presentation.login.LoginActivityState
 import com.smilegateblog.smliegateblog.util.Resource
+import com.smilegateblog.smliegateblog.util.UriUtil.toFile
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EditPostViewModel @Inject constructor(
     private val handle: SavedStateHandle,
-    private val postUseCase: PostUseCase
+    private val postUseCase: PostUseCase,
+    @ApplicationContext val context: Context
 ) : ViewModel() {
 
     var postId = handle.get<Int>("postId")?: 0
@@ -136,9 +135,9 @@ class EditPostViewModel @Inject constructor(
     }
 
     fun postPost(content: String, title: String) {
-        var image = imageUri.toFile()
+        var image = toFile(context, imageUri)
         viewModelScope.launch {
-            postUseCase.postPostUseCase.invoke(PostPostRequest(title = title, content = content, postImage = "", type = "plain"))
+            postUseCase.postPostUseCase.invoke(PostPostRequest(title = title, content = content, postImage = "", type = "plain"), image)
                 .onStart {
                     setLoading()
                 }
