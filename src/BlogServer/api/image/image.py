@@ -16,5 +16,5 @@ s3 = boto3.resource('s3',
 bucket = s3.Bucket(AWS_BUCKET)
 
 
-def upload(contents: bytes, name: str):
+async def upload(contents: bytes, name: str):
     bucket.put_object(Key=name, Body=contents)
