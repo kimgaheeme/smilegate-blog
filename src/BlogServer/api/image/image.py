@@ -15,7 +15,7 @@ upload file to S3
 
 def upload_file(location, file):
     try:
-        client_s3.upload_file(
+        client_s3.upload_fileobj(
             file,
             "smilegateblogbucket",
             "blog/image",
