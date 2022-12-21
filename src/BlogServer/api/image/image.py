@@ -9,7 +9,10 @@ client_s3 = boto3.client(
 
 AWS_BUCKET = 'smilegateblogbucket'
 
-s3 = boto3.resource('s3')
+s3 = boto3.resource('s3',
+                    aws_access_key_id="AKIATG4NLTMCN5QJ3NUA",
+                    aws_secret_access_key="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"
+                    )
 bucket = s3.Bucket(AWS_BUCKET)
 
 
