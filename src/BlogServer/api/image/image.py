@@ -8,6 +8,7 @@ client_s3 = boto3.client(
 )
 
 AWS_BUCKET = 'smilegateblogbucket'
+REGION = 'ap-northeast-2'
 
 s3 = boto3.resource('s3',
                     aws_access_key_id="AKIATG4NLTMCN5QJ3NUA",

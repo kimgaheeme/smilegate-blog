@@ -10,7 +10,7 @@ from db_conn import sessionmaker
 from _datetime import datetime
 from api.post.dto.PostRequest import *
 from api.post.dto.PostResponse import *
-from api.image.image import upload
+from api.image.image import upload, AWS_BUCKET, REGION
 from typing import Optional
 
 
@@ -52,10 +52,10 @@ async def create_post(userId: int, postImg: UploadFile = File(...), userRequest:
 
     if userRequest.postImage is not None:
         content = await postImg.read()
-
-        await upload(contents=content, name=f'{uuid4()}.{"jpg"}')
-        #upload_file("./static/blog/image.jpg", postImg)
-        add_post.post_image_id = ""
+        name = f'{uuid4()}.{"jpg"}'
+        await upload(contents=content, name=name)
+        url = f"https://{AWS_BUCKET}.s3.{REGION}.amazonaws.com/{name}"
+        add_post.post_image_id = url
     else:
         add_post.post_image_id = "랜덤 이미지 넣기"
 
