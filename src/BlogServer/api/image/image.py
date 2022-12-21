@@ -1,6 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
-from files import s3
+
 
 client_s3 = boto3.client(
     's3',
