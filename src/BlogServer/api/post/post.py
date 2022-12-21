@@ -1,4 +1,5 @@
 from typing import List
+from uuid import uuid4
 
 from fastapi import APIRouter, HTTPException, status
 
@@ -9,12 +10,19 @@ from db_conn import sessionmaker
 from _datetime import datetime
 from api.post.dto.PostRequest import *
 from api.post.dto.PostResponse import *
-from api.image.image import upload_file
+from api.image.image import upload
 from typing import Optional
 
+
+SUPPORTED_FILE_TYPES = {
+    'image/png': 'png',
+    'image/jpeg': 'jpg'
+}
 router = APIRouter()
 now = datetime.now()
 
+KB = 1024
+MB = 1024 * KB
 
 @router.post(
     "/posts",
@@ -43,7 +51,10 @@ async def create_post(userId: int, postImg: UploadFile = File(...), userRequest:
         created_at=now.date())
 
     if userRequest.postImage is not None:
-        upload_file("./static/blog/image.jpg", postImg)
+        content = await postImg.read()
+
+        await upload(content = content, key = f'{uuid4()}.{"jpg"}')
+        #upload_file("./static/blog/image.jpg", postImg)
         add_post.post_image_id = ""
     else:
         add_post.post_image_id = "랜덤 이미지 넣기"
