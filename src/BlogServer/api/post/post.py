@@ -53,7 +53,7 @@ async def create_post(userId: int, postImg: UploadFile = File(...), userRequest:
     if userRequest.postImage is not None:
         content = await postImg.read()
 
-        await upload(content = content, key = f'{uuid4()}.{"jpg"}')
+        await upload(contents=content, key = f'{uuid4()}.{"jpg"}')
         #upload_file("./static/blog/image.jpg", postImg)
         add_post.post_image_id = ""
     else:
