@@ -1,5 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
+from files import s3
 
 client_s3 = boto3.client(
     's3',
@@ -15,9 +16,9 @@ upload file to S3
 def upload_file(location, file):
     try:
         client_s3.upload_file(
-            location,
-            "smilegateblogbucket",
             file,
+            "smilegateblogbucket",
+            "blog/image",
             ExtraArgs={'ContentType': 'image/jpeg'}
         )
     except ClientError as e:
