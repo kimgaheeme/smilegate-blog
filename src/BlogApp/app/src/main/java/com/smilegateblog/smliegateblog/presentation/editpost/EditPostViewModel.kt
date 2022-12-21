@@ -144,6 +144,7 @@ class EditPostViewModel @Inject constructor(
                 .catch { exception ->
                     hideLoading()
                     showToast(exception.stackTraceToString())
+                    Log.d("사진", exception.stackTraceToString())
 
                 }
                 .collect { result ->
