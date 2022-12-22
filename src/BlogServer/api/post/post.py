@@ -13,7 +13,6 @@ from api.post.dto.PostResponse import *
 from api.image.image import upload, AWS_BUCKET, REGION
 from typing import Optional
 
-
 SUPPORTED_FILE_TYPES = {
     'image/png': 'png',
     'image/jpeg': 'jpg'
@@ -23,6 +22,7 @@ now = datetime.now()
 
 KB = 1024
 MB = 1024 * KB
+
 
 @router.post(
     "/posts",
@@ -42,6 +42,15 @@ MB = 1024 * KB
 )
 async def create_post(userId: int, postImg: UploadFile = File(...), userRequest: CreatePostRequest = Depends()):
     post_dict = userRequest.dict()
+
+    if userRequest.postImage is not None:
+        content = await postImg.read()
+        name = f'{uuid4()}.{"jpg"}'
+        await upload(contents=content, name=name)
+        url = f"https://{AWS_BUCKET}.s3.{REGION}.amazonaws.com/{name}"
+    else:
+        url = "랜덤"
+
     add_post = Post(
         user_id=userId,
         title=post_dict["title"],
@@ -49,16 +58,9 @@ async def create_post(userId: int, postImg: UploadFile = File(...), userRequest:
         type=userRequest.type,
         view_cnt=0,
         update_at=now.date(),
-        created_at=now.date())
-
-    if userRequest.postImage is not None:
-        content = await postImg.read()
-        name = f'{uuid4()}.{"jpg"}'
-        await upload(contents=content, name=name)
-        url = f"https://{AWS_BUCKET}.s3.{REGION}.amazonaws.com/{name}"
-        add_post.post_image_id = url
-    else:
-        add_post.post_image_id = "랜덤 이미지 넣기"
+        created_at=now.date(),
+        post_image_id=url
+    )
 
     sessionmaker.add(add_post)
     sessionmaker.flush()
@@ -83,14 +85,14 @@ async def create_post(userId: int, postImg: UploadFile = File(...), userRequest:
     },
     tags="Post"
 )
-async def update_post(postid: int, postImg: UploadFile = File(...), userRequest: UpdatePostRequest = UpdatePostRequest()):
+async def update_post(postid: int, postImg: UploadFile = File(...),
+                      userRequest: UpdatePostRequest = UpdatePostRequest()):
     if userRequest.postImage is not None:
         content = await postImg.read()
         name = f'{uuid4()}.{"jpg"}'
         await upload(contents=content, name=name)
         url = f"https://{AWS_BUCKET}.s3.{REGION}.amazonaws.com/{name}"
         userRequest.postImage = url
-
 
     sessionmaker.query(Post).filter(Post.post_id == postid) \
         .update({Post.title: userRequest.title,
