@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.smilegateblog.smliegateblog.databinding.ItemPostBinding
 import com.smilegateblog.smliegateblog.domain.model.Post
+import com.smilegateblog.smliegateblog.util.setImageUrl
 
 
 interface OnItemClickListener<T> {
@@ -39,6 +40,7 @@ class PostAdapter(private val listener: OnItemClickListener<Int>?) :
             binding.root.setOnClickListener {
                 listener?.onItemClicked(post.postId)
             }
+            binding.ivPostImage.setImageUrl(post.postImageId, null)
         }
     }
 
