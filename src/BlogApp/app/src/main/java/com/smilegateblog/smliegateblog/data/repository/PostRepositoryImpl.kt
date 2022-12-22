@@ -52,7 +52,7 @@ class PostRepositoryImpl @Inject constructor(
             try{
                 pref.getUserId().collect(){ userId ->
                     val response = postApi.postPost(
-                        postPostRequest = Gson().toJson(postPostRequest)
+                        userRequest = Gson().toJson(postPostRequest)
                             .toRequestBody("application/json".toMediaTypeOrNull()),
                         image = multipartBody,
                         userId = userId)

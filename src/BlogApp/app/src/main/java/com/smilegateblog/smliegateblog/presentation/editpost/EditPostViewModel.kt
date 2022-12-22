@@ -138,7 +138,7 @@ class EditPostViewModel @Inject constructor(
     fun postPost(content: String, title: String) {
         var image = toFile(context, imageUri)
         viewModelScope.launch {
-            postUseCase.postPostUseCase.invoke(PostPostRequest(title = title, content = content, postImage = "", type = "plain"), image)
+            postUseCase.postPostUseCase.invoke(PostPostRequest(title = title, content = content, postImage = ""), image)
                 .onStart {
                     setLoading()
                 }
