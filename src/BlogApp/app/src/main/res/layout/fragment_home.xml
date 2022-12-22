@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".presentation.main.home.HomeFragment">
 
+
+
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/list_recent_post_item"
        tools:listitem="@layout/item_post"

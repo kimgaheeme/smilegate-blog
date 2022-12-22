@@ -5,6 +5,8 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.smilegateblog.smliegateblog.R
 
@@ -17,6 +19,6 @@ fun ImageView.setImageUrl(url: String?, placeHolder: Drawable?) {
     Glide.with(context)
         .load(url)
         .placeholder(ph)
-        .apply(RequestOptions.circleCropTransform())
+        .transform(CenterCrop(), RoundedCorners(16))
         .into(this)
 }

@@ -114,16 +114,16 @@ class EditPostActivity : AppCompatActivity() {
 
 
     private fun updatePost() {
-        val content = binding.etContentText.text.toString()
-        val title = binding.etTitleText.text.toString()
+        val content = viewModel.postDetail.value.content
+        val title = viewModel.postDetail.value.title
         if(validate(content, title)){
             viewModel.updatePost(content = content, title = title)
         }
     }
 
     private fun postPost() {
-        val content = binding.etContentText.text.toString()
-        val title = binding.etTitleText.text.toString()
+        val content = viewModel.postDetail.value.content
+        val title = viewModel.postDetail.value.title
         if(validate(content, title)){
             viewModel.postPost(content = content, title = title)
         }

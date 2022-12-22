@@ -3,21 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/iv_post_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-        <TextView
-            android:id="@+id/label_post_title"
+            android:background="@drawable/roundrectangle"
+            android:layout_width="90dp"
+            android:layout_height="90dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="14dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/label_post_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/label_post_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:minLines="1"
+                style="@style/POST_ITEM_TITLE_STYLE"/>
+
+            <TextView
+                android:id="@+id/label_post_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:minLines="3"
+                style="@style/POST_ITEM_CONTENT_STYLE"/>
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
