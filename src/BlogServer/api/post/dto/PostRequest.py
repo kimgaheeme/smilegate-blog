@@ -13,6 +13,9 @@ class CreatePostRequest(BaseModel):
     content: str = ""
     postImage: str = ""
 
+    class Config:
+        orm_mode = True
+
 
 
 class UpdatePostRequest(BaseModel):
