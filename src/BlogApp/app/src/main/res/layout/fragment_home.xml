@@ -21,6 +21,25 @@
           android:minLines="1"
           android:layout_marginBottom="@dimen/post_item_between"
           style="@style/TITLE_MEDIUM"/>
+
+      <FrameLayout
+          android:layout_gravity="center"
+          android:layout_width="400dp"
+          android:layout_height="400dp">
+
+         <androidx.viewpager2.widget.ViewPager2
+             android:id="@+id/viewpager"
+             android:layout_gravity="center"
+             android:clipToPadding="false"
+             android:clipChildren="false"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:scaleType="fitXY"
+             android:layout_marginBottom="10dp"/>
+
+
+      </FrameLayout>
+
       <TextView
           android:text="@string/subtitle_recent"
           android:layout_width="match_parent"

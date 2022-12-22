@@ -5,19 +5,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.smilegateblog.smliegateblog.databinding.FragmentHomeBinding
-import com.smilegateblog.smliegateblog.presentation.main.MainActivity
+import com.smilegateblog.smliegateblog.domain.model.Post
 import com.smilegateblog.smliegateblog.presentation.postdetail.PostDetailActivity
-import com.smilegateblog.smliegateblog.presentation.postdetail.PostDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), OnItemClickListener<Int> {
@@ -27,6 +32,7 @@ class HomeFragment : Fragment(), OnItemClickListener<Int> {
 
     private val viewModel: HomeViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,6 +41,7 @@ class HomeFragment : Fragment(), OnItemClickListener<Int> {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         setupRecentPostRecyclerView()
+        observeMostViewed()
 
         return root
     }
@@ -52,6 +59,20 @@ class HomeFragment : Fragment(), OnItemClickListener<Int> {
                 mAdapter.submitData(it)
             }
         }
+    }
+
+    private fun observeMostViewed(){
+        viewModel.mostViewedPost.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+            .onEach { product ->
+                product?.let { setupMostViewed(it) }
+            }
+            .launchIn(lifecycleScope)
+
+
+    }
+
+    private fun setupMostViewed(data: List<Post>){
+        binding.viewpager.adapter = ViewPagerAdapter(data)
     }
 
     override fun onItemClicked(postId: Int?) {
