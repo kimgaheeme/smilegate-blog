@@ -41,9 +41,10 @@ MB = 1024 * KB
     tags="Post"
 )
 async def create_post(userId: int, postImg: UploadFile = File(...), userRequest: CreatePostRequest = CreatePostRequest()):
+    post_dict = userRequest.dict()
     add_post = Post(
         user_id=userId,
-        title=userRequest.title,
+        title=post_dict["title"],
         content=userRequest.content,
         type=userRequest.type,
         view_cnt=0,
