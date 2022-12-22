@@ -46,7 +46,7 @@ async def post_parameters(
     },
     tags="Post"
 )
-async def create_post(userId: int, userRequest: CreatePostRequest = Depends(post_parameters()), postImg: UploadFile = File(...)):
+async def create_post(userId: int, userRequest: CreatePostRequest = Depends(post_parameters), postImg: UploadFile = File(...)):
     post_dict = userRequest.dict()
 
     if userRequest.postImage is not None:
