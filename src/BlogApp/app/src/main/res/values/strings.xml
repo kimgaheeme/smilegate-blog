@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">SmlieGateBlogApp</string>
-    <string name="title_home">Home</string>
-    <string name="title_scrap">scrap</string>
-    <string name="title_mypage">mypage</string>
+    <string name="title_home">홈</string>
+    <string name="title_scrap">스크랩</string>
+    <string name="title_mypage">설정</string>
+    <string name="title_search">검색</string>
 
 
     <string name="error_email_not_valid">이메일이 적절하지 않습니다.</string>
