@@ -25,9 +25,9 @@ MB = 1024 * KB
 
 
 async def post_parameters(
-        title: str, content: str, postImage, type: PostType 
+       userRequest: CreatePostRequest
 ):
-    return {"title": title, "content": content, "postImage": postImage, "type": type}
+    return {"title": userRequest.title, "content": userRequest.content, "postImage": userRequest.postImage, "type": userRequest.type}
 
 
 @router.post(
