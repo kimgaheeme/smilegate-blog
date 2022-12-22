@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnItemClickListener<Int> {
+class HomeFragment : Fragment(), OnItemClickListener<Int>, OnPostClickListener<Int> {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -72,7 +72,7 @@ class HomeFragment : Fragment(), OnItemClickListener<Int> {
     }
 
     private fun setupMostViewed(data: List<Post>){
-        binding.viewpager.adapter = ViewPagerAdapter(data)
+        binding.viewpager.adapter = ViewPagerAdapter(data, this)
     }
 
     override fun onItemClicked(postId: Int?) {
@@ -86,5 +86,11 @@ class HomeFragment : Fragment(), OnItemClickListener<Int> {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onPostClicked(item: Int?) {
+        val intent = Intent(activity, PostDetailActivity::class.java)
+        intent.putExtra("postId", item)
+        startActivity(intent)
     }
 }

@@ -9,9 +9,13 @@ import com.smilegateblog.smliegateblog.databinding.ItemMostviewedBinding
 import com.smilegateblog.smliegateblog.domain.model.Post
 import com.smilegateblog.smliegateblog.util.setImageUrl
 
-class PagerViewHolder(val binding: ItemMostviewedBinding) : RecyclerView.ViewHolder(binding.root)
+interface OnPostClickListener<T> {
+    fun onPostClicked(item: T?)
+}
 
-class ViewPagerAdapter(var data: List<Post>) :
+
+
+class ViewPagerAdapter(var data: List<Post>, private val listener: OnItemClickListener<Int>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -19,6 +23,8 @@ class ViewPagerAdapter(var data: List<Post>) :
         ItemMostviewedBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     override fun getItemCount(): Int = data.size
 
+    inner class PagerViewHolder(val binding: ItemMostviewedBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as PagerViewHolder).binding
@@ -27,5 +33,8 @@ class ViewPagerAdapter(var data: List<Post>) :
         binding.tvMostviewedTitle.setText(data[position].title)
         binding.tvMostviewedNickname.setText(data[position].nickname)
         binding.ivMostviewedPostImage.setImageUrl(data[position].postImageId, null)
+        binding.root.setOnClickListener {
+            listener?.onItemClicked(data[position].postId)
+        }
     }
 }
