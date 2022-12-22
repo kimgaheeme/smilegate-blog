@@ -25,7 +25,7 @@ MB = 1024 * KB
 
 
 async def post_parameters(
-        title: str = "", content: str = "", postImage: str = "", type: PostType = PostType.plain
+        title: str, content: str, postImage, type: PostType 
 ):
     return {"title": title, "content": content, "postImage": postImage, "type": type}
 
