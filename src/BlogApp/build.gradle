@@ -24,6 +24,9 @@ buildscript {
         //data store
         data_store_version = "1.0.0"
 
+        //glide
+        glide_version = "4.14.2"
+
     }
     repositories {
         google()  // Google's Maven repository

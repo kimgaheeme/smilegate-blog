@@ -16,6 +16,7 @@ import com.smilegateblog.smliegateblog.data.dto.comment.GetCommentsResponseItem
 import com.smilegateblog.smliegateblog.data.dto.comment.PostCommentRequest
 import com.smilegateblog.smliegateblog.data.dto.comment.PutCommentRequest
 import com.smilegateblog.smliegateblog.data.dto.login.LoginRequest
+import com.smilegateblog.smliegateblog.data.dto.post.GetPostResponse
 import com.smilegateblog.smliegateblog.databinding.ActivityPostDetailBinding
 import com.smilegateblog.smliegateblog.presentation.GetCommentsResponseItemdetail.CommentAdapter
 import com.smilegateblog.smliegateblog.presentation.GetCommentsResponseItemdetail.OnCommentClickListener
@@ -23,10 +24,9 @@ import com.smilegateblog.smliegateblog.presentation.common.isEmail
 import com.smilegateblog.smliegateblog.presentation.common.visible
 import com.smilegateblog.smliegateblog.presentation.editpost.EditPostActivity
 import com.smilegateblog.smliegateblog.presentation.main.home.OnItemClickListener
+import com.smilegateblog.smliegateblog.util.setImageUrl
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -40,7 +40,7 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
         super.onCreate(savedInstanceState)
         binding = ActivityPostDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupPostDetail()
+        observePostDetail()
         setupCommentRecyclerView()
         //setCommentSendBtnVisible()
         addComment()
@@ -53,12 +53,20 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
     }
 
 
-    private fun setupPostDetail(){
-        if(viewModel.postDetail.value.isScrap){
+    private fun setupPostDetail(postDetail: GetPostResponse){
+        if(postDetail.isScrap){
             binding.tbtnScrap.isChecked = true
        }
+        binding.ivPostImage.setImageUrl(url = postDetail.postImageId, placeHolder = null)
     }
 
+    private fun observePostDetail() {
+        viewModel.postDetail.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+            .onEach { product ->
+                product?.let { setupPostDetail(it) }
+            }
+            .launchIn(lifecycleScope)
+    }
 
     private fun setupCommentRecyclerView(){
 
