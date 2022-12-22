@@ -99,7 +99,7 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     override suspend fun putPost(
-        postPostRequest: PutPostRequest,
+        putPostRequest: PutPostRequest,
         postid: Int,
         file: File
     ): Flow<Resource<PutPostResponse>> {
@@ -111,10 +111,11 @@ class PostRepositoryImpl @Inject constructor(
         return flow {
             try{
                 val response = postApi.putPost(
-                    postPostRequest = Gson().toJson(postPostRequest)
-                        .toRequestBody("application/json".toMediaTypeOrNull()),
+                    title = putPostRequest.title,
+                    content = putPostRequest.content,
+                    postImage = putPostRequest.postImage,
                     postid = postid,
-                    image = multipartBody,
+                    image = multipartBody
                 )
                 Log.d("PutPost", "repo exec")
                 if(response.isSuccessful){

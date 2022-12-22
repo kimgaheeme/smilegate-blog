@@ -29,9 +29,11 @@ interface PostApi {
     @Multipart
     @PUT("/posts/{postid}")
     suspend fun putPost(
-        @Part("postPostRequest") postPostRequest : RequestBody,
         @Part image: MultipartBody.Part?,
         @Path("postid") postid: Int,
+        @Query("title") title: String,
+        @Query("content") content: String,
+        @Query("postImage") postImage: String,
     ) : Response<PutPostResponse>
 
     @DELETE("/posts/{postid}")
