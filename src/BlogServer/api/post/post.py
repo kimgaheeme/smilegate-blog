@@ -24,6 +24,12 @@ KB = 1024
 MB = 1024 * KB
 
 
+async def post_parameters(
+        title: str = "", content: str = "", postImage: str = "", type: PostType = PostType.plain
+):
+    return {"title": title, "content": content, "postImage": postImage, "type": type}
+
+
 @router.post(
     "/posts",
     response_model=CreatePostResponse,
@@ -40,7 +46,7 @@ MB = 1024 * KB
     },
     tags="Post"
 )
-async def create_post(userId: int, userRequest: CreatePostRequest = Depends(), postImg: UploadFile = File(...)):
+async def create_post(userId: int, userRequest: CreatePostRequest = Depends(post_parameters()), postImg: UploadFile = File(...)):
     post_dict = userRequest.dict()
 
     if userRequest.postImage is not None:
