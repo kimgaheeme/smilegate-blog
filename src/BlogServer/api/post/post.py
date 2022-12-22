@@ -24,11 +24,6 @@ KB = 1024
 MB = 1024 * KB
 
 
-async def post_parameters(
-       userRequest: CreatePostRequest
-):
-    return {"title": userRequest.title, "content": userRequest.content, "postImage": userRequest.postImage, "type": userRequest.type}
-
 
 @router.post(
     "/posts",
@@ -46,7 +41,7 @@ async def post_parameters(
     },
     tags="Post"
 )
-async def create_post(userId: int, userRequest: CreatePostRequest = Form(), postImg: UploadFile = File(...)):
+async def create_post(userId: int, userRequest: CreatePostRequest = Form(...), postImg: UploadFile = File(...)):
 
     if userRequest.postImage is not None:
         content = await postImg.read()
@@ -60,7 +55,7 @@ async def create_post(userId: int, userRequest: CreatePostRequest = Form(), post
         user_id=userId,
         title=userRequest.title,
         content=userRequest.content,
-        type=userRequest.type,
+        type=PostType.plain,
         view_cnt=0,
         update_at=now.date(),
         created_at=now.date(),
