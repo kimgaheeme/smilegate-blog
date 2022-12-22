@@ -47,7 +47,6 @@ async def post_parameters(
     tags="Post"
 )
 async def create_post(userId: int, userRequest: CreatePostRequest = Depends(post_parameters), postImg: UploadFile = File(...)):
-    post_dict = userRequest.dict()
 
     if userRequest.postImage is not None:
         content = await postImg.read()
@@ -59,7 +58,7 @@ async def create_post(userId: int, userRequest: CreatePostRequest = Depends(post
 
     add_post = Post(
         user_id=userId,
-        title=post_dict["title"],
+        title=userRequest.title,
         content=userRequest.content,
         type=userRequest.type,
         view_cnt=0,
