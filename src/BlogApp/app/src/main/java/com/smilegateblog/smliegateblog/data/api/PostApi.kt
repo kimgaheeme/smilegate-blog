@@ -13,9 +13,11 @@ interface PostApi {
     @Multipart
     @POST("/posts")
     suspend fun postPost(
-        @Part("userRequest") userRequest : RequestBody,
         @Part image: MultipartBody.Part?,
-        @Query("userId") userId: Int
+        @Query("userId") userId: Int,
+        @Query("title") title: String,
+        @Query("content") content: String,
+        @Query("postImage") postImage: String,
     ) : Response<PostPostResponse>
 
     @GET("/posts/{postid}")

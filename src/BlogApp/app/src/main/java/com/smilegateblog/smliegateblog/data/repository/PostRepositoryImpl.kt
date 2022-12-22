@@ -52,8 +52,9 @@ class PostRepositoryImpl @Inject constructor(
             try{
                 pref.getUserId().collect(){ userId ->
                     val response = postApi.postPost(
-                        userRequest = Gson().toJson(postPostRequest)
-                            .toRequestBody("application/json".toMediaTypeOrNull()),
+                        title = postPostRequest.title,
+                        content = postPostRequest.content,
+                        postImage = postPostRequest.postImage,
                         image = multipartBody,
                         userId = userId)
                     Log.d("PostPost", "repo exec")
