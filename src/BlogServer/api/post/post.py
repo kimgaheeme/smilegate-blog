@@ -1,7 +1,7 @@
 from typing import List
 from uuid import uuid4
 
-from fastapi import APIRouter, HTTPException, status, Form, Depends
+from fastapi import APIRouter, HTTPException, status, Form, Depends, Body
 
 from api.model import Post, Comment
 from api.model import User
@@ -41,7 +41,7 @@ MB = 1024 * KB
     },
     tags="Post"
 )
-async def create_post(userId: int, userRequest: CreatePostRequest, postImg: UploadFile = File(...)):
+async def create_post(userId: int, userRequest: CreatePostRequest = Body(), postImg: UploadFile = File(...)):
 
     if userRequest.postImage is not None:
         content = await postImg.read()
