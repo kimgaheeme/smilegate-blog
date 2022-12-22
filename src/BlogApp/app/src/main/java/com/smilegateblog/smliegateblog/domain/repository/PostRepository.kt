@@ -12,7 +12,7 @@ import java.io.File
 interface PostRepository {
     suspend fun postPost(postPostRequest: PostPostRequest, file: File) : Flow<Resource<PostPostResponse>>
     suspend fun getPost(postid: Int) : Flow<Resource<GetPostResponse>>
-    suspend fun putPost(postPostRequest: PutPostRequest, postid: Int) : Flow<Resource<PutPostResponse>>
+    suspend fun putPost(postPostRequest: PutPostRequest, postid: Int, file: File) : Flow<Resource<PutPostResponse>>
     suspend fun delPost(postid: Int) : Flow<Resource<Boolean>>
     fun getRecentPost() : Flow<PagingData<Post>>
     suspend fun getMostViewedPost() : Flow<Resource<List<Post>>>

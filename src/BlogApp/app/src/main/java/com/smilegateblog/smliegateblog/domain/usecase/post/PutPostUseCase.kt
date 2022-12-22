@@ -9,12 +9,13 @@ import com.smilegateblog.smliegateblog.domain.repository.LoginRepository
 import com.smilegateblog.smliegateblog.domain.repository.PostRepository
 import com.smilegateblog.smliegateblog.util.Resource
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 import javax.inject.Inject
 
 class PutPostUseCase @Inject constructor(private val postRepository: PostRepository){
-    suspend fun invoke(putPostRequest: PutPostRequest, postid: Int) : Flow<Resource<PutPostResponse>> {
+    suspend fun invoke(putPostRequest: PutPostRequest, postid: Int, file: File) : Flow<Resource<PutPostResponse>> {
         Log.d("put post use case", "usecase exec")
 
-        return postRepository.putPost(postPostRequest = putPostRequest, postid = postid)
+        return postRepository.putPost(postPostRequest = putPostRequest, postid = postid, file)
     }
 }

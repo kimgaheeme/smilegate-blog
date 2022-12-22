@@ -109,8 +109,9 @@ class EditPostViewModel @Inject constructor(
     }
 
     fun updatePost(content: String, title: String) {
+        var image = toFile(context, imageUri)
         viewModelScope.launch {
-            postUseCase.putPostUseCase.invoke(PutPostRequest(title = title, content = content, postImage = imageUri.toString()), postid = postId)
+            postUseCase.putPostUseCase.invoke(PutPostRequest(title = title, content = content, postImage = ""), postid = postId, image)
                 .onStart {
                     setLoading()
                 }
@@ -144,7 +145,6 @@ class EditPostViewModel @Inject constructor(
                 .catch { exception ->
                     hideLoading()
                     showToast(exception.stackTraceToString())
-                    Log.d("사진", exception.stackTraceToString())
 
                 }
                 .collect { result ->

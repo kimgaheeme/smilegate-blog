@@ -24,9 +24,11 @@ interface PostApi {
         @Query("userid") userid: Int
     ) : Response<GetPostResponse>
 
+    @Multipart
     @PUT("/posts/{postid}")
     suspend fun putPost(
-        @Body postPostRequest: PutPostRequest,
+        @Part("postPostRequest") postPostRequest : RequestBody,
+        @Part image: MultipartBody.Part?,
         @Path("postid") postid: Int,
     ) : Response<PutPostResponse>
 

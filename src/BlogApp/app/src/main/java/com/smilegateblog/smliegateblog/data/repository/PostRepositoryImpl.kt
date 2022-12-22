@@ -99,11 +99,22 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun putPost(
         postPostRequest: PutPostRequest,
-        postid: Int
+        postid: Int,
+        file: File
     ): Flow<Resource<PutPostResponse>> {
+        val multipartBody = MultipartBody.Part.createFormData(
+            name = "postImg",
+            filename = file.name,
+            body = file.asRequestBody("image/*".toMediaType())
+        )
         return flow {
             try{
-                val response = postApi.putPost(postPostRequest = postPostRequest, postid = postid)
+                val response = postApi.putPost(
+                    postPostRequest = Gson().toJson(postPostRequest)
+                        .toRequestBody("application/json".toMediaTypeOrNull()),
+                    postid = postid,
+                    image = multipartBody,
+                )
                 Log.d("PutPost", "repo exec")
                 if(response.isSuccessful){
                     val postId = response.body()!!
