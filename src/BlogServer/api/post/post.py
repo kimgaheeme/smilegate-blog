@@ -40,11 +40,11 @@ MB = 1024 * KB
     },
     tags="Post"
 )
-async def create_post(userId: int, userRequest: CreatePostRequest = Depends(), postImg: UploadFile = File(...)):
+async def create_post(userId: int, userRequest: CreatePostRequest):
     post_dict = userRequest.dict()
 
     if userRequest.postImage is not None:
-        content = await postImg.read()
+        content = await userRequest.file.read()
         name = f'{uuid4()}.{"jpg"}'
         await upload(contents=content, name=name)
         url = f"https://{AWS_BUCKET}.s3.{REGION}.amazonaws.com/{name}"

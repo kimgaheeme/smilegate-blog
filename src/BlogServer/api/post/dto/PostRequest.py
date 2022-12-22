@@ -13,6 +13,7 @@ class CreatePostRequest(BaseModel):
     content: str = ""
     postImage: str = ""
     type: PostType = PostType.plain
+    file: UploadFile
 
 
 class UpdatePostRequest(BaseModel):
