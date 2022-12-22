@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
     tools:context=".presentation.main.mypage.MyPageFragment">
 
     <LinearLayout
@@ -12,11 +14,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="@string/subtitle_recent"
+            android:text="@string/subtitle_my"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:minLines="1"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="@dimen/post_item_between"
             style="@style/TITLE_MEDIUM"/>
 
