@@ -153,7 +153,7 @@ async def delete_post(postid: int):
 )
 async def get_recent_post(page: int = 1):
     offset = (page - 1) * 10
-    posts = sessionmaker.query(Post).order_by(Post.created_at).offset(offset).limit(10).all()
+    posts = sessionmaker.query(Post).order_by(Post.created_at.desc()).offset(offset).limit(10).all()
     result = []
 
     for post in posts:
@@ -185,7 +185,7 @@ async def get_recent_post(page: int = 1):
     tags="Post"
 )
 async def get_most_viewed_post():
-    posts = sessionmaker.query(Post).outerjoin(User, Post.user_id == User.user_id).order_by(Post.view_cnt).limit(5)
+    posts = sessionmaker.query(Post).outerjoin(User, Post.user_id == User.user_id).order_by(Post.view_cnt.desc()).limit(5)
     result = []
 
     for post in posts:
