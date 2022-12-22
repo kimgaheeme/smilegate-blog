@@ -1,7 +1,7 @@
 from typing import List
 from uuid import uuid4
 
-from fastapi import APIRouter, HTTPException, status, Form, Depends
+from fastapi import APIRouter, HTTPException, status, Form, Depends, UploadFile, File
 
 from api.model import Post, Comment
 from api.model import User
@@ -40,11 +40,11 @@ MB = 1024 * KB
     },
     tags="Post"
 )
-async def create_post(userId: int, userRequest: CreatePostRequest):
+async def create_post(userId: int, userRequest: CreatePostRequest = Depends(), postImg: UploadFile = File(...)):
     post_dict = userRequest.dict()
 
     if userRequest.postImage is not None:
-        content = await userRequest.file.read()
+        content = await postImg.read()
         name = f'{uuid4()}.{"jpg"}'
         await upload(contents=content, name=name)
         url = f"https://{AWS_BUCKET}.s3.{REGION}.amazonaws.com/{name}"
