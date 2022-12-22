@@ -91,7 +91,7 @@ async def create_post(userId: int, userRequest: CreatePostRequest = Depends(), p
     tags="Post"
 )
 async def update_post(postid: int, postImg: UploadFile = File(...),
-                      userRequest: UpdatePostRequest = UpdatePostRequest()):
+                      userRequest: UpdatePostRequest = Depends()):
     if userRequest.postImage is not None:
         content = await postImg.read()
         name = f'{uuid4()}.{"jpg"}'

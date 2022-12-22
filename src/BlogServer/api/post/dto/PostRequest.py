@@ -24,3 +24,5 @@ class UpdatePostRequest(BaseModel):
     title: str = ""
     content: str = ""
     postImage: str = ""
+    class Config:
+        orm_mode = True
