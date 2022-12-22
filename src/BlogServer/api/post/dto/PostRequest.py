@@ -9,7 +9,7 @@ class PostType(str, Enum):
 
 
 class CreatePostRequest(BaseModel):
-    title: str = ""
+    title: str = "a"
     content: str = ""
     postImage: str = ""
     type: PostType = PostType.plain
