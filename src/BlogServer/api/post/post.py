@@ -41,7 +41,7 @@ MB = 1024 * KB
     },
     tags="Post"
 )
-async def create_post(userId: int, userRequest: CreatePostRequest = Form(...), postImg: UploadFile = File(...)):
+async def create_post(userId: int, userRequest: dict = Form(...), postImg: UploadFile = File(...)):
 
     if userRequest.postImage is not None:
         content = await postImg.read()
