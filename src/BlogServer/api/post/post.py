@@ -88,7 +88,7 @@ async def update_post(postid: int, postImg: UploadFile = File(...), userRequest:
         name = f'{uuid4()}.{"jpg"}'
         await upload(contents=content, name=name)
         url = f"https://{AWS_BUCKET}.s3.{REGION}.amazonaws.com/{name}"
-        userRequest.post_image_id = url
+        userRequest.postImage = url
 
 
     sessionmaker.query(Post).filter(Post.post_id == postid) \
