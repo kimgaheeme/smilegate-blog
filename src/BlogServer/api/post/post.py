@@ -1,7 +1,7 @@
 from typing import List
 from uuid import uuid4
 
-from fastapi import APIRouter, HTTPException, status, Form, Depends, UploadFile, File
+from fastapi import APIRouter, HTTPException, status, Form, Depends
 
 from api.model import Post, Comment
 from api.model import User
