@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 }
