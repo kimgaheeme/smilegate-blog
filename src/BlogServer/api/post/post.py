@@ -46,9 +46,9 @@ async def post_parameters(
     },
     tags="Post"
 )
-async def create_post(userId: int, userRequest: CreatePostRequest = Depends(), postImg: UploadFile = File(...)):
+async def create_post(userId: int, userRequest: CreatePostRequest = Depends(), postImg: Optional[UploadFile] = File(...)):
 
-    if userRequest.title is not None:
+    if postImg is not File(...):
         content = await postImg.read()
         name = f'{uuid4()}.{"jpg"}'
         await upload(contents=content, name=name)
@@ -90,9 +90,9 @@ async def create_post(userId: int, userRequest: CreatePostRequest = Depends(), p
     },
     tags="Post"
 )
-async def update_post(postid: int, postImg: UploadFile = File(...),
+async def update_post(postid: int, postImg: Optional[UploadFile] = File(...),
                       userRequest: UpdatePostRequest = Depends()):
-    if userRequest.postImage is not None:
+    if postImg is not File(...):
         content = await postImg.read()
         name = f'{uuid4()}.{"jpg"}'
         await upload(contents=content, name=name)
