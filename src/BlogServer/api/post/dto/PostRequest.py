@@ -11,9 +11,9 @@ class PostType(str, Enum):
 
 
 class CreatePostRequest(BaseModel):
-    title: Any = ""
-    content: Any = ""
-    postImage: Any = ""
+    title: str
+    content: str
+    postImage: str
 
     class Config:
         orm_mode = True
