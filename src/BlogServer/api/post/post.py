@@ -82,7 +82,15 @@ async def create_post(userId: int, postImg: UploadFile = File(...), userRequest:
     },
     tags="Post"
 )
-async def update_post(postid: int, userRequest: UpdatePostRequest):
+async def update_post(postid: int, postImg: UploadFile = File(...), userRequest: UpdatePostRequest = UpdatePostRequest()):
+    if userRequest.postImage is not None:
+        content = await postImg.read()
+        name = f'{uuid4()}.{"jpg"}'
+        await upload(contents=content, name=name)
+        url = f"https://{AWS_BUCKET}.s3.{REGION}.amazonaws.com/{name}"
+        userRequest.post_image_id = url
+
+
     sessionmaker.query(Post).filter(Post.post_id == postid) \
         .update({Post.title: userRequest.title,
                  Post.content: userRequest.content,
