@@ -16,6 +16,6 @@ class CreatePostRequest(BaseModel):
 
 
 class UpdatePostRequest(BaseModel):
-    title: str
-    content: str
-    postImage: str
+    title: str = ""
+    content: str = ""
+    postImage: str = ""
