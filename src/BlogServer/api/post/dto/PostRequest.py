@@ -9,10 +9,10 @@ class PostType(str, Enum):
 
 
 class CreatePostRequest(BaseModel):
-    title: str
-    content: str
-    postImage: str
-    type: PostType
+    title: str = ""
+    content: str = ""
+    postImage: str = ""
+    type: PostType = PostType.plain
 
 
 class UpdatePostRequest(BaseModel):
