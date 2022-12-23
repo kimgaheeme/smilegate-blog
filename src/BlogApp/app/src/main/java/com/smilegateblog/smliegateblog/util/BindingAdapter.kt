@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.smilegateblog.smliegateblog.R
 
 
-fun ImageView.setImageUrl(url: String?, placeHolder: Drawable?) {
+fun ImageView.setImageUrl(url: String?, placeHolder: Drawable?, cornerValue: Int = 16) {
     val ph = placeHolder ?: ContextCompat.getDrawable(context, R.drawable.ic_launcher_foreground)
 
     Log.d("이미지", url.toString())
@@ -19,6 +19,6 @@ fun ImageView.setImageUrl(url: String?, placeHolder: Drawable?) {
     Glide.with(context)
         .load(url)
         .placeholder(ph)
-        .transform(CenterCrop(), RoundedCorners(16))
+        .transform(CenterCrop(), RoundedCorners((cornerValue)))
         .into(this)
 }

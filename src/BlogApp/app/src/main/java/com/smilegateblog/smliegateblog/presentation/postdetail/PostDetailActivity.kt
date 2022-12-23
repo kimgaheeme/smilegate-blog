@@ -62,6 +62,7 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
         onUpdateBtnClicked()
         onDeleteBtnClicked()
         handlerBottomSheet()
+        clearScreen()
 
     }
 
@@ -78,12 +79,25 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
         }
     }
 
+    private fun clearScreen(){
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+    }
+
 
     private fun setupPostDetail(postDetail: GetPostResponse){
         if(postDetail.isScrap){
             binding.tbtnScrap.isChecked = true
-       }
-        binding.ivPostImage.setImageUrl(url = postDetail.postImageId, placeHolder = null)
+            binding.tbtnScrap.setBackgroundResource(R.drawable.ic_baseline_turned_in_24)
+        }else{
+            binding.tbtnScrap.isChecked = false
+            binding.tbtnScrap.setBackgroundResource(R.drawable.ic_baseline_turned_in_not_24)
+        }
+        binding.ivPostImage.setImageUrl(url = postDetail.postImageId, placeHolder = null, 1)
+        binding.tvPostTitle.setText(postDetail.title)
+        binding.tvPostNickname.setText(postDetail.nickname)
+        binding.tvPostContent.setText(postDetail.content)
     }
 
     private fun observePostDetail() {
@@ -125,8 +139,12 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
         binding.tbtnScrap.setOnClickListener {
             if(binding.tbtnScrap.isChecked){
                 addScrap()
+                binding.tbtnScrap.isChecked = true
+                binding.tbtnScrap.setBackgroundResource(R.drawable.ic_baseline_turned_in_24)
             }else{
                 delScrap()
+                binding.tbtnScrap.isChecked = false
+                binding.tbtnScrap.setBackgroundResource(R.drawable.ic_baseline_turned_in_not_24)
             }
         }
     }

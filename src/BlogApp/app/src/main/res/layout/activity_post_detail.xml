@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout android:layout_width="match_parent"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <androidx.core.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.postdetail.PostDetailActivity"
@@ -33,6 +32,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
+                    android:layout_marginTop="20dp"
                     android:textOff=""
                     android:textOn=""
                     app:layout_constraintEnd_toStartOf="@id/btn_dialog"
@@ -46,6 +46,7 @@
                     android:layout_margin="10dp"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_alignParentBottom="true"
@@ -53,13 +54,88 @@
                     android:background="@null"
                     android:src="@drawable/ic_baseline_more_vert_24"/>
 
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_margin="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@null"
+                    android:src="@drawable/ic_baseline_clear_24"/>
+
+                <TextView
+                    android:id="@+id/tv_post_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_post_nickname"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="15dp"
+                    style="@style/TITLE_BIG"/>
+
+                <TextView
+                    android:id="@+id/tv_post_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="@dimen/post_item_between"
+                    style="@style/MEDIUM_TEXT"/>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_comment_item"
-                tools:listitem="@layout/item_comment"
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/tv_post_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/MEDIUM_TEXT"/>
+
+                <TextView
+                    android:id="@+id/label_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    style="@style/POST_ITEM_TITLE_STYLE"/>
+
+                <TextView
+                    android:text="@string/subtitle_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:layout_marginBottom="@dimen/post_item_between"
+                    style="@style/TITLE_MEDIUM"/>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_comment_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_comment" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -201,6 +201,9 @@ class PostDetailViewModel @Inject constructor(
                     when(result) {
                         is Resource.Success -> {
                             Log.d("Add Scrap", "add Scrap success")
+                            _postDetail.update {
+                                it.copy(isScrap = true)
+                            }
                         }
                         else -> {
                             showToast(result.message.toString())
@@ -208,6 +211,7 @@ class PostDetailViewModel @Inject constructor(
                     }
                 }
         }
+
     }
 
     fun delScrap() {
@@ -226,6 +230,9 @@ class PostDetailViewModel @Inject constructor(
                     when(result) {
                         is Resource.Success -> {
                             Log.d("Delete Scrap", "add Scrap success")
+                            _postDetail.update {
+                                it.copy(isScrap = false)
+                            }
                         }
                         else -> {
                             showToast(result.message.toString())
