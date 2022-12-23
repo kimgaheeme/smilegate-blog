@@ -145,7 +145,9 @@
         android:id="@+id/ll_send_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="50dp"
         android:layout_alignParentBottom="true"
+        android:background="#EAEAEA"
         android:orientation="horizontal" >
 
         <EditText
@@ -160,13 +162,15 @@
             android:minLines="3"
             android:scrollHorizontally="false" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_send_comment"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
+            android:src="@drawable/ic_outline_send_24"
+            android:background="@null"
             android:gravity="center"
-            android:text="send"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
