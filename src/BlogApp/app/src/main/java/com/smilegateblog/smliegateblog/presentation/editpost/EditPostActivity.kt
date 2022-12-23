@@ -51,12 +51,14 @@ class EditPostActivity : AppCompatActivity() {
     private fun observeTitle() {
         binding.etTitleText.addTextChangedListener {
             viewModel.setTitleText(binding.etTitleText.text.toString())
+            binding.etTitleText.text?.let { it1 -> binding.etTitleText.setSelection(it1.length) }
         }
     }
 
     private fun observeContent() {
         binding.etContentText.addTextChangedListener {
             viewModel.setContentText(binding.etContentText.text.toString())
+            binding.etContentText.text?.let { it1 -> binding.etContentText.setSelection(it1.length) }
         }
     }
 

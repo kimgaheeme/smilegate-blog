@@ -10,6 +10,7 @@
     <string name="subtitle_scrap">스크랩한 게시물</string>
     <string name="subtitle_comment">댓글</string>
     <string name="subtitle_my">내가 쓴 게시물</string>
+    <string name="subtitle_edit_post">글 작성</string>
 
     <string name="delete_post">글 삭제</string>
     <string name="update_post">글 수정</string>
@@ -19,4 +20,8 @@
     <string name="error_title_not_valid">제목을 채워주세요.</string>
     <string name="error_content_not_valid">내용을 채워주세요.</string>
     <string name="deleted_comment">삭제된 댓글 입니다.</string>
+
+    <string name="placeholder_title">제목을 입력해주세요</string>
+    <string name="placeholder_content">내용을 입력해주세요</string>
+
 </resources>
