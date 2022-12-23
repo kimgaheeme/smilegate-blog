@@ -11,42 +11,44 @@
         android:layout_height="match_parent"
         android:background="@drawable/roundrectangle"/>
 
-    <TextView
-        android:id="@+id/tv_mostviewed_title"
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="#5D000000"/>
+
+    <TextView
+        android:id="@+id/tv_mostviewed_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/tv_mostviewed_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:maxLines="1"
         android:minLines="1"
+        android:layout_marginStart="30dp"
         android:textColor="@color/white"
         android:layout_marginBottom="@dimen/post_item_between"
         style="@style/TITLE_MEDIUM"/>
 
     <TextView
         android:id="@+id/tv_mostviewed_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/tv_mostviewed_nickname"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="30dp"
         android:maxLines="1"
         android:minLines="1"
         android:textColor="@color/white"
-        android:layout_marginBottom="@dimen/post_item_between"
         style="@style/SMALL_TEXT"/>
 
     <TextView
         android:id="@+id/tv_mostviewed_nickname"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="30dp"
+        app:layout_goneMarginBottom="15dp"
         android:maxLines="1"
         android:minLines="1"
         android:textColor="@color/white"
