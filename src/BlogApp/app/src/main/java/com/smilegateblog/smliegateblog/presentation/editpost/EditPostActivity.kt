@@ -16,6 +16,7 @@ import com.smilegateblog.smliegateblog.databinding.ActivityEditPostBinding
 import com.smilegateblog.smliegateblog.presentation.common.showGenericAlertDialog
 import com.smilegateblog.smliegateblog.presentation.common.showToast
 import com.smilegateblog.smliegateblog.presentation.postdetail.PostDetailActivity
+import com.smilegateblog.smliegateblog.util.setImageUrl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,9 +30,11 @@ class EditPostActivity : AppCompatActivity() {
     val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
             viewModel.setImage(uri)
+            binding.btnAddImage.setImageURI(uri)
         } else {
             Log.d("PhotoPicker", "No media selected")
         }
+
     }
 
 
@@ -46,6 +49,7 @@ class EditPostActivity : AppCompatActivity() {
         observeProduct()
         observeContent()
         observeTitle()
+        clearScreen()
     }
 
     private fun observeTitle() {
@@ -74,6 +78,12 @@ class EditPostActivity : AppCompatActivity() {
         binding.btnPostPost.setOnClickListener {
             if(viewModel.isUpdate) updatePost()
             else postPost()
+        }
+    }
+
+    private fun clearScreen(){
+        binding.btnClear.setOnClickListener {
+            finish()
         }
     }
 

@@ -32,7 +32,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="70dp"
-                android:id="@+id/btn_clear"
+                android:id="@+id/btn_post_post"
                 android:text="완료"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"/>
 
             <ImageButton
-                android:id="@+id/btn_add_image"
+                android:id="@+id/btn_clear"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="18dp"
@@ -57,7 +57,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageButton
-            android:id="@+id/btn_post_post"
+            android:id="@+id/btn_add_image"
             android:background="@drawable/roundrectangle"
             android:backgroundTint="#ECECEC"
             android:layout_marginTop="10dp"
