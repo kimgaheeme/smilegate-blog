@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/title_scrap" />
+
+    <item
+        android:id="@+id/center_btn"
+        android:enabled="false"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="ceter_btn"/>
+
+
+    <item
+        android:id="@+id/navigation_scrap"
+        android:icon="@drawable/ic_baseline_turned_in_not_24"
+        android:title="@string/title_scrap" />
+
+    <item
+        android:id="@+id/navigation_mypage"
+        android:icon="@drawable/ic_outline_person_24"
+        android:title="@string/title_mypage" />
+
+</menu>

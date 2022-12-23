@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name = "POST_ITEM_TITLE_STYLE">
+        <item name = "android:textSize">16dp</item>
+        <item name = "android:textColor">@color/black</item>
+        <item name="fontFamily">@font/spoqahansansneo_bold</item>
+    </style>
+
+    <style name = "POST_ITEM_CONTENT_STYLE">
+        <item name = "android:textSize">14dp</item>
+        <item name = "android:textColor">@color/black</item>
+        <item name="fontFamily">@font/spoqahansansneo_light</item>
+    </style>
+
+    <style name = "TITLE_MEDIUM">
+        <item name = "android:textSize">24dp</item>
+        <item name = "android:textColor">@color/black</item>
+        <item name="fontFamily">@font/spoqahansansneo_bold</item>
+    </style>
+
+    <style name = "SMALL_TEXT">
+        <item name = "android:textSize">14dp</item>
+        <item name = "android:textColor">@color/black</item>
+        <item name="fontFamily">@font/spoqahansansneo_thin</item>
+    </style>
+
+    <style name = "MEDIUM_TEXT">
+        <item name = "android:textSize">18dp</item>
+        <item name = "android:textColor">@color/black</item>
+        <item name="fontFamily">@font/spoqahansansneo_regular</item>
+    </style>
+
+    <style name = "TITLE_BIG">
+        <item name = "android:textSize">28dp</item>
+        <item name = "android:textColor">@color/black</item>
+        <item name="fontFamily">@font/spoqahansansneo_bold</item>
+    </style>
+</resources>
+
