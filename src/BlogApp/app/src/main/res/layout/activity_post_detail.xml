@@ -1,63 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.postdetail.PostDetailActivity"
         android:orientation="vertical">
 
-        <ToggleButton
-            android:id="@+id/tbtn_scrap"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textOn=""
-            android:textOff=""
-            android:background="@drawable/ic_home_black_24dp" />
-        <ImageView
-            android:id="@+id/iv_post_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:id="@+id/btn_delete_post"
-            android:text="글 삭제"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content"/>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:id="@+id/btn_update_post"
-            android:text="글 수정"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content"/>
-
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_comment_item"
-            tools:listitem="@layout/item_comment"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="350dp">
+
+                <ImageView
+                    android:id="@+id/iv_post_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ToggleButton
+                    android:id="@+id/tbtn_scrap"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:textOff=""
+                    android:textOn=""
+                    app:layout_constraintEnd_toStartOf="@id/btn_dialog"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/ic_baseline_turned_in_not_24"
+                    android:backgroundTint="@color/white"/>
 
 
+                <ImageButton
+                    android:id="@+id/btn_dialog"
+                    android:layout_margin="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@null"
+                    android:src="@drawable/ic_baseline_more_vert_24"/>
 
-    </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_comment_item"
+                tools:listitem="@layout/item_comment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
     <LinearLayout
         android:id="@+id/ll_send_message"
         android:layout_width="match_parent"

@@ -3,14 +3,18 @@ package com.smilegateblog.smliegateblog.presentation.postdetail
 import android.content.Intent
 import android.opengl.Visibility
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.smilegateblog.smliegateblog.R
 import com.smilegateblog.smliegateblog.data.dto.comment.GetCommentsResponseItem
 import com.smilegateblog.smliegateblog.data.dto.comment.PostCommentRequest
@@ -18,6 +22,7 @@ import com.smilegateblog.smliegateblog.data.dto.comment.PutCommentRequest
 import com.smilegateblog.smliegateblog.data.dto.login.LoginRequest
 import com.smilegateblog.smliegateblog.data.dto.post.GetPostResponse
 import com.smilegateblog.smliegateblog.databinding.ActivityPostDetailBinding
+import com.smilegateblog.smliegateblog.databinding.BottomSheetBinding
 import com.smilegateblog.smliegateblog.presentation.GetCommentsResponseItemdetail.CommentAdapter
 import com.smilegateblog.smliegateblog.presentation.GetCommentsResponseItemdetail.OnCommentClickListener
 import com.smilegateblog.smliegateblog.presentation.common.isEmail
@@ -36,19 +41,40 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
     private val viewModel : PostDetailViewModel by viewModels()
     private val mAdapter = CommentAdapter(this)
 
+
+    private lateinit var btnSheetBinding :BottomSheetBinding
+    private lateinit var dialog : BottomSheetDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val inflater = LayoutInflater.from(this)
         binding = ActivityPostDetailBinding.inflate(layoutInflater)
+        btnSheetBinding = BottomSheetBinding.inflate(inflater)
         setContentView(binding.root)
+        dialog = BottomSheetDialog(this)
+        dialog.setContentView(btnSheetBinding.root)
+
         observePostDetail()
         setupCommentRecyclerView()
         //setCommentSendBtnVisible()
         addComment()
         onToggleBtnClicked()
         onUpdateBtnClicked()
+        onDeleteBtnClicked()
+        handlerBottomSheet()
 
-        binding.btnDeletePost.setOnClickListener {
-            deletePost()
+    }
+
+    private fun onDeleteBtnClicked() {
+        btnSheetBinding.btnDeletePost.setOnClickListener {
+            viewModel.deletePost()
+            finish()
+        }
+    }
+
+    private fun handlerBottomSheet(){
+        binding.btnDialog.setOnClickListener{
+            dialog.show()
         }
     }
 
@@ -82,10 +108,7 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
         }
     }
 
-    private fun deletePost(){
-        viewModel.deletePost()
-        finish()
-    }
+
 
     private fun addComment(){
         binding.btnSendComment.setOnClickListener {
@@ -113,7 +136,7 @@ class PostDetailActivity : AppCompatActivity(), OnCommentClickListener<Int> {
     }
 
     private fun onUpdateBtnClicked() {
-        binding.btnUpdatePost.setOnClickListener {
+        btnSheetBinding.btnUpdatePost.setOnClickListener {
             val intent = Intent(this, EditPostActivity::class.java)
             intent.putExtra("postId", viewModel.postId)
             startActivity(intent)

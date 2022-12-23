@@ -11,6 +11,9 @@
     <string name="subtitle_comment">댓글</string>
     <string name="subtitle_my">내가 쓴 게시물</string>
 
+    <string name="delete_post">글 삭제</string>
+    <string name="update_post">글 수정</string>
+
 
     <string name="error_email_not_valid">이메일이 적절하지 않습니다.</string>
     <string name="error_title_not_valid">제목을 채워주세요.</string>
