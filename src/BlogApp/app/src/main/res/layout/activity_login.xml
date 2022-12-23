@@ -4,15 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     tools:context=".presentation.login.LoginActivity">
 
     <LinearLayout
         android:orientation="vertical"
+        android:layout_margin="50dp"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/blog"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -42,18 +47,11 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:id="@+id/login_button"
+            android:text="@string/btn_login"
+            style="@style/MEDIUM_TEXT"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
-
-
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:id="@+id/register_button"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
