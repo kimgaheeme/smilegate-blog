@@ -87,6 +87,9 @@
 
 ---
 
+![alt text](https://github.com/kimgaheeme/smilegate-blog/blob/develop/docs/postSample.gif?raw=true){: width="100%" height="100%"}
+![alt text](https://github.com/kimgaheeme/smilegate-blog/blob/develop/docs/sample.gif?raw=true){: width="100%" height="100%"}
+![alt text](https://github.com/kimgaheeme/smilegate-blog/blob/develop/docs/updateSample.gif?raw=true){: width="100%" height="100%"}
 
 
 ### 아키텍쳐
