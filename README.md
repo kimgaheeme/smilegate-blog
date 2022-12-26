@@ -87,9 +87,9 @@
 
 ---
 
-![alt text](https://github.com/kimgaheeme/smilegate-blog/blob/develop/docs/postSample.gif?raw=true){: width="100%" height="100%"}
-![alt text](https://github.com/kimgaheeme/smilegate-blog/blob/develop/docs/sample.gif?raw=true){: width="100%" height="100%"}
-![alt text](https://github.com/kimgaheeme/smilegate-blog/blob/develop/docs/updateSample.gif?raw=true){: width="100%" height="100%"}
+     [글 올리기](https://github.com/kimgaheeme/smilegate-blog/blob/develop/docs/postSample.gif)
+     [기본 앱 둘러보기](https://github.com/kimgaheeme/smilegate-blog/blob/develop/docs/sample.gif)
+     [수정 예시](https://github.com/kimgaheeme/smilegate-blog/blob/develop/docs/updateSample.gif)
 
 
 ### 아키텍쳐
