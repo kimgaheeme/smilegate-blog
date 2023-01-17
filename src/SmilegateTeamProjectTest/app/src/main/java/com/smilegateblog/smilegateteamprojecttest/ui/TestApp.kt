@@ -9,10 +9,10 @@ import androidx.compose.ui.Modifier
 import com.smilegateblog.smilegateteamprojecttest.ui.theme.SmilegateTeamProjectTestTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@OptIn(ExperimentalCoroutinesApi::class)
+
 @Composable
 fun TestApp() {
     SmilegateTeamProjectTestTheme {
-
+        Text("TestApp")
     }
 }
