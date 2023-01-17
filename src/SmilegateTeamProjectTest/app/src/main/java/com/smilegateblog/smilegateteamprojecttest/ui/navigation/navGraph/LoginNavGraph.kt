@@ -12,14 +12,18 @@ import com.smilegateblog.smilegateteamprojecttest.ui.screen.initial.SignUpScreen
 fun LoginNavGraph(
     navController: NavHostController = rememberNavController(),
     startDestination: String = LoginDestinations.LOGIN_ROUTE,
-    navigationAction: LoginNavigationAction
+    navigationAction: LoginNavigationAction,
+    navigateToMain: () -> Unit
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
         composable(LoginDestinations.LOGIN_ROUTE) {
-            LoginScreen(navigationAction.navigateToSignUp)
+            LoginScreen(
+                navigateToSignUp = navigationAction.navigateToSignUp,
+                navigateToMain = navigateToMain
+            )
         }
 
         composable(LoginDestinations.SIGN_UP_ROUTE) {

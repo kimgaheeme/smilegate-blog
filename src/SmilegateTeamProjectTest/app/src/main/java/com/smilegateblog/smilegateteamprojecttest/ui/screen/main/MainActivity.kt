@@ -1,4 +1,4 @@
-package com.smilegateblog.smilegateteamprojecttest.ui.screen.auth
+package com.smilegateblog.smilegateteamprojecttest.ui.screen.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Login()
+
         }
     }
 }
