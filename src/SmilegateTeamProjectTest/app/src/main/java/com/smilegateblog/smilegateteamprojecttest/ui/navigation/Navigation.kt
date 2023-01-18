@@ -1,7 +1,9 @@
 package com.smilegateblog.smilegateteamprojecttest.ui.navigation
 
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.smilegateblog.smilegateteamprojecttest.ui.component.BottomBarTabs
+import androidx.lifecycle.Lifecycle
 
 object LoginDestinations {
     const val LOGIN_ROUTE = "login"
@@ -16,6 +18,13 @@ object BottomBarDestinations {
 
 object MainDestinations {
     const val MAIN_ROUTE = "main"
+    const val CHAT_ROUTE = "chat"
+    const val CHAT_INFO_ROUTE = "chatInfo"
+    const val ADD_CHAT_MEMBER_ROUTE = "addChatMemberRoute"
+}
+
+object DestinationID {
+    const val CHAT_ID = "chatId"
 }
 
 class LoginNavigationAction(navController: NavController) {
@@ -43,10 +52,45 @@ class MainNavigationAction(val navController: NavController) {
             navController.navigate(route) {
                 launchSingleTop = true
                 restoreState = true
-                popUpTo(BottomBarTabs.Chats.route) {
+                popUpTo(BottomBarDestinations.CHATS_ROUTE) {
                     saveState = true
                 }
             }
         }
     }
+
+    val navigateToChat: (Int, NavBackStackEntry) -> Unit = { chatId, from ->
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${MainDestinations.CHAT_ROUTE}/$chatId")
+        }
+    }
+
+    val navigateToChatInfo: (Int, NavBackStackEntry) -> Unit = { chatId, from ->
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${MainDestinations.CHAT_INFO_ROUTE}/$chatId")
+        }
+    }
+
+    val navigateToAddMember: (Int, NavBackStackEntry) -> Unit = { chatId, from ->
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${MainDestinations.ADD_CHAT_MEMBER_ROUTE}/$chatId")
+        }
+    }
+
+    //새로 생성된 Chat
+    val navigateToNewChat: () -> Unit = {
+        navController.navigate(MainDestinations.CHAT_ROUTE){
+            popUpTo(BottomBarDestinations.CHATS_ROUTE)
+        }
+    }
+
+    //그룹채팅에 멤버가 추가되었을 때?
+    val navigateToUpdateGroupChat: (Int, NavBackStackEntry) -> Unit = { chatId, from ->
+        navController.navigate("${MainDestinations.CHAT_ROUTE}/$chatId") {
+            popUpTo(BottomBarDestinations.CHATS_ROUTE)
+        }
+    }
 }
+
+private fun NavBackStackEntry.lifecycleIsResumed() =
+    this.lifecycle.currentState == Lifecycle.State.RESUMED

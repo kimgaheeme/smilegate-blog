@@ -6,13 +6,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun Chats(
-    navigateToChat: (Int) -> Unit
-) {
+fun ChatInfo(
+    navigateToAddMember: (Int) -> Unit
+){
     Column() {
-        Text("Chats")
-        Button(onClick = { navigateToChat(1) }) {
-            Text("go to chat ")
+        Text("ChatInfo")
+        Button(onClick = { navigateToAddMember(1) }) {
+            Text("go to AddMember ")
         }
     }
 }
