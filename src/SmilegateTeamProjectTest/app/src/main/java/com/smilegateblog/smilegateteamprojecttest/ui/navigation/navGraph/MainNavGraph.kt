@@ -29,7 +29,7 @@ fun MainNavGraph(
         ) {
             bottomNavGraph(navigationAction)
 
-            chatNavigation(navigationAction)
+            chatGraph(navigationAction)
         }
     }
 }
@@ -39,21 +39,24 @@ private fun NavGraphBuilder.bottomNavGraph(
 ) {
     composable(BottomBarDestinations.CHATS_ROUTE) { from ->
         Chats(
-            navigateToChat = { chatId -> navigationAction.navigateToChat(chatId, from)}
+            navigateToChat = { chatId -> navigationAction.navigateToChat(chatId, from)},
+            navigateToAddChat = { navigationAction.navigateToAddChat() }
         )
     }
 
-    composable(BottomBarDestinations.PEOPLE_ROUTE) { from ->
-        People()
+    navigation(
+        route = MainDestinations.PEOPLE_GRAPH_ROUTE,
+        startDestination = BottomBarDestinations.PEOPLE_ROUTE
+    ) {
+        peopleGraph(navigationAction)
     }
 
     composable(BottomBarDestinations.SETTING_ROUTE) { from ->
         Setting()
     }
-
 }
 
-private fun NavGraphBuilder.chatNavigation(
+private fun NavGraphBuilder.chatGraph(
     navigationAction: MainNavigationAction
 ) {
     composable(
@@ -85,8 +88,28 @@ private fun NavGraphBuilder.chatNavigation(
     ) { from ->
         AddChatMember(
             navigateToNewChat = { navigationAction.navigateToNewChat() },
-            navigateToUpdateGroupChat = { chatId -> navigationAction.navigateToAddMember(chatId, from)}
+            navigateToUpdateGroupChat = { chatId -> navigationAction.navigateToUpdateGroupChat(chatId, from)}
+        )
+    }
+
+    composable(
+        route = MainDestinations.ADD_CHAT_ROUTE
+    ) { from ->
+        AddChat(
+            navigateToNewChat = { navigationAction.navigateToNewChat() }
         )
     }
 }
 
+private fun NavGraphBuilder.peopleGraph(
+    navigationAction: MainNavigationAction
+) {
+    composable(BottomBarDestinations.PEOPLE_ROUTE) { from ->
+        People(
+            navigateToAddPeople = navigationAction.navigateToAddPeople
+        )
+    }
+    composable(MainDestinations.ADD_PEOPLE_ROUTE) { from ->
+        AddPeople()
+    }
+}
