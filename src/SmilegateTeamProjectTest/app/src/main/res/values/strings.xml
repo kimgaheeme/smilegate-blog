@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Smilegate Team Project Test</string>
+
+    <string name="bottom_chats">Chats</string>
+    <string name="bottom_people">People</string>
+    <string name="bottom_setting">Setting</string>
 </resources>

@@ -5,7 +5,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SignUpScreen(onBackClick: () -> Unit) {
+fun SignUp(onBackClick: () -> Unit) {
     Button(onClick = onBackClick) {
         Text("현재는 SignUpScreen")
     }

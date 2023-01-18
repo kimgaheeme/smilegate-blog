@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.smilegateblog.smilegateteamprojecttest.ui.screen.LoginScreen
-import com.smilegateblog.smilegateteamprojecttest.ui.screen.initial.SignUpScreen
+import com.smilegateblog.smilegateteamprojecttest.ui.screen.Login
+import com.smilegateblog.smilegateteamprojecttest.ui.screen.initial.SignUp
 
 @Composable
 fun LoginNavGraph(
@@ -20,14 +20,14 @@ fun LoginNavGraph(
         startDestination = startDestination
     ) {
         composable(LoginDestinations.LOGIN_ROUTE) {
-            LoginScreen(
+            Login(
                 navigateToSignUp = navigationAction.navigateToSignUp,
                 navigateToMain = navigateToMain
             )
         }
 
         composable(LoginDestinations.SIGN_UP_ROUTE) {
-            SignUpScreen(navigationAction.upPress)
+            SignUp(navigationAction.upPress)
         }
     }
 }
