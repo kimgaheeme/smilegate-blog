@@ -27,9 +27,9 @@ import com.smilegateblog.smilegateteamprojecttest.ui.theme.SmilegateTeamProjectT
 
 
 object ProfileImageValue {
-    val ChatTopBarImageSize = 36.dp
-    const val DoubleProfileImageSize = 36
-    const val TripleProfileImageSize = 20
+    const val ChatTopBarImageSize = 36
+
+    const val ChatTitleImageSize = 104
 
     val ProfileWithStateSize = 56.dp
     val StateSize = 16.dp
@@ -61,29 +61,30 @@ fun ProfileImageWithState(
 @Composable
 fun ProfileImages(
     images: List<String?>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    profileSize: Int = ProfileImageValue.ChatTopBarImageSize
 ) {
-    if(images.size == 1) ProfileImage(imageURL = images.first(), modifier = modifier.size(ProfileImageValue.ChatTopBarImageSize))
-    else if(images.size == 2) DoubleProfileImage(images = images, modifier = modifier)
-    else TripleProfileImage(images = images, modifier = modifier)
+    if(images.size == 1) ProfileImage(imageURL = images.first(), modifier = modifier, profileSize = profileSize)
+    else if(images.size == 2) DoubleProfileImage(images = images, modifier = modifier, profileSize = profileSize)
+    else TripleProfileImage(images = images, modifier = modifier, profileSize = profileSize)
 }
 
 @Composable
 fun DoubleProfileImage(
     images: List<String?>,
     modifier: Modifier = Modifier,
-    profileSize: Int = ProfileImageValue.DoubleProfileImageSize
+    profileSize: Int = ProfileImageValue.ChatTopBarImageSize
 ) {
-    val widthValue = (profileSize * 1.75).toInt().dp
+    val widthValue = (profileSize / 1.75).toInt().dp
 
     Box(
-        modifier = Modifier.width(widthValue)
+        modifier = Modifier.width(profileSize.dp)
     ) {
         ProfileImage(images[0]?: "", modifier = modifier
-            .size(profileSize.dp)
+            .size(widthValue)
             .align(Alignment.CenterStart))
         ProfileImage(images[1]?: "", modifier = modifier
-            .size(profileSize.dp)
+            .size(widthValue)
             .align(Alignment.CenterEnd))
     }
 }
@@ -92,21 +93,21 @@ fun DoubleProfileImage(
 fun TripleProfileImage(
     images: List<String?>,
     modifier: Modifier = Modifier,
-    profileSize: Int = ProfileImageValue.TripleProfileImageSize
+    profileSize: Int = ProfileImageValue.ChatTopBarImageSize
 ) {
-    val widthValue = (profileSize * 1.75).toInt().dp
+    val widthValue = (profileSize / 1.75).toInt().dp
 
     Box(
-        modifier = Modifier.size(widthValue)
+        modifier = Modifier.size(profileSize.dp)
     ) {
         ProfileImage(images[0]?: "", modifier = modifier
-            .size(profileSize.dp)
+            .size(widthValue)
             .align(Alignment.TopStart))
         ProfileImage(images[1]?: "", modifier = modifier
-            .size(profileSize.dp)
+            .size(widthValue)
             .align(Alignment.TopEnd))
         ProfileImage(images[2]?: "", modifier = modifier
-            .size(profileSize.dp)
+            .size(widthValue)
             .align(Alignment.BottomCenter))
     }
 }
@@ -115,10 +116,11 @@ fun TripleProfileImage(
 @Composable
 fun ProfileImage(
     imageURL: String?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    profileSize: Int = ProfileImageValue.ChatTopBarImageSize
 ) {
-    if(imageURL.isNullOrBlank()) BlankProfileImage(modifier = modifier)
-    else NonBlankProfileImage(imageURL = imageURL, modifier = modifier)
+    if(imageURL.isNullOrBlank()) BlankProfileImage(modifier = modifier.size(profileSize.dp))
+    else NonBlankProfileImage(imageURL = imageURL, modifier = modifier.size(profileSize.dp))
 }
 
 
