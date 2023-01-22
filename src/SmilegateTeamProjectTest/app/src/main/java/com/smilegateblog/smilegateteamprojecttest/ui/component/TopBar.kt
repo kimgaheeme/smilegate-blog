@@ -97,7 +97,7 @@ fun MainTopBarWithBothBtn(
             color = btnColor,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
-                .clickable { onLeftBtnClick() }
+                .clickable { onRightBtnClick() }
         )
     }
 }
@@ -107,6 +107,7 @@ fun MainTopBarWithBothBtn(
 fun ChatTopBar(
     upPress: () -> Unit = {},
     chatroomTitle: String = "",
+    images: List<String?>,
     btnColor: Color = MaterialTheme.colors.primary,
     modifier: Modifier = Modifier
 ) {
@@ -131,8 +132,10 @@ fun ChatTopBar(
         }
 
         Spacer(modifier = Modifier.size(24.dp))
-        
-        //프로필 이미지 추가하기
+
+        ProfileImages(
+            images = images
+        )
 
         Spacer(modifier = Modifier.size(10.dp))
 
@@ -153,7 +156,11 @@ fun PreviewSmgMainTopBar(){
         Column {
             MainTopBarWithLeftBtn(content = "tect", leftContent = "left")
             MainTopBarWithBothBtn(content = "tect", leftContent = "left", rightContent = "right")
-            ChatTopBar(chatroomTitle = "title")
+            ChatTopBar(chatroomTitle = "title", images = listOf("", "", ""))
         }
     }
+}
+
+private fun getChatRoomTitle(members: List<String>): String{
+    return members[0]+ members[1] + members[2]
 }
