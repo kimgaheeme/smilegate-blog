@@ -15,15 +15,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.smilegateblog.smilegateteamprojecttest.ui.theme.SmilegateTeamProjectTestTheme
 
-private val ButtonShape = RoundedCornerShape(16.dp)
-private val LargeButtonHeight = 45.dp
 
-private val MediumButtonHeight = 36.dp
-private val MediumButtonWidth = 226.dp
+object ButtonValue {
+    val ButtonShape = RoundedCornerShape(16.dp)
+    val LargeButtonHeight = 45.dp
 
-private val SmallButtonHeight = 36.dp
-private val SmallButtonWidth = 78.dp
+    val MediumButtonHeight = 36.dp
+    val MediumButtonWidth = 226.dp
 
+    val SmallButtonHeight = 36.dp
+    val SmallButtonWidth = 78.dp
+}
 
 @Composable
 fun SmgButton(
@@ -31,7 +33,7 @@ fun SmgButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     isClicked: Boolean = false,
-    shape: Shape = ButtonShape,
+    shape: Shape = ButtonValue.ButtonShape,
     border: BorderStroke? = null,
     content: String = "",
     contentColor: Color = MaterialTheme.colors.onPrimary,
