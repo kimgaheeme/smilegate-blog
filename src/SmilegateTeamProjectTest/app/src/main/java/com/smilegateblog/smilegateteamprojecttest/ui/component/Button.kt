@@ -17,7 +17,7 @@ import com.smilegateblog.smilegateteamprojecttest.ui.theme.SmilegateTeamProjectT
 
 
 object ButtonValue {
-    val ButtonShape = RoundedCornerShape(16.dp)
+    val ButtonShape = RoundedCornerShape(12.dp)
     val LargeButtonHeight = 45.dp
 
     val MediumButtonHeight = 36.dp
