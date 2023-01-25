@@ -75,7 +75,7 @@ fun Login(
             onQueryChange = { query = it},
             onSearchFocusChange = { textFieldFocusState = it },
             searchFocused = textFieldFocusState,
-            placeholder = stringResource(id = R.string.login_email_et),
+            placeholder = stringResource(id = R.string.initial_email_et),
             onDone = { focusManager.moveFocus(FocusDirection.Down) }
         )
 
@@ -90,7 +90,7 @@ fun Login(
             onQueryChange = { query2 = it},
             onSearchFocusChange = { textFieldFocusState2 = it },
             searchFocused = textFieldFocusState2,
-            placeholder = stringResource(id = R.string.login_password_et),
+            placeholder = stringResource(id = R.string.initial_password_et),
             onDone = {
                 focusManager.clearFocus()
             }
