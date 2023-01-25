@@ -3,10 +3,7 @@ package com.smilegateblog.smilegateteamprojecttest.ui.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,6 +45,9 @@ fun SmgButton(
             backgroundColor = if(isClicked) disabledColor else backgroundColor,
             disabledContentColor = disabledContentColor,
             contentColor = if(isClicked) disabledContentColor else contentColor
+        ),
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = 0.dp
         ),
         border = border,
         shape = shape,
