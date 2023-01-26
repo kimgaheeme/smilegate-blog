@@ -123,6 +123,8 @@ private fun NavGraphBuilder.peopleGraph(
         )
     }
     composable(MainDestinations.ADD_PEOPLE_ROUTE) { from ->
-        AddPeople()
+        AddPeople(
+            upPress = navigationAction.upPress
+        )
     }
 }

@@ -3,22 +3,18 @@ package com.smilegateblog.smilegateteamprojecttest.ui.screen.main
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.smilegateblog.smilegateteamprojecttest.R
 import com.smilegateblog.smilegateteamprojecttest.model.People
-import com.smilegateblog.smilegateteamprojecttest.ui.component.*
-import com.smilegateblog.smilegateteamprojecttest.ui.theme.Gray400
+import com.smilegateblog.smilegateteamprojecttest.ui.component.PeopleItem
+import com.smilegateblog.smilegateteamprojecttest.ui.component.PeopleWithTwoBtnItem
+import com.smilegateblog.smilegateteamprojecttest.ui.component.SubTitle
+import com.smilegateblog.smilegateteamprojecttest.ui.component.TopBarWithProfile
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
 
 object PeopleScreenValue {

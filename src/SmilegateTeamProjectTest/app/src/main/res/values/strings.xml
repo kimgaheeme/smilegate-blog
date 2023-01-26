@@ -53,4 +53,10 @@
     <string name="add_chat_group_cancel_btn">취소</string>
     <string name="add_chat_group_add_btn">만들기</string>
     <string name="add_chat_group_friend_subtitle">친구</string>
+
+    <string name="add_friend_top_bar">Add Friend</string>
+    <string name="add_friend_cancel_btn">취소</string>
+    <string name="add_friend_friend_subtitle">친구</string>
+    <string name="add_friend_request_btn">친구추가</string>
+    <string name="add_friend_requested_btn">요청됨</string>
 </resources>

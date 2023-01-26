@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.smilegateblog.smilegateteamprojecttest.ui.theme.SmilegateTeamProjectTestTheme
 
 
@@ -21,7 +22,7 @@ object ButtonValue {
     val MediumButtonWidth = 226.dp
 
     val SmallButtonHeight = 36.dp
-    val SmallButtonWidth = 78.dp
+    val SmallButtonWidth = 88.dp
 }
 
 @Composable
@@ -36,7 +37,8 @@ fun SmgButton(
     contentColor: Color = MaterialTheme.colors.onPrimary,
     disabledContentColor: Color = MaterialTheme.colors.onSecondary,
     backgroundColor: Color = MaterialTheme.colors.primary,
-    disabledColor: Color = MaterialTheme.colors.secondary
+    disabledColor: Color = MaterialTheme.colors.secondary,
+    clickedContent: String = ""
 ) {
     Button(
         onClick = onClick,
@@ -55,7 +57,8 @@ fun SmgButton(
         enabled = enabled
     ) {
         Text(
-            text = content
+            text = if(isClicked) clickedContent else content,
+            fontSize = 14.sp
         )
     }
 }
