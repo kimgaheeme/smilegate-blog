@@ -20,27 +20,26 @@ import com.smilegateblog.smilegateteamprojecttest.ui.theme.SmilegateTeamProjectT
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
 
 object PeopleItemValue {
-    val ItemHeight = 64.dp
-    const val ProfileSize = 42
+    val ItemHeight = 56.dp
+    const val ProfileSize = 56
     val CheckCircleSize = 14.dp
 }
 
 @Composable
 fun PeopleWithTwoBtnItem(
-    onLeftClick: () -> Unit = {},
-    onRightClick: () -> Unit = {},
-    leftBtnContent: String = "첫번째",
-    rightBtnContent: String = "두번째",
-    imageURL: String = "",
-    nickname: String = "nickname",
+    onLeftClick: () -> Unit,
+    onRightClick: () -> Unit,
+    leftBtnContent: String,
+    rightBtnContent: String,
+    imageURL: String,
+    nickname: String,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
         PeopleItem(imageURL = imageURL, nickname = nickname)
         Row(
             modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(KeyLine),
+                .align(Alignment.CenterEnd),
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             SmgButton(
@@ -144,8 +143,7 @@ fun PeopleItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(PeopleItemValue.ItemHeight)
-            .padding(horizontal = KeyLine),
+            .height(PeopleItemValue.ItemHeight),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -169,7 +167,7 @@ fun PreviewPeopleItem(){
             PeopleItem()
             PeopleWithCheckItem(isChecked = true)
             PeopleWithSingleBtnItem()
-            PeopleWithTwoBtnItem()
+//            PeopleWithTwoBtnItem()
         }
     }
 }

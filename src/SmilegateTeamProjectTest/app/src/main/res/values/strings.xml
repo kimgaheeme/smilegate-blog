@@ -16,5 +16,11 @@
 
     <string name="chats_title">Chat</string>
     <string name="people_title">People</string>
+    
+    <string name="people_friend_request_subtitle">친구 요청</string>
+    <string name="people_friend_subtitle">친구</string>
+
+    <string name="people_accept_btn">수락</string>
+    <string name="people_deny_btn">거절</string>
 
 </resources>
