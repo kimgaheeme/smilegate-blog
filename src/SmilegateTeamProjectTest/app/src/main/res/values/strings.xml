@@ -23,4 +23,15 @@
     <string name="people_accept_btn">수락</string>
     <string name="people_deny_btn">거절</string>
 
+    <string name="setting_system_subtitle">시스템</string>
+    <string name="setting_account_subtitle">계정</string>
+
+    <string name="setting_dark_mode_btn">다크모드</string>
+    <string name="setting_alarm_btn">알림 및 소리</string>
+    <string name="setting_active_btn">활동 상태</string>
+
+    <string name="setting_profile_btn">프로필 편집</string>
+    <string name="setting_logout_btn">로그아웃</string>
+    <string name="setting_withdraw_btn">회원탈퇴</string>
+
 </resources>

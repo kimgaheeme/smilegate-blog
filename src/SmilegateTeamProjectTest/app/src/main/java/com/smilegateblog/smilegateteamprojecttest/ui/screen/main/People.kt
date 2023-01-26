@@ -17,10 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smilegateblog.smilegateteamprojecttest.R
 import com.smilegateblog.smilegateteamprojecttest.model.People
-import com.smilegateblog.smilegateteamprojecttest.ui.component.PeopleItem
-import com.smilegateblog.smilegateteamprojecttest.ui.component.PeopleItemValue
-import com.smilegateblog.smilegateteamprojecttest.ui.component.PeopleWithTwoBtnItem
-import com.smilegateblog.smilegateteamprojecttest.ui.component.TopBarWithProfile
+import com.smilegateblog.smilegateteamprojecttest.ui.component.*
 import com.smilegateblog.smilegateteamprojecttest.ui.theme.Gray400
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
 
@@ -94,17 +91,4 @@ fun People(
             }
         }
     }
-}
-
-@Composable
-fun SubTitle(
-    content: String,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = content,
-        fontSize = 13.sp,
-        color = Gray400,
-        modifier = modifier
-    )
 }
