@@ -48,4 +48,9 @@
     <string name="add_chat_create_group_bar">Create a New Group</string>
     <string name="add_chat_cancel_btn">취소</string>
     <string name="add_chat_friend_subtitle">친구</string>
+
+    <string name="add_chat_group_top_bar">New Message</string>
+    <string name="add_chat_group_cancel_btn">취소</string>
+    <string name="add_chat_group_add_btn">만들기</string>
+    <string name="add_chat_group_friend_subtitle">친구</string>
 </resources>

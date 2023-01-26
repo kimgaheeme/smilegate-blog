@@ -157,7 +157,6 @@ fun PeopleItem(
 ) {
     Row(
         modifier = modifier
-            .clickable { onClick() }
             .fillMaxWidth()
             .height(profileSize.dp),
         verticalAlignment = Alignment.CenterVertically,

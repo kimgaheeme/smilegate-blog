@@ -90,7 +90,7 @@ fun AddChat(
                 NoResultScreen()
             }
             SearchDisplay.Default -> {
-                ChatList(
+                PeopleList(
                     result = default,
                     onClick = { navigateToNewChat() }
                 ) {
@@ -135,7 +135,7 @@ fun AddChat(
                 }
             }
             SearchDisplay.Results -> {
-                ChatList(
+                PeopleList(
                     result = result,
                     onClick = navigateToNewChat
                 ){}
@@ -145,7 +145,7 @@ fun AddChat(
 }
 
 @Composable
-private fun ChatList(
+private fun PeopleList(
     result: List<People>,
     onClick: () -> Unit,
     content: @Composable () -> Unit
@@ -160,7 +160,7 @@ private fun ChatList(
             PeopleItem(
                 imageURL = friend.profileImage,
                 nickname = friend.nickname,
-                onClick = { onClick() },
+                modifier = Modifier.clickable { onClick() },
                 profileSize = AddChatScreenValue.ProfileSize
             )
             Divider(
