@@ -40,8 +40,12 @@
     <string name="chat_info_exit_btn">대화방 나가기</string>
 
     <string name="add_chat_member_top_bar">Add Member</string>
-    <string name="add_chat_member_cancle_btn">취소</string>
+    <string name="add_chat_member_cancel_btn">취소</string>
     <string name="add_chat_member_add_btn">초대하기</string>
-
     <string name="add_chat_member_friend_subtitle">친구</string>
+
+    <string name="add_chat_top_bar">New Message</string>
+    <string name="add_chat_create_group_bar">Create a New Group</string>
+    <string name="add_chat_cancel_btn">취소</string>
+    <string name="add_chat_friend_subtitle">친구</string>
 </resources>

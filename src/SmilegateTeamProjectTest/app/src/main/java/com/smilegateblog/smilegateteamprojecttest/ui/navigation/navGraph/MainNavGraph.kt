@@ -98,7 +98,18 @@ private fun NavGraphBuilder.chatGraph(
         route = MainDestinations.ADD_CHAT_ROUTE
     ) { from ->
         AddChat(
-            navigateToNewChat = { navigationAction.navigateToNewChat() }
+            upPress = navigationAction.upPress,
+            navigateToNewChat = { navigationAction.navigateToNewChat() },
+            navigateToAddGroupChat = { navigationAction.navigateToAddGroupChat() }
+        )
+    }
+
+    composable(
+        route = MainDestinations.ADD_CHAT_GROUP_ROUTE
+    ) { from ->
+        AddGroupChat(
+            upPress = navigationAction.upPress,
+            navigateToNewChat = { navigationAction.navigateToNewChat() },
         )
     }
 }

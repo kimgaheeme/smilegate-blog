@@ -22,11 +22,8 @@ import com.smilegateblog.smilegateteamprojecttest.model.Member
 import com.smilegateblog.smilegateteamprojecttest.model.People
 import com.smilegateblog.smilegateteamprojecttest.ui.component.*
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
+import com.smilegateblog.smilegateteamprojecttest.ui.util.SearchDisplay
 import com.smilegateblog.smilegateteamprojecttest.ui.viewmodel.main.AddChatMemberViewModel
-
-enum class SearchDisplay {
-    Default, Results, NoResults
-}
 
 object AddChatMemberValue {
     val BetweenFriendPaddingSize = 10.dp
@@ -57,7 +54,7 @@ fun AddChatMember(
     var textFieldFocusState by remember { mutableStateOf(false) }
     var focusManager = LocalFocusManager.current
 
-    //추가되어있는 멤버
+    //이미 추가되어있는 멤버
     var members by remember{ mutableStateOf(listOf(
         Member("asd","nickname",""),
         Member("asd","nickname2","")
@@ -87,7 +84,7 @@ fun AddChatMember(
             onLeftBtnClick = upPress,
             onRightBtnClick = addMember,
             content = stringResource(id = R.string.add_chat_member_top_bar),
-            leftContent = stringResource(id = R.string.add_chat_member_cancle_btn),
+            leftContent = stringResource(id = R.string.add_chat_member_cancel_btn),
             rightContent = stringResource(id = R.string.add_chat_member_add_btn),
             rightVisible = checkedPeople.checkedPeople.isNotEmpty()
         )

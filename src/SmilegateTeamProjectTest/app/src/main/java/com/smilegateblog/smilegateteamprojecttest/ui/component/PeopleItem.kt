@@ -16,13 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smilegateblog.smilegateteamprojecttest.ui.theme.SmilegateTeamProjectTestTheme
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
 
 object PeopleItemValue {
-    val ItemHeight = 56.dp
+    const val ItemHeight = 56
     const val ProfileSize = 56
     val CheckCircleSize = 14.dp
 }
@@ -112,7 +113,10 @@ fun PeopleWithCheckItem(
                 onClick()
             }
     ) {
-        PeopleItem(imageURL, nickname)
+        PeopleItem(
+            imageURL = imageURL,
+            nickname = nickname
+        )
 
         if(isChecked){
             Surface(
@@ -145,20 +149,23 @@ fun PeopleWithCheckItem(
 
 @Composable
 fun PeopleItem(
+    onClick: () -> Unit = {},
     imageURL: String = "",
     nickname: String = "nickname",
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    profileSize: Int = PeopleItemValue.ItemHeight
 ) {
     Row(
         modifier = modifier
+            .clickable { onClick() }
             .fillMaxWidth()
-            .height(PeopleItemValue.ItemHeight),
+            .height(profileSize.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         ProfileImage(
             imageURL = imageURL,
-            profileSize = PeopleItemValue.ProfileSize
+            profileSize = profileSize
         )
 
         Text(
