@@ -1,6 +1,8 @@
 package com.smilegateblog.smilegateteamprojecttest.ui.component
 
+import android.util.Log
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -9,7 +11,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -95,14 +97,21 @@ fun PeopleWithSingleBtnItem(
 
 @Composable
 fun PeopleWithCheckItem(
-    imageURL: String = "",
-    nickname: String = "nickname",
+    onClick: () -> Unit,
+    imageURL: String,
+    nickname: String,
     modifier: Modifier = Modifier,
-    isChecked: Boolean = false,
+    isChecked: Boolean,
     onBtnColor: Color = MaterialTheme.colors.background,
     btnColor: Color = MaterialTheme.colors.primary
 ) {
-    Box(modifier = modifier) {
+
+    Box(
+        modifier = modifier
+            .clickable {
+                onClick()
+            }
+    ) {
         PeopleItem(imageURL, nickname)
 
         if(isChecked){
@@ -156,18 +165,5 @@ fun PeopleItem(
             text = nickname,
             fontSize = 17.sp
         )
-    }
-}
-
-@Composable
-@Preview
-fun PreviewPeopleItem(){
-    SmilegateTeamProjectTestTheme {
-        Column {
-            PeopleItem()
-            PeopleWithCheckItem(isChecked = true)
-            PeopleWithSingleBtnItem()
-//            PeopleWithTwoBtnItem()
-        }
     }
 }

@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.smilegateblog.smilegateteamprojecttest.ui.theme.SmilegateTeamProjectTestTheme
 
 object TopBarValue {
-    val HorizontalPadding = 19.dp
+    val HorizontalPadding = 3.dp
     val TopBarHeight = 46.dp
     val IconSize = 26.dp
 
@@ -80,9 +80,9 @@ fun TopBarWithProfile(
 
 @Composable
 fun MainTopBarWithLeftBtn(
-    onLeftBtnClick: () -> Unit = {},
-    content: String = "",
-    leftContent: String = "",
+    onLeftBtnClick: () -> Unit,
+    content: String,
+    leftContent: String,
     btnColor: Color = MaterialTheme.colors.primary,
     modifier: Modifier = Modifier
 ) {
@@ -114,11 +114,12 @@ fun MainTopBarWithLeftBtn(
 
 @Composable
 fun MainTopBarWithBothBtn(
-    onLeftBtnClick: () -> Unit = {},
-    onRightBtnClick: () -> Unit = {},
-    content: String = "",
-    leftContent: String = "",
-    rightContent: String = "",
+    onLeftBtnClick: () -> Unit,
+    onRightBtnClick: () -> Unit,
+    content: String,
+    leftContent: String,
+    rightContent: String,
+    rightVisible: Boolean,
     btnColor: Color = MaterialTheme.colors.primary,
     modifier: Modifier = Modifier
 ) {
@@ -146,14 +147,16 @@ fun MainTopBarWithBothBtn(
                 .clickable { onLeftBtnClick() }
         )
 
-        Text(
-            text = rightContent,
-            fontSize = 17.sp,
-            color = btnColor,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .clickable { onRightBtnClick() }
-        )
+        if(rightVisible) {
+            Text(
+                text = rightContent,
+                fontSize = 17.sp,
+                color = btnColor,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .clickable { onRightBtnClick() }
+            )
+        }
     }
 }
 
@@ -202,19 +205,6 @@ fun ChatTopBar(
     }
 }
 
-
-
-@Composable
-@Preview
-fun PreviewSmgMainTopBar(){
-    SmilegateTeamProjectTestTheme {
-        Column {
-            MainTopBarWithLeftBtn(content = "tect", leftContent = "left")
-            MainTopBarWithBothBtn(content = "tect", leftContent = "left", rightContent = "right")
-            ChatTopBar(chatroomTitle = "title", images = listOf("", "", ""))
-        }
-    }
-}
 
 private fun getChatRoomTitle(members: List<String>): String{
     return members[0]+ members[1] + members[2]

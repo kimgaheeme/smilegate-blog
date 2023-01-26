@@ -39,5 +39,9 @@
     <string name="chat_info_alarm_btn">알림 및 소리</string>
     <string name="chat_info_exit_btn">대화방 나가기</string>
 
+    <string name="add_chat_member_top_bar">Add Member</string>
+    <string name="add_chat_member_cancle_btn">취소</string>
+    <string name="add_chat_member_add_btn">초대하기</string>
 
+    <string name="add_chat_member_friend_subtitle">친구</string>
 </resources>

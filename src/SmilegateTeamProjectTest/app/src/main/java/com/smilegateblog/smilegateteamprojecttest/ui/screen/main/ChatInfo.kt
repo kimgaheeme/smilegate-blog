@@ -1,10 +1,11 @@
 package com.smilegateblog.smilegateteamprojecttest.ui.screen.main
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
@@ -17,18 +18,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smilegateblog.smilegateteamprojecttest.R
 import com.smilegateblog.smilegateteamprojecttest.model.Member
-import com.smilegateblog.smilegateteamprojecttest.ui.component.ProfileImage
-import com.smilegateblog.smilegateteamprojecttest.ui.component.ProfileImageValue
 import com.smilegateblog.smilegateteamprojecttest.ui.component.ProfileImages
-import com.smilegateblog.smilegateteamprojecttest.ui.component.TopBarValue
-import com.smilegateblog.smilegateteamprojecttest.ui.theme.SmilegateTeamProjectTestTheme
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
-import kotlinx.coroutines.internal.PrepareOp
 
 object ChatInfoValue {
     val ChatInfoItemHeight = 52.dp
