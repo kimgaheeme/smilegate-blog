@@ -81,18 +81,6 @@ fun SearchBar(
             )
         }
 
-        BasicTextField(
-            value = query,
-            onValueChange = onQueryChange,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(vertical = SearchBarValue.IconSpaceSize)
-                .fillMaxWidth()
-                .onFocusChanged { onSearchFocusChange(it.isFocused) },
-            singleLine = true,
-            keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() } ),
-        )
-
         Icon(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -116,6 +104,24 @@ fun SearchBar(
                 tint = MaterialTheme.colors.background
             )
         }
+
+        BasicTextField(
+            value = query,
+            onValueChange = onQueryChange,
+            textStyle = TextStyle(
+                fontSize = 16.sp,
+                color = MaterialTheme.colors.onSecondary
+            ),
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(horizontal = SearchBarValue.IconSpaceSize)
+                .fillMaxWidth()
+                .onFocusChanged { onSearchFocusChange(it.isFocused) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = { focusManager.clearFocus() } ),
+        )
+
     }
 }
 
@@ -214,7 +220,7 @@ fun EditTextPreview() {
     SmilegateTeamProjectTestTheme() {
         Column() {
             SearchBar(
-                query = TextFieldValue(""),
+                query = TextFieldValue("dfasd"),
                 onQueryChange = {},
                 searchFocused = true,
                 onSearchFocusChange = {},
@@ -222,13 +228,13 @@ fun EditTextPreview() {
                 placeholder = "PlaceHolder"
             )
 
-            ChatTextBar(
-                query = TextFieldValue("asdfas\nasdfawe"),
-                onQueryChange = {},
-                focused = true,
-                onTextFieldFocused = {},
-                keyboardShown = false
-            )
+//            ChatTextBar(
+//                query = TextFieldValue("asdfas\nasdfawe"),
+//                onQueryChange = {},
+//                focused = true,
+//                onTextFieldFocused = {},
+//                keyboardShown = false
+//            )
         }
     }
 }

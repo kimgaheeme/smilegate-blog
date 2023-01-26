@@ -14,4 +14,7 @@
 
     <string name="signup_create_btn">계정 생성</string>
 
+    <string name="chats_title">Chat</string>
+    <string name="people_title">People</string>
+
 </resources>
