@@ -10,15 +10,9 @@ import java.util.*
     tableName = "messages",
     foreignKeys = [
         ForeignKey(
-            entity = ChatRoom::class,
-            parentColumns = ["chatroom_id"],
-            childColumns = ["chatroom_id"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
             entity = Member::class,
-            parentColumns = ["member_id"],
-            childColumns = ["message_from_id"],
+            parentColumns = ["chatroom_id", "member_id"],
+            childColumns = ["chatroom_id", "message_from_id"],
             onDelete = ForeignKey.NO_ACTION
         ),
     ]

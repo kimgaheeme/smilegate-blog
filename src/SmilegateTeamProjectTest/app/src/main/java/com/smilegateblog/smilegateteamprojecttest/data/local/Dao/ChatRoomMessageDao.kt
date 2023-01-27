@@ -13,7 +13,7 @@ interface ChatRoomMessageDao {
     @Transaction
     @Query(
         "SELECT * " +
-        "FROM chatroom "
+        "FROM chatroom ORDER BY chatroom.unread"
     )
     fun loadChatRoomAndMessage(): Flow<List<ChatRoomMessage>>
 }

@@ -1,9 +1,13 @@
 package com.smilegateblog.smilegateteamprojecttest.ui.screen.main
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -22,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.smilegateblog.smilegateteamprojecttest.R
 import com.smilegateblog.smilegateteamprojecttest.domain.model.ChatRoom
+import com.smilegateblog.smilegateteamprojecttest.domain.model.ChatRoomType
 import com.smilegateblog.smilegateteamprojecttest.model.ChatRooms
 import com.smilegateblog.smilegateteamprojecttest.model.Member
 import com.smilegateblog.smilegateteamprojecttest.ui.component.*
@@ -106,7 +111,7 @@ fun Chats(
                 items(state.value.chats) {
                     ChatItem(
                         onClick = navigateToChat,
-                        chatRooms = it,
+                        chatRoom = it,
                         isActivate = null)
                     Spacer(modifier = Modifier.size(ChatsScreenValue.SpacerBetweenChatRooms))
                 }
@@ -152,84 +157,84 @@ fun ProfileStateItem(
 @Composable
 fun ChatItem(
     onClick: (String) -> Unit,
-    chatRooms: ChatRoom,
+    chatRoom: ChatRoom,
     isActivate: Boolean?
 ) {
-    var unread = if(chatRooms.unread >= Constants.maxNewMessage) {
+    var unread = if(chatRoom.unread >= Constants.maxNewMessage) {
         Constants.maxNewMessage.toString() + "+"
     } else {
-        chatRooms.unread.toString()
+        chatRoom.unread.toString()
     }
 
 
 
-//    Row(
-//        modifier = Modifier
-//            .clickable { onClick(chatRoom.chatRoomId) }
-//            .fillMaxWidth(),
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        if(true ) {
-//            ProfileImageWithState(
-//                imageURL = chatRoom.members.first().profileImage,
-//                isActivate = isActivate?: false,
-//                profileSize = ProfileImageValue.ProfileWithStateSize
-//            )
-//        } else {
-//            ProfileImages(
-//                images = chatRoom.members.map { it.profileImage },
-//                profileSize = ProfileImageValue.ProfileWithStateSize
-//            )
-//        }
-//
-//        Spacer(modifier = Modifier.size(ChatsScreenValue.SpacerBetweenProfileAndMessage))
-//
-//        Column(
-//            modifier = Modifier.weight(1f),
-//            verticalArrangement = Arrangement.spacedBy(2.dp)
-//        ) {
-//            Text(
-//                text = chatRoom.title,
-//                fontSize = 16.sp,
-//                maxLines = 1,
-//                overflow = TextOverflow.Ellipsis
-//            )
-//            Row() {
-//                Text(
-//                    text = chatRoom.lastMessageContent,
-//                    fontSize = 14.sp,
-//                    maxLines = 1,
-//                    overflow = TextOverflow.Ellipsis,
-//                    modifier = Modifier
-//                        .weight(1f)
-//                        .padding(end = 4.dp)
-//                )
-//
-//                Text(
-//                    text = chatRoom.lastMessageCreatedAt.toString(),
-//                    fontSize = 14.sp,
-//                    maxLines = 1,
-//                    modifier = Modifier.width(ChatsScreenValue.MessageDateSize)
-//                )
-//            }
-//        }
-//
-//        Spacer(modifier = Modifier.size(ChatsScreenValue.SpacerBetweenMessageAndUnread))
-//
-//        Text(
-//            text = unread,
-//            fontSize = 14.sp,
-//            color = MaterialTheme.colors.onPrimary,
-//            maxLines = 1,
-//            textAlign = TextAlign.Center,
-//            overflow = TextOverflow.Ellipsis,
-//            modifier = Modifier
-//                .background(MaterialTheme.colors.primary, CircleShape)
-//                .defaultMinSize(minWidth = ChatsScreenValue.UnreadSize)
-//                .padding(3.dp)
-//        )
-//
-//    }
+    Row(
+        modifier = Modifier
+            .clickable { onClick(chatRoom.chatroomId) }
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if(chatRoom.type == ChatRoomType.ONE) {
+            ProfileImageWithState(
+                imageURL = chatRoom.images.firstOrNull()?: "",
+                isActivate = isActivate?: false,
+                profileSize = ProfileImageValue.ProfileWithStateSize
+            )
+        } else {
+            ProfileImages(
+                images = chatRoom.images,
+                profileSize = ProfileImageValue.ProfileWithStateSize
+            )
+        }
+
+        Spacer(modifier = Modifier.size(ChatsScreenValue.SpacerBetweenProfileAndMessage))
+
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            Text(
+                text = chatRoom.title,
+                fontSize = 16.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Row() {
+                Text(
+                    text = chatRoom.content,
+                    fontSize = 14.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 4.dp)
+                )
+
+                Text(
+                    text = chatRoom.createdAt.toString(),
+                    fontSize = 14.sp,
+                    maxLines = 1,
+                    modifier = Modifier.width(ChatsScreenValue.MessageDateSize)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.size(ChatsScreenValue.SpacerBetweenMessageAndUnread))
+
+        Text(
+            text = unread,
+            fontSize = 14.sp,
+            color = MaterialTheme.colors.onPrimary,
+            maxLines = 1,
+            textAlign = TextAlign.Center,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .background(MaterialTheme.colors.primary, CircleShape)
+                .defaultMinSize(minWidth = ChatsScreenValue.UnreadSize)
+                .padding(3.dp)
+        )
+
+    }
 }
 
 @Composable

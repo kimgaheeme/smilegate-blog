@@ -4,6 +4,7 @@ import android.util.Log
 import com.smilegateblog.smilegateteamprojecttest.data.local.Dao.ChatRoomMessage
 import com.smilegateblog.smilegateteamprojecttest.domain.model.ChatRoom
 import com.smilegateblog.smilegateteamprojecttest.domain.model.ChatRoomType
+import com.smilegateblog.smilegateteamprojecttest.domain.model.Message
 import com.smilegateblog.smilegateteamprojecttest.domain.repository.ChatRoomRepository
 import com.smilegateblog.smilegateteamprojecttest.domain.repository.MemberRepository
 import com.smilegateblog.smilegateteamprojecttest.ui.util.Resource
@@ -24,6 +25,7 @@ class GetChatRoomAndMessageUseCase @Inject constructor(
             chatRoomRepository.loadChatRoomAndMessage().collect(){
                 val response = it
                 val result = response.map {
+
                     ChatRoom(
                         chatroomId = it.chatroom.chatroomId,
                         title = it.chatroom.title,

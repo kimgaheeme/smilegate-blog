@@ -31,10 +31,8 @@ class ChatsViewModel @Inject constructor(
                         chatsState.update {
                             it.copy(chats = result.data!!)
                         }
-                        Log.d("제발", chatsState.value.chats[1].images.size.toString())
                     }
-                    else -> {
-                    }
+                    else -> {}
                 }
             }
         }
