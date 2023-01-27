@@ -2,8 +2,15 @@ package com.smilegateblog.smilegateteamprojecttest.di
 
 import android.app.Application
 import androidx.room.Room
-import com.smilegateblog.smilegateteamprojecttest.BuildConfig
 import com.smilegateblog.smilegateteamprojecttest.data.local.AppDatabase
+import com.smilegateblog.smilegateteamprojecttest.data.repository.ChatRoomRepositoryImpl
+import com.smilegateblog.smilegateteamprojecttest.data.repository.FriendRepositoryImpl
+import com.smilegateblog.smilegateteamprojecttest.data.repository.MemberRepositoryImpl
+import com.smilegateblog.smilegateteamprojecttest.data.repository.MessageRepositoryImpl
+import com.smilegateblog.smilegateteamprojecttest.domain.repository.ChatRoomRepository
+import com.smilegateblog.smilegateteamprojecttest.domain.repository.FriendRepository
+import com.smilegateblog.smilegateteamprojecttest.domain.repository.MemberRepository
+import com.smilegateblog.smilegateteamprojecttest.domain.repository.MessageRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +42,39 @@ object AppModule {
             AppDatabase::class.java,
             AppDatabase.DATABASE_NAME
         ).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideChatRoomRepository(db: AppDatabase): ChatRoomRepository {
+        return ChatRoomRepositoryImpl(
+            chatRoomDao = db.chatroomDao,
+            chatRoomMessageDao = db.chatroomMessageDao
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideFriendRepository(db: AppDatabase): FriendRepository {
+        return FriendRepositoryImpl(
+            friendDao = db.friendDao
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideMemberRepository(db: AppDatabase): MemberRepository {
+        return MemberRepositoryImpl(
+            memberDao = db.memberDao
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideMessageRepository(db: AppDatabase): MessageRepository {
+        return MessageRepositoryImpl(
+            messageDao = db.messageDao
+        )
     }
 
 }

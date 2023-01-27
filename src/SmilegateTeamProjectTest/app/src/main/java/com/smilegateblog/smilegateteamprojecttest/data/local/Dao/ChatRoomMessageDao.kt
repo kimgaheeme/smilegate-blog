@@ -17,7 +17,7 @@ interface ChatRoomMessageDao {
         "WHERE chatroom.chatroom_id = messages.message_id " +
         "ORDER BY messages.created_at ASC"
     )
-    fun loadChatAndMessage(): Flow<List<ChatRoomMessage>>
+    fun loadChatRoomAndMessage(): Flow<List<ChatRoomMessage>>
 }
 
 data class ChatRoomMessage(
