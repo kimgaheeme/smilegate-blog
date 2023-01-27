@@ -12,12 +12,14 @@ import java.util.*
         ForeignKey(
             entity = ChatRoom::class,
             parentColumns = ["chatroom_id"],
-            childColumns = ["chatroom_id"]
+            childColumns = ["chatroom_id"],
+            onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = Member::class,
             parentColumns = ["member_id"],
-            childColumns = ["message_from_id"]
+            childColumns = ["message_from_id"],
+            onDelete = ForeignKey.NO_ACTION
         ),
     ]
 )

@@ -11,12 +11,14 @@ import androidx.room.ForeignKey
         ForeignKey(
             entity = Message::class,
             parentColumns = ["message_id"],
-            childColumns = ["read_message"]
+            childColumns = ["read_message"],
+            onDelete = ForeignKey.SET_NULL
         ),
         ForeignKey(
             entity = ChatRoom::class,
             parentColumns = ["chatroom_id"],
-            childColumns = ["chatroom_id"]
+            childColumns = ["chatroom_id"],
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )

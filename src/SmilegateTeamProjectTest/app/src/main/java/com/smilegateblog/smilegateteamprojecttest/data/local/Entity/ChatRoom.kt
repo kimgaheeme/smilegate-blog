@@ -17,7 +17,8 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = Message::class,
             parentColumns = ["message_id"],
-            childColumns = ["last_message"]
+            childColumns = ["last_message"],
+            onDelete = ForeignKey.SET_NULL
         )
     ]
 )

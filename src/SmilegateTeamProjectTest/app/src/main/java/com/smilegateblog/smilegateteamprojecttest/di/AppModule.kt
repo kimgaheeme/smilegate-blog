@@ -1,6 +1,9 @@
 package com.smilegateblog.smilegateteamprojecttest.di
 
+import android.app.Application
+import androidx.room.Room
 import com.smilegateblog.smilegateteamprojecttest.BuildConfig
+import com.smilegateblog.smilegateteamprojecttest.data.local.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit {
@@ -22,4 +26,15 @@ object AppModule {
             //baseUrl(BuildConfig.API_BASE_URL)
         }.build()
     }
+
+    @Singleton
+    @Provides
+    fun provideAppDatabase(app: Application): AppDatabase {
+        return Room.databaseBuilder(
+            app,
+            AppDatabase::class.java,
+            AppDatabase.DATABASE_NAME
+        ).build()
+    }
+
 }
