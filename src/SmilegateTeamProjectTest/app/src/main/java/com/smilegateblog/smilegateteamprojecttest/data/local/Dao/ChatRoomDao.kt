@@ -2,7 +2,6 @@ package com.smilegateblog.smilegateteamprojecttest.data.local.Dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.smilegateblog.smilegateteamprojecttest.data.local.Entity.Message
 import kotlinx.coroutines.flow.Flow
 
 @Dao
