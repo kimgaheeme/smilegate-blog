@@ -6,9 +6,9 @@ import com.smilegateblog.smilegateteamprojecttest.data.local.Entity.Message
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ChatRoomDao {
+interface MessageDao {
     @Query(
-        "SELECT title FROM chatroom WHERE chatroom_id = :chatroomId"
+        "SELECT * FROM messages WHERE chatroom_id = :chatroomId"
     )
-    fun loadChatRoomTitle(chatroomId: String): Flow<String>
+    fun loadChatMessage(chatroomId: String): Flow<List<Message>>
 }

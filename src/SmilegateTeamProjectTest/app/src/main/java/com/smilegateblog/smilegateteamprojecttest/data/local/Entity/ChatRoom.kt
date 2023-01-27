@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
  * 2 -> Multiple
  */
 @Entity(
-    tableName = "chatrooms",
+    tableName = "chatroom",
     foreignKeys = [
         ForeignKey(
             entity = Message::class,
