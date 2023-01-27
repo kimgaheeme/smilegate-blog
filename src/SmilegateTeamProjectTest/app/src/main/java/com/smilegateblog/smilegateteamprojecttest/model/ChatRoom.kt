@@ -1,6 +1,7 @@
 package com.smilegateblog.smilegateteamprojecttest.model
 
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 data class ChatRoom(
     val chatRoomId: String,
@@ -8,5 +9,7 @@ data class ChatRoom(
     var lastMessageContent: String,
     var lastMessageCreatedAt: DateTimeFormatter,
     var unread: Int,
-    var members: List<Member>
+    var type: Int,
+    var images: List<Member>
 )
+

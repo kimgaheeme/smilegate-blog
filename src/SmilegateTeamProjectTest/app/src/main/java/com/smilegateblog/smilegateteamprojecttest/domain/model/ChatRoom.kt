@@ -9,7 +9,7 @@ data class ChatRoom(
     var content: String,
     var createdAt: Date,
     var images: List<String>,
-    val type: Int
+    val type: ChatRoomType
 )
 
 enum class ChatRoomType {
