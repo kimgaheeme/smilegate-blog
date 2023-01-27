@@ -1,5 +1,6 @@
 package com.smilegateblog.smilegateteamprojecttest.data.local.Entity
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -31,6 +32,6 @@ data class Member(
     @ColumnInfo(name = "profile_img")
     var profileImg: String,
     @ColumnInfo(name = "read_message")
-    var readMessage: String,
+    var readMessage: String? = null,
 )
 

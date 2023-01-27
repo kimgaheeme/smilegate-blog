@@ -10,6 +10,7 @@ import com.smilegateblog.smilegateteamprojecttest.ui.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
+import java.util.*
 import javax.inject.Inject
 
 class GetChatRoomAndMessageUseCase @Inject constructor(
@@ -19,33 +20,25 @@ class GetChatRoomAndMessageUseCase @Inject constructor(
     operator fun invoke(): Flow<Resource<List<ChatRoom>>> = flow {
         emit(Resource.Loading())
 
-
         try {
-            var chatroomResponse: List<ChatRoomMessage> = emptyList()
-            chatRoomRepository.loadChatRoomAndMessage().collectLatest { result ->
-                chatroomResponse = result
-            }
-
-            var response: MutableList<ChatRoom> = emptyList<ChatRoom>() as MutableList<ChatRoom>
-            chatroomResponse.forEach{
-                memberRepository.loadChatMemberImage(it.chatroomId).collect { images ->
-                    response.add(ChatRoom(
-                        chatroomId = it.chatroomId,
-                        title = it.title,
-                        unread = it.unread,
-                        content = it.content,
-                        createdAt = it.createdAt,
-                        type = when(it.type){
+            chatRoomRepository.loadChatRoomAndMessage().collect(){
+                val response = it
+                val result = response.map {
+                    ChatRoom(
+                        chatroomId = it.chatroom.chatroomId,
+                        title = it.chatroom.title,
+                        unread = it.chatroom.unread,
+                        content = "content",
+                        createdAt = Date(),
+                        images = it.images.map { it.profileImg },
+                        type = when(it.chatroom.type){
                             1 -> ChatRoomType.ONE
                             else -> ChatRoomType.MULTIPLE
-                        },
-                        images = images
-                    ))
+                        }
+                    )
                 }
+                emit(Resource.Success(result))
             }
-            
-            emit(Resource.Success(response))
-
         } catch (e: Exception) {
             Log.d("Error", "GetChatRoomAndMessageUseCase")
         }

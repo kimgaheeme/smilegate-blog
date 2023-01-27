@@ -3,8 +3,6 @@ package com.smilegateblog.smilegateteamprojecttest.ui.screen.main
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -27,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smilegateblog.smilegateteamprojecttest.R
-import com.smilegateblog.smilegateteamprojecttest.model.ChatRoom
+import com.smilegateblog.smilegateteamprojecttest.model.ChatRooms
 import com.smilegateblog.smilegateteamprojecttest.model.Member
 import com.smilegateblog.smilegateteamprojecttest.model.Message
 import com.smilegateblog.smilegateteamprojecttest.model.MessageType
@@ -66,8 +64,8 @@ fun Chat(
     }
 
     var chatRooms by remember{ mutableStateOf(
-        ChatRoom(
-            "h","title","consdgfgdsdvzsdvsdvftentawjbefkajwbefkjabwe", DateTimeFormatter.ISO_DATE,3324, listOf(
+        ChatRooms(
+            "h","title","consdgfgdsdvzsdvsdvftentawjbefkajwbefkjabwe", DateTimeFormatter.ISO_DATE,3324,1, listOf(
                 Member("asd","asdf",""),
                 Member("asd","asdf2","")
             )

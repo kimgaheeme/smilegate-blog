@@ -1,30 +1,29 @@
 package com.smilegateblog.smilegateteamprojecttest.data.local.Dao
 
 import androidx.room.*
+import com.smilegateblog.smilegateteamprojecttest.data.local.Entity.ChatRoom
+import com.smilegateblog.smilegateteamprojecttest.data.local.Entity.Member
+import com.smilegateblog.smilegateteamprojecttest.data.local.Entity.Message
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 @Dao
 interface ChatRoomMessageDao {
+
+    @Transaction
     @Query(
-        "SELECT chatroom.chatroom_id AS chatroomId, " +
-                "chatroom.title AS title, " +
-                "chatroom.unread AS unread, " +
-                "chatroom.type AS type, " +
-                "messages.content AS content, " +
-                "messages.created_at AS createdAt " +
-        "FROM chatroom, messages " +
-        "WHERE chatroom.chatroom_id = messages.message_id " +
-        "ORDER BY messages.created_at ASC"
+        "SELECT * " +
+        "FROM chatroom "
     )
     fun loadChatRoomAndMessage(): Flow<List<ChatRoomMessage>>
 }
 
 data class ChatRoomMessage(
-    val chatroomId: String,
-    val title: String,
-    val unread: Int,
-    val type: Int,
-    val content: String,
-    val createdAt: Date
+    @Embedded val chatroom: ChatRoom,
+
+    @Relation(
+        parentColumn = "chatroom_id",
+        entityColumn = "chatroom_id"
+    )
+    val images: List<Member>,
 )
