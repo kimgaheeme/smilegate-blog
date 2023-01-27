@@ -11,10 +11,10 @@ class ChatRoomRepositoryImpl(
     private val chatRoomMessageDao: ChatRoomMessageDao
 ): ChatRoomRepository {
     override fun loadChatRoomTitle(chatroomId: String): Flow<String> {
-        TODO("Not yet implemented")
+        return chatRoomDao.loadChatRoomTitle(chatroomId)
     }
 
     override fun loadChatRoomAndMessage(): Flow<List<ChatRoomMessage>> {
-        TODO("Not yet implemented")
+        return chatRoomMessageDao.loadChatRoomAndMessage()
     }
 }

@@ -9,6 +9,6 @@ class MessageRepositoryImpl(
     private val messageDao: MessageDao
 ): MessageRepository {
     override fun loadChatMessage(chatroomId: String): Flow<List<Message>> {
-        TODO("Not yet implemented")
+        return messageDao.loadChatMessage(chatroomId)
     }
 }

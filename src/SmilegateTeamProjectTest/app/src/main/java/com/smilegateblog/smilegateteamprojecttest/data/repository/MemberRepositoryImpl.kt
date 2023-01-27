@@ -9,10 +9,10 @@ class MemberRepositoryImpl(
     private val memberDao: MemberDao
 ): MemberRepository {
     override fun loadChatMemberImage(chatroomId: String): Flow<List<String>> {
-        TODO("Not yet implemented")
+        return memberDao.loadChatMemberImage(chatroomId)
     }
 
     override fun loadChatMember(chatroomId: String): Flow<List<Member>> {
-        TODO("Not yet implemented")
+        return memberDao.loadChatMember(chatroomId)
     }
 }

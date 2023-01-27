@@ -9,6 +9,6 @@ class FriendRepositoryImpl(
     private val friendDao: FriendDao
 ): FriendRepository {
     override fun loadFriend(): Flow<List<Friend>> {
-        TODO("Not yet implemented")
+        return friendDao.loadFriend()
     }
 }
