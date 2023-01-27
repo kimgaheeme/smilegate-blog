@@ -163,8 +163,10 @@ fun MainTopBarWithBothBtn(
 
 @Composable
 fun ChatTopBar(
-    upPress: () -> Unit = {},
-    chatroomTitle: String = "",
+    onClick: (String) -> Unit,
+    upPress: () -> Unit,
+    chatroomTitle: String,
+    chatId: String,
     images: List<String?>,
     btnColor: Color = MaterialTheme.colors.primary,
     modifier: Modifier = Modifier
@@ -174,7 +176,8 @@ fun ChatTopBar(
             .fillMaxWidth()
             .statusBarsPadding()
             .padding(horizontal = TopBarValue.HorizontalPadding)
-            .height(TopBarValue.TopBarHeight),
+            .height(TopBarValue.TopBarHeight)
+            .clickable { onClick(chatId) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(

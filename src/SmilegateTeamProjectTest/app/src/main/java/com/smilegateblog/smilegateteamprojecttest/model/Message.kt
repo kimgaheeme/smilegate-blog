@@ -9,7 +9,7 @@ data class Message(
     val content: String,
     val createdAt: DateTimeFormatter,
     val type: MessageType,
-    val profileImage: Int
+    val profileImage: String
 )
 
 enum class MessageType {

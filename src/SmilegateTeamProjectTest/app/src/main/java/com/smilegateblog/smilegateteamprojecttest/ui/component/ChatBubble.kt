@@ -9,12 +9,15 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.smilegateblog.smilegateteamprojecttest.R
@@ -25,9 +28,16 @@ import com.smilegateblog.smilegateteamprojecttest.ui.util.messageFormatter
 
 object ChatItemBubbleValue {
     val firstBubbleShape = RoundedCornerShape(18.dp, 18.dp, 18.dp, 4.dp)
+    val firstMyBubbleShape = RoundedCornerShape(18.dp, 18.dp, 4.dp, 18.dp)
     val lastBubbleShape = RoundedCornerShape(4.dp, 18.dp, 18.dp, 18.dp)
+    val lastMyBubbleShape = RoundedCornerShape(18.dp, 4.dp, 18.dp, 18.dp)
     val defaultBubbleShape = RoundedCornerShape(4.dp, 18.dp, 18.dp, 4.dp)
+    val defaultMyBubbleShape = RoundedCornerShape(18.dp, 4.dp, 4.dp, 18.dp)
     val betweenBubbleShape = RoundedCornerShape(4.dp, 18.dp, 18.dp, 4.dp)
+    val betweenMyBubbleShape = RoundedCornerShape(4.dp, 18.dp, 18.dp, 4.dp)
+    val chatBubblePadding = 10.dp
+    val betweenContentAndChat = 44.dp
+    val betweenImageAndChat = 12.dp
 }
 
 /**
@@ -41,7 +51,8 @@ fun Messages(
     onImageClick: (String) -> Unit,
     onVideoClick: (String) -> Unit,
     isGroupChat: Boolean,
-    modifier: Modifier
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
 ) {
     val userId = 0L
 
@@ -49,9 +60,12 @@ fun Messages(
         reverseLayout = true,
         contentPadding =
             WindowInsets.statusBars.add(WindowInsets(top = 90.dp)).asPaddingValues(),
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .padding(bottom = 4.dp)
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        for(index in messages.indices) {
+        for(index in messages.indices.reversed()) {
             val prevAuthor = messages.getOrNull(index - 1)?.authorId
             val nextAuthor = messages.getOrNull(index + 1)?.authorId
             val content = messages[index]
@@ -67,9 +81,14 @@ fun Messages(
                     isLastMessageByAuthor = isLastMessageByAuthor,
                     onImageClick = onImageClick,
                     onVideoClick = onVideoClick,
-                    isGroupChat = isGroupChat
+                    isGroupChat = isGroupChat,
+                    modifier = Modifier
                 )
             }
+        }
+        item {
+            Spacer(modifier = Modifier.size(ChatItemBubbleValue.betweenContentAndChat))
+            content()
         }
     }
 }
@@ -86,12 +105,15 @@ fun Message(
     isLastMessageByAuthor: Boolean,
     onImageClick: (String) -> Unit,
     onVideoClick: (String) -> Unit,
-    isGroupChat: Boolean
+    isGroupChat: Boolean,
+    modifier: Modifier = Modifier
 ) {
-    Row() {
-        if (isLastMessageByAuthor) {
+    Row(
+        verticalAlignment = Alignment.Bottom
+    ) {
+        if (isLastMessageByAuthor && !isUserMe) {
             ProfileImage(
-                imageURL = message.authorName,
+                imageURL = message.profileImage,
                 profileSize = ProfileImageValue.MessageAuthorImageSize,
                 modifier = Modifier.clickable { onAuthorClick(message.authorId) }
             )
@@ -99,6 +121,7 @@ fun Message(
             Spacer(modifier = Modifier
                 .size(ProfileImageValue.MessageAuthorImageSize.dp))
         }
+        Spacer(modifier = Modifier.size(ChatItemBubbleValue.betweenImageAndChat))
 
         AuthorAndTextMessage(
             message = message,
@@ -107,7 +130,8 @@ fun Message(
             isLastMessageByAuthor = isLastMessageByAuthor,
             isGroupChat = isGroupChat,
             onImageClick = onImageClick,
-            onVideoClick = onVideoClick
+            onVideoClick = onVideoClick,
+            modifier = modifier
         )
     }
 }
@@ -123,7 +147,10 @@ fun AuthorAndTextMessage(
     onVideoClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = if(isUserMe) Alignment.End else Alignment.Start
+    ) {
         if(isFirstMessageByAuthor && isGroupChat) {
             Text(
                 text = message.authorName
@@ -158,18 +185,22 @@ fun ChatItemBubble(
     }
 
     val chatBubbleShape = if(isFirstMessageByAuthor && isLastMessageByAuthor) {
-        ChatItemBubbleValue.defaultBubbleShape
-    } else if (isFirstMessageByAuthor) (
-        ChatItemBubbleValue.firstBubbleShape
-    ) else if (isLastMessageByAuthor) {
-        ChatItemBubbleValue.lastBubbleShape
+        if(isUserMe) ChatItemBubbleValue.defaultMyBubbleShape
+        else ChatItemBubbleValue.defaultBubbleShape
+    } else if (isFirstMessageByAuthor) {
+        if(isUserMe) ChatItemBubbleValue.firstMyBubbleShape
+        else ChatItemBubbleValue.firstBubbleShape
+    } else if (isLastMessageByAuthor) {
+        if(isUserMe) ChatItemBubbleValue.lastMyBubbleShape
+        else ChatItemBubbleValue.lastBubbleShape
     } else {
-        ChatItemBubbleValue.betweenBubbleShape
+        if(isUserMe) ChatItemBubbleValue.betweenMyBubbleShape
+        else ChatItemBubbleValue.betweenBubbleShape
     }
 
     Surface(
         color = backgroundColor,
-        shape = chatBubbleShape
+        shape = chatBubbleShape,
     ) {
         when(message.type) {
             MessageType.TEXT -> {
@@ -224,6 +255,8 @@ fun ClickableMessage(
                         uriHandler.openUri(it.item)
                     } else Unit
                 }
-        }
+        },
+        modifier = Modifier.padding(ChatItemBubbleValue.chatBubblePadding),
+        style = TextStyle(fontSize = 17.sp)
     )
 }

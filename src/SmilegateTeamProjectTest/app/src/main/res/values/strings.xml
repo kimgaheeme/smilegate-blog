@@ -59,4 +59,8 @@
     <string name="add_friend_friend_subtitle">친구</string>
     <string name="add_friend_request_btn">친구추가</string>
     <string name="add_friend_requested_btn">요청됨</string>
+    
+    <string name="chat_add_btn">Add</string>
+    <string name="chat_edit_btn">Name</string>
+    <string name="chat_member_btn">Members</string>
 </resources>
