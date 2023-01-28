@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface FriendRepository {
     fun loadFriend(): Flow<List<Friend>>
+    fun loadFriendByNickname(nickname: String): Flow<List<Friend>>
 }

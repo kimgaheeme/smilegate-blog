@@ -11,4 +11,8 @@ class FriendRepositoryImpl(
     override fun loadFriend(): Flow<List<Friend>> {
         return friendDao.loadFriend()
     }
+
+    override fun loadFriendByNickname(nickname: String): Flow<List<Friend>> {
+        return friendDao.loadFriendByNickname(nickname = "%$nickname%")
+    }
 }
