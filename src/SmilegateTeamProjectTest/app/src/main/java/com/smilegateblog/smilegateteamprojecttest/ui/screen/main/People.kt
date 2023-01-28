@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.smilegateblog.smilegateteamprojecttest.R
 import com.smilegateblog.smilegateteamprojecttest.model.People
 import com.smilegateblog.smilegateteamprojecttest.ui.component.PeopleItem
@@ -16,6 +17,7 @@ import com.smilegateblog.smilegateteamprojecttest.ui.component.PeopleWithTwoBtnI
 import com.smilegateblog.smilegateteamprojecttest.ui.component.SubTitle
 import com.smilegateblog.smilegateteamprojecttest.ui.component.TopBarWithProfile
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
+import com.smilegateblog.smilegateteamprojecttest.ui.viewmodel.main.PeopleViewModel
 
 object PeopleScreenValue {
     var SpacerBetweenFriends = 12.dp
@@ -27,14 +29,10 @@ object PeopleScreenValue {
 fun People(
     navigateToAddPeople: () -> Unit
 ) {
-    var friendsRequest by remember{ mutableStateOf(listOf<People>(
-        People("nickname", "asdf", "asdf", "", 1),
-        People("nickname", "asdf", "asdf", "", 1)
-    )) }
-    var friends by remember{ mutableStateOf(listOf<People>(
-        People("nickname", "asdf", "asdf", "", 1),
-        People("nickname", "asdf", "asdf", "", 1)
-    )) }
+    val viewModel = hiltViewModel<PeopleViewModel>()
+    val state by viewModel.peopleState.collectAsState()
+    val friends = state.friends
+    val requests = state.requests
 
     Column(
         modifier = Modifier
@@ -49,7 +47,7 @@ fun People(
         )
         
         LazyColumn() {
-            if(friendsRequest.isNotEmpty()) {
+            if(requests.isNotEmpty()) {
                 item {
                     SubTitle(
                         content = stringResource(id = R.string.people_friend_request_subtitle)
@@ -58,13 +56,13 @@ fun People(
                 }
             }
 
-            items(friendsRequest) { request ->
+            items(requests) { request ->
                 PeopleWithTwoBtnItem(
                     onLeftClick = { /*TODO*/ },
                     onRightClick = { /*TODO*/ },
                     leftBtnContent = stringResource(id = R.string.people_accept_btn),
                     rightBtnContent = stringResource(id = R.string.people_deny_btn),
-                    imageURL = request.profileImage,
+                    imageURL = request.profileImg,
                     nickname = request.nickname
                 )
                 Spacer(modifier = Modifier.size(PeopleScreenValue.SpacerBetweenFriends))
@@ -79,7 +77,7 @@ fun People(
 
             items(friends) { friend ->
                 PeopleItem(
-                    imageURL = friend.profileImage,
+                    imageURL = friend.profileImg,
                     nickname = friend.nickname
                 )
 
