@@ -1,7 +1,7 @@
 package com.smilegateblog.smilegateteamprojecttest.domain.usecase
 
 import android.util.Log
-import com.smilegateblog.smilegateteamprojecttest.data.local.Dao.ChatRoomMessage
+import com.smilegateblog.smilegateteamprojecttest.data.local.Dao.ChatRoomMemberImage
 import com.smilegateblog.smilegateteamprojecttest.domain.model.ChatRoom
 import com.smilegateblog.smilegateteamprojecttest.domain.model.ChatRoomType
 import com.smilegateblog.smilegateteamprojecttest.domain.model.Message
@@ -30,8 +30,8 @@ class GetChatRoomAndMessageUseCase @Inject constructor(
                         chatroomId = it.chatroom.chatroomId,
                         title = it.chatroom.title,
                         unread = it.chatroom.unread,
-                        content = "content",
-                        createdAt = Date(),
+                        content = it.chatroom.content,
+                        createdAt = it.chatroom.updatedAt,
                         images = it.images.map { it.profileImg },
                         type = when(it.chatroom.type){
                             1 -> ChatRoomType.ONE

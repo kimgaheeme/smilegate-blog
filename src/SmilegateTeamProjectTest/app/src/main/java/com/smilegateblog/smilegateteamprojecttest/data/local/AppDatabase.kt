@@ -14,7 +14,7 @@ import com.smilegateblog.smilegateteamprojecttest.data.local.Entity.Message
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
     abstract val chatroomDao: ChatRoomDao
-    abstract val chatroomMessageDao: ChatRoomMessageDao
+    abstract val chatroomMemberImageDao: ChatRoomMemberImageDao
     abstract val friendDao: FriendDao
     abstract val memberDao: MemberDao
     abstract val messageDao: MessageDao

@@ -8,17 +8,17 @@ import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 @Dao
-interface ChatRoomMessageDao {
+interface ChatRoomMemberImageDao {
 
     @Transaction
     @Query(
         "SELECT * " +
         "FROM chatroom ORDER BY chatroom.unread"
     )
-    fun loadChatRoomAndMessage(): Flow<List<ChatRoomMessage>>
+    fun loadChatRoomAndMessage(): Flow<List<ChatRoomMemberImage>>
 }
 
-data class ChatRoomMessage(
+data class ChatRoomMemberImage(
     @Embedded val chatroom: ChatRoom,
 
     @Relation(

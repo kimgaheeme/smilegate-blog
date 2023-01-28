@@ -49,7 +49,7 @@ object AppModule {
     fun provideChatRoomRepository(db: AppDatabase): ChatRoomRepository {
         return ChatRoomRepositoryImpl(
             chatRoomDao = db.chatroomDao,
-            chatRoomMessageDao = db.chatroomMessageDao
+            chatroomMemberImageDao = db.chatroomMemberImageDao
         )
     }
 
