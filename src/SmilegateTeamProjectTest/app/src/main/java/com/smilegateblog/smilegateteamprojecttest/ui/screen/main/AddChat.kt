@@ -1,19 +1,17 @@
 package com.smilegateblog.smilegateteamprojecttest.ui.screen.main
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -23,11 +21,16 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.smilegateblog.smilegateteamprojecttest.R
-import com.smilegateblog.smilegateteamprojecttest.model.People
-import com.smilegateblog.smilegateteamprojecttest.ui.component.*
+import com.smilegateblog.smilegateteamprojecttest.domain.model.People
+import com.smilegateblog.smilegateteamprojecttest.ui.component.MainTopBarWithLeftBtn
+import com.smilegateblog.smilegateteamprojecttest.ui.component.PeopleItem
+import com.smilegateblog.smilegateteamprojecttest.ui.component.SearchBar
+import com.smilegateblog.smilegateteamprojecttest.ui.component.SubTitle
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
 import com.smilegateblog.smilegateteamprojecttest.ui.util.SearchDisplay
+import com.smilegateblog.smilegateteamprojecttest.ui.viewmodel.main.AddChatViewModel
 
 object AddChatScreenValue {
     val BetweenFriendPaddingSize = 10.dp
@@ -43,19 +46,14 @@ fun AddChat(
     navigateToNewChat: () -> Unit,
     navigateToAddGroupChat: () -> Unit
 ) {
-    var query by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-        mutableStateOf(TextFieldValue(""))
-    }
-    //검색결과
-    val result by remember{ mutableStateOf(listOf<People>()) }
-    //모든 친구 목록
-    val default by remember{ mutableStateOf(listOf<People>(
-        People("asd","nickname","", "", 1),
-        People("asd","nickname1","", "", 1),
-        People("asd","nickname3","", "", 1)
-    )) }
-    var textFieldFocusState by remember { mutableStateOf(false) }
+    val viewModel = hiltViewModel<AddChatViewModel>()
+    val state by viewModel.addChatState.collectAsState()
+    var query = state.query
+    val result = state.result
+    val friends = state.friends
+    var textFieldFocusState = state.textFieldFocusState
     var focusManager = LocalFocusManager.current
+
     var searchDisplay : SearchDisplay = when {
         query == TextFieldValue("") -> SearchDisplay.Default
         result.isNotEmpty() -> SearchDisplay.Results
@@ -75,12 +73,12 @@ fun AddChat(
 
         SearchBar(
             query = query,
-            onQueryChange = { query = it },
+            onQueryChange = viewModel::setQuery,
             searchFocused = textFieldFocusState,
-            onSearchFocusChange = { textFieldFocusState = it },
+            onSearchFocusChange = viewModel::setFocusState,
             onClearQuery = {
                 focusManager.clearFocus()
-                query = TextFieldValue("")
+                viewModel.setQuery(TextFieldValue(""))
             },
             modifier = Modifier.padding(vertical = 8.dp)
         )
@@ -91,7 +89,7 @@ fun AddChat(
             }
             SearchDisplay.Default -> {
                 PeopleList(
-                    result = default,
+                    result = friends,
                     onClick = { navigateToNewChat() }
                 ) {
                     Row(
@@ -158,7 +156,7 @@ private fun PeopleList(
 
         items(result) { friend ->
             PeopleItem(
-                imageURL = friend.profileImage,
+                imageURL = friend.profileImg,
                 nickname = friend.nickname,
                 modifier = Modifier.clickable { onClick() },
                 profileSize = AddChatScreenValue.ProfileSize
