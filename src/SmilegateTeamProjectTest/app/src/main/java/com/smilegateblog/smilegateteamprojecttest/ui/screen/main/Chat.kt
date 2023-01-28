@@ -24,13 +24,17 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.smilegateblog.smilegateteamprojecttest.R
+import com.smilegateblog.smilegateteamprojecttest.domain.model.ChatRoomType
 import com.smilegateblog.smilegateteamprojecttest.model.ChatRooms
 import com.smilegateblog.smilegateteamprojecttest.model.Member
 import com.smilegateblog.smilegateteamprojecttest.model.Message
 import com.smilegateblog.smilegateteamprojecttest.model.MessageType
 import com.smilegateblog.smilegateteamprojecttest.ui.component.*
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
+import com.smilegateblog.smilegateteamprojecttest.ui.viewmodel.main.AddChatViewModel
+import com.smilegateblog.smilegateteamprojecttest.ui.viewmodel.main.ChatViewModel
 import java.time.format.DateTimeFormatter
 
 enum class InputSelector {
@@ -59,37 +63,13 @@ fun Chat(
     navigateToChatInfo: (String) -> Unit,
     navigateToAddMember: (String) -> Unit,
 ) {
-    var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-        mutableStateOf(TextFieldValue())
-    }
+    val viewModel = hiltViewModel<ChatViewModel>()
+    val state by viewModel.chatState.collectAsState()
+    val messages = state.messages
+    var query = state.query
+    var textFieldFocusState = state.textFieldFocusState
+    var currentInputSelector = state.currentInputSelector
 
-    var chatRooms by remember{ mutableStateOf(
-        ChatRooms(
-            "h","title","consdgfgdsdvzsdvsdvftentawjbefkajwbefkjabwe", DateTimeFormatter.ISO_DATE,3324,1, listOf(
-                Member("asd","asdf",""),
-                Member("asd","asdf2","")
-            )
-        )
-    ) }
-
-    var messages by remember{ mutableStateOf(listOf(
-        Message("12",1L,"123","1234asd", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("13",1L,"123","1234asdf", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("14",1L,"123","1234asdg", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("15",0L,"123","1234qwe", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("16",1L,"123","1234qwet", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("17",0L,"123","1234wey", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("18",1L,"123","1234qw", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("19",1L,"123","1234hdf", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("20",0L,"123","1234re", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("21",1L,"123","1234es", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("22",0L,"123","1234wy", DateTimeFormatter.ISO_DATE,MessageType.TEXT,""),
-        Message("23",0L,"123","1234qw", DateTimeFormatter.ISO_DATE,MessageType.TEXT,"")
-    )) }
-
-    var textFieldFocusState by remember { mutableStateOf(false) }
-    var currentInputSelector by rememberSaveable{ mutableStateOf( InputSelector.NONE )}
-    val dismissKeyboard = { currentInputSelector = InputSelector.NONE }
     var focusManager = LocalFocusManager.current
 
     Box(
@@ -111,6 +91,7 @@ fun Chat(
                 onAuthorClick = {},
                 onImageClick = {},
                 onVideoClick = {},
+                member = state.members,
                 isGroupChat = false,
                 modifier = Modifier
                     .padding(
@@ -119,16 +100,16 @@ fun Chat(
                     )
                     .fillMaxWidth()
             ) {
-                if(chatRooms.members.size > 1) {
+                if(state.chatRoomType == ChatRoomType.MULTIPLE && !state.chatroomId.isNullOrBlank()) {
                     GroupChatButtons(
-                        onAddBtnClick = { navigateToAddMember(chatRooms.chatRoomId) },
+                        onAddBtnClick = { navigateToAddMember(state.chatroomId!!) },
                         onEditBtnClick = { /*TODO*/ },
                         onMemberBtnClick = {  }
                     )
                 }
                 ChatRoomInfo(
-                    images = chatRooms.members.map { it.profileImage },
-                    title = chatRooms.title
+                    images = state.members.values.map { it.profileImg },
+                    title = state.title
                 )
             }
         }
@@ -136,9 +117,9 @@ fun Chat(
         ChatTopBar(
             onClick = navigateToChatInfo,
             upPress = upPress,
-            chatroomTitle = chatRooms.title,
-            images = chatRooms.members.map { it.profileImage },
-            chatId = chatRooms.chatRoomId,
+            chatroomTitle = state.title,
+            images = state.members.values.map { it.profileImg },
+            chatId = state.chatroomId,
             modifier = Modifier
                 .background(MaterialTheme.colors.background)
                 .align(Alignment.TopCenter)
@@ -147,8 +128,8 @@ fun Chat(
         UserInput(
             onMessageSent = { /*TODO*/ },
             resetScroll = { /*TODO*/ },
-            query = textState,
-            onQueryChange = { textState = it },
+            query = query,
+            onQueryChange = viewModel::setQuery,
             modifier = Modifier
                 .background(MaterialTheme.colors.background)
                 .align(Alignment.BottomStart)
@@ -158,7 +139,7 @@ fun Chat(
                 if (focused) {
                     currentInputSelector = InputSelector.NONE
                 }
-                textFieldFocusState = focused
+                viewModel.setFocusState(focused)
             },
             focused = textFieldFocusState,
             currentInputSelector = currentInputSelector,
@@ -166,11 +147,11 @@ fun Chat(
                 currentInputSelector = it
 
                 if(textFieldFocusState) {
-                    textFieldFocusState = false
+                    viewModel.setFocusState(false)
                     focusManager.clearFocus()
                 }
             },
-            dismissKeyboard = dismissKeyboard
+            dismissKeyboard = { viewModel.setInputSelector(InputSelector.NONE) }
         )
     }
 }

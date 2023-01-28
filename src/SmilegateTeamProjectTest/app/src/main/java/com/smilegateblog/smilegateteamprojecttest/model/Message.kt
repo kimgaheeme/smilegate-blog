@@ -15,5 +15,6 @@ data class Message(
 enum class MessageType {
     IMAGE,
     TEXT,
-    VIDEO
+    VIDEO,
+    ENTER
 }

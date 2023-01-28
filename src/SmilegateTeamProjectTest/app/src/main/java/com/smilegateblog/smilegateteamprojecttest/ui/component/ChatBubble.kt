@@ -21,7 +21,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.smilegateblog.smilegateteamprojecttest.R
-import com.smilegateblog.smilegateteamprojecttest.model.Message
+import com.smilegateblog.smilegateteamprojecttest.domain.model.Member
+import com.smilegateblog.smilegateteamprojecttest.domain.model.Message
 import com.smilegateblog.smilegateteamprojecttest.model.MessageType
 import com.smilegateblog.smilegateteamprojecttest.ui.util.SymbolAnnotationType
 import com.smilegateblog.smilegateteamprojecttest.ui.util.messageFormatter
@@ -47,14 +48,15 @@ object ChatItemBubbleValue {
 @Composable
 fun Messages(
     messages: List<Message>,
-    onAuthorClick: (Long) -> Unit,
+    onAuthorClick: (String) -> Unit,
     onImageClick: (String) -> Unit,
     onVideoClick: (String) -> Unit,
     isGroupChat: Boolean,
+    member: Map<String, Member>,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
-    val userId = 0L
+    val userId = "userId"
 
     LazyColumn(
         reverseLayout = true,
@@ -66,22 +68,23 @@ fun Messages(
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         for(index in messages.indices.reversed()) {
-            val prevAuthor = messages.getOrNull(index - 1)?.authorId
-            val nextAuthor = messages.getOrNull(index + 1)?.authorId
+            val prevAuthor = messages.getOrNull(index - 1)?.messageFromId
+            val nextAuthor = messages.getOrNull(index + 1)?.messageFromId
             val content = messages[index]
-            val isFirstMessageByAuthor = prevAuthor != content.authorId
-            val isLastMessageByAuthor = nextAuthor != content.authorId
+            val isFirstMessageByAuthor = prevAuthor != content.messageFromId
+            val isLastMessageByAuthor = nextAuthor != content.messageFromId
 
             item {
                 Message(
                     onAuthorClick = onAuthorClick,
                     message = content,
-                    isUserMe = content.authorId == userId,
+                    isUserMe = content.messageFromId == userId,
                     isFirstMessageByAuthor = isFirstMessageByAuthor,
                     isLastMessageByAuthor = isLastMessageByAuthor,
                     onImageClick = onImageClick,
                     onVideoClick = onVideoClick,
                     isGroupChat = isGroupChat,
+                    member = member,
                     modifier = Modifier
                 )
             }
@@ -98,7 +101,7 @@ fun Messages(
  */
 @Composable
 fun Message(
-    onAuthorClick: (Long) -> Unit,
+    onAuthorClick: (String) -> Unit,
     message: Message,
     isUserMe: Boolean,
     isFirstMessageByAuthor: Boolean,
@@ -106,6 +109,7 @@ fun Message(
     onImageClick: (String) -> Unit,
     onVideoClick: (String) -> Unit,
     isGroupChat: Boolean,
+    member: Map<String, Member>,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -113,9 +117,9 @@ fun Message(
     ) {
         if (isLastMessageByAuthor && !isUserMe) {
             ProfileImage(
-                imageURL = message.profileImage,
+                imageURL = member[message.messageFromId]?.profileImg?: "",
                 profileSize = ProfileImageValue.MessageAuthorImageSize,
-                modifier = Modifier.clickable { onAuthorClick(message.authorId) }
+                modifier = Modifier.clickable { onAuthorClick(message.messageFromId) }
             )
         } else {
             Spacer(modifier = Modifier
@@ -131,6 +135,7 @@ fun Message(
             isGroupChat = isGroupChat,
             onImageClick = onImageClick,
             onVideoClick = onVideoClick,
+            members = member,
             modifier = modifier
         )
     }
@@ -145,6 +150,7 @@ fun AuthorAndTextMessage(
     isGroupChat: Boolean,
     onImageClick: (String) -> Unit,
     onVideoClick: (String) -> Unit,
+    members: Map<String, Member>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -153,7 +159,7 @@ fun AuthorAndTextMessage(
     ) {
         if(isFirstMessageByAuthor && isGroupChat) {
             Text(
-                text = message.authorName
+                text = members[message.messageFromId]?.nickname?: ""
             )
         }
         ChatItemBubble(
@@ -162,7 +168,8 @@ fun AuthorAndTextMessage(
             isFirstMessageByAuthor = isFirstMessageByAuthor,
             isLastMessageByAuthor = isLastMessageByAuthor,
             onImageClick = onImageClick,
-            onVideoClick = onVideoClick
+            onVideoClick = onVideoClick,
+            members = members
         )
     }
 
@@ -175,6 +182,7 @@ fun ChatItemBubble(
     isUserMe: Boolean,
     isFirstMessageByAuthor: Boolean,
     isLastMessageByAuthor: Boolean,
+    members: Map<String, Member>,
     onImageClick: (String) -> Unit,
     onVideoClick: (String) -> Unit
 ) {
@@ -225,6 +233,9 @@ fun ChatItemBubble(
                 /**
                  * Todo
                  */
+            }
+            MessageType.ENTER -> {
+
             }
         }
     }

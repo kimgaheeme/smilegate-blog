@@ -166,7 +166,7 @@ fun ChatTopBar(
     onClick: (String) -> Unit,
     upPress: () -> Unit,
     chatroomTitle: String,
-    chatId: String,
+    chatId: String?,
     images: List<String?>,
     btnColor: Color = MaterialTheme.colors.primary,
     modifier: Modifier = Modifier
@@ -177,7 +177,7 @@ fun ChatTopBar(
             .statusBarsPadding()
             .padding(horizontal = TopBarValue.HorizontalPadding)
             .height(TopBarValue.TopBarHeight)
-            .clickable { onClick(chatId) },
+            .clickable { if(!chatId.isNullOrBlank()) onClick(chatId) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(

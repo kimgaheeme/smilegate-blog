@@ -6,6 +6,13 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.util.*
 
+/**
+ * type
+ * 1 -> TEXT
+ * 2 -> IMAGE
+ * 3 -> VIDEO
+ * 4 -> ENTER
+ */
 @Entity(
     tableName = "messages",
     foreignKeys = [
@@ -27,5 +34,6 @@ data class Message(
     val chatroomId: String,
     var content: String,
     @ColumnInfo(name = "created_at")
-    val createdAt: Date
+    val createdAt: Date,
+    val type: Int
 )
