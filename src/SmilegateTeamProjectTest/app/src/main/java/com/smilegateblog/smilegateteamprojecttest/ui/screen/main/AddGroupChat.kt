@@ -8,8 +8,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -17,7 +18,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.smilegateblog.smilegateteamprojecttest.R
-import com.smilegateblog.smilegateteamprojecttest.model.People
 import com.smilegateblog.smilegateteamprojecttest.ui.component.*
 import com.smilegateblog.smilegateteamprojecttest.ui.util.KeyLine
 import com.smilegateblog.smilegateteamprojecttest.ui.util.SearchDisplay
@@ -33,26 +33,12 @@ fun AddGroupChat(
     upPress: () -> Unit,
     navigateToNewChat: () -> Unit,
 ) {
-    var query by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-        mutableStateOf(TextFieldValue(""))
-    }
-
     val viewModel = hiltViewModel<AddGroupChatViewModel>()
-
-    //검색결과
-    val result by remember{ mutableStateOf(listOf<People>()) }
-    //모든 친구 목록
-    val default by remember{ mutableStateOf(listOf<People>(
-        People("asd","nickname","", "", 1),
-        People("asd","nickname1","", "", 1),
-        People("asd","nickname3","", "", 1)
-    )) }
-
-    var textFieldFocusState by remember { mutableStateOf(false) }
+    val state by viewModel.addGroupChatState.collectAsState()
+    var query = state.query
+    val result = state.result
     var focusManager = LocalFocusManager.current
 
-    //추가할 멤버
-    val checkedPeople by viewModel.addGroupChatState.collectAsState()
 
     var searchDisplay : SearchDisplay = when {
         query == TextFieldValue("") -> SearchDisplay.Default
@@ -70,17 +56,17 @@ fun AddGroupChat(
             content = stringResource(id = R.string.add_chat_group_top_bar),
             leftContent = stringResource(id = R.string.add_chat_group_cancel_btn),
             rightContent = stringResource(id = R.string.add_chat_group_add_btn),
-            rightVisible = checkedPeople.checkedPeople.size >= 2
+            rightVisible = state.checkedPeople.size >= 2
         )
 
         SearchBar(
             query = query,
-            onQueryChange = { query = it },
-            searchFocused = textFieldFocusState,
-            onSearchFocusChange = { textFieldFocusState = it },
+            onQueryChange = viewModel::setQuery,
+            searchFocused = state.textFieldFocusState,
+            onSearchFocusChange = viewModel::setFocusState,
             onClearQuery = {
                 focusManager.clearFocus()
-                query = TextFieldValue("")
+                viewModel.setQuery(TextFieldValue(""))
             },
             modifier = Modifier.padding(vertical = 8.dp)
         )
@@ -89,9 +75,9 @@ fun AddGroupChat(
             modifier = Modifier.padding(vertical = AddGroupChatValue.BetweenFriendAndCheckedSize),
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            items(checkedPeople.checkedPeople) { friend ->
+            items(state.checkedPeople) { friend ->
                 ProfileWithDeleteBtn(
-                    imageURL = friend.profileImage,
+                    imageURL = friend.profileImg,
                     onClick = { viewModel.deletePeople(people = friend) }
                 )
             }
@@ -108,15 +94,15 @@ fun AddGroupChat(
                     item {
                         SubTitle(content = stringResource(id = R.string.add_chat_group_friend_subtitle))
                     }
-                    items(default) { friend ->
+                    items(state.friends) { friend ->
                         PeopleWithCheckItem(
                             onClick = {
-                                if(friend in checkedPeople.checkedPeople) viewModel.deletePeople(people = friend)
+                                if(friend in state.checkedPeople) viewModel.deletePeople(people = friend)
                                 else viewModel.addPeople(people = friend)
                             },
-                            imageURL = friend.profileImage,
+                            imageURL = friend.profileImg,
                             nickname = friend.nickname,
-                            isChecked = checkedPeople.checkedPeople.contains(friend)
+                            isChecked = state.checkedPeople.contains(friend)
                         )
                         Divider(
                             modifier = Modifier
@@ -135,12 +121,12 @@ fun AddGroupChat(
                     items(result) { friend ->
                         PeopleWithCheckItem(
                             onClick = {
-                                if(friend in checkedPeople.checkedPeople) viewModel.deletePeople(people = friend)
+                                if(friend in state.checkedPeople) viewModel.deletePeople(people = friend)
                                 else viewModel.addPeople(people = friend)
                             },
-                            imageURL = friend.profileImage,
+                            imageURL = friend.profileImg,
                             nickname = friend.nickname,
-                            isChecked = checkedPeople.checkedPeople.contains(friend)
+                            isChecked = state.checkedPeople.contains(friend)
                         )
                         Divider(
                             modifier = Modifier
